@@ -3,120 +3,229 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#12131a">
+<meta name="theme-color" content="#fffdf9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14130f" media="(prefers-color-scheme: dark)">
 <title>Summer Goals — French + ASL</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>
   :root{
-    --bg:#12131a; --card:#1c1e28; --card2:#242736; --text:#e8e9f0; --dim:#9095a8;
-    --accent:#7c8cff; --accent2:#4fd1a5; --warn:#ffb86b; --danger:#ff7b93;
-    --radius:16px;
+    --paper:#f5f2ec; --surface:#fffdf9; --sunk:#efeae1;
+    --ink:#191813; --ink-2:#454138; --muted:#7c766a;
+    --rule:#e0d9cb; --rule-2:#cabfaa;
+    --accent:#1c5470; --accent-ink:#fffdf9; --accent-soft:#e6eef3;
+    --gold:#9c6b1f; --green:#2f6b4a; --red:#9d3a2f;
+    --r:9px;
+    --serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,'Times New Roman',serif;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+    --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --paper:#14130f; --surface:#1d1b16; --sunk:#252118;
+      --ink:#f0ebdf; --ink-2:#cec7b6; --muted:#8f8878;
+      --rule:#302c23; --rule-2:#443f33;
+      --accent:#7cb3d1; --accent-ink:#12100c; --accent-soft:#1b2830;
+      --gold:#d4a24e; --green:#6aab86; --red:#d97a6c;
+    }
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
-  body{margin:0; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
-    background:var(--bg); color:var(--text); padding-bottom:78px; min-height:100vh}
-  header{padding:18px 18px 8px; display:flex; align-items:baseline; justify-content:space-between}
-  header h1{font-size:1.15rem; margin:0; letter-spacing:.3px}
-  header .streak{font-size:.95rem; color:var(--warn); font-weight:600}
-  main{padding:0 14px; max-width:640px; margin:0 auto}
-  .card{background:var(--card); border-radius:var(--radius); padding:16px; margin:12px 0}
-  .card h2{margin:0 0 10px; font-size:1rem; color:var(--accent)}
-  .card h3{margin:14px 0 6px; font-size:.9rem; color:var(--dim); font-weight:600; text-transform:uppercase; letter-spacing:.5px}
-  .dim{color:var(--dim); font-size:.85rem}
-  button{font-family:inherit; border:0; border-radius:12px; padding:12px 16px; font-size:.95rem;
-    background:var(--card2); color:var(--text); cursor:pointer; touch-action:manipulation}
-  button:active{transform:scale(.97)}
-  button.primary{background:var(--accent); color:#0d0e14; font-weight:700}
-  button.good{background:var(--accent2); color:#0d0e14; font-weight:700}
-  button.warn{background:var(--warn); color:#0d0e14; font-weight:700}
-  button.danger{background:var(--danger); color:#0d0e14; font-weight:700}
-  button.ghost{background:transparent; color:var(--dim); border:1px solid #333747}
-  .row{display:flex; gap:8px; flex-wrap:wrap}
-  .row>button{flex:1}
-  nav{position:fixed; bottom:0; left:0; right:0; display:flex; background:#171822;
-    border-top:1px solid #262a38; padding-bottom:env(safe-area-inset-bottom)}
-  nav button{flex:1; background:none; border-radius:0; padding:10px 0 8px; font-size:.7rem; color:var(--dim);
-    display:flex; flex-direction:column; align-items:center; gap:2px}
-  nav button .ico{font-size:1.25rem}
-  nav button.active{color:var(--accent)}
-  .task{display:flex; align-items:center; gap:12px; padding:12px 10px; border-radius:12px; margin:6px 0;
-    background:var(--card2); cursor:pointer; user-select:none}
-  .task.done{opacity:.55}
-  .task.done .lbl{text-decoration:line-through}
-  .task .box{width:24px; height:24px; border-radius:8px; border:2px solid var(--dim); flex-shrink:0;
-    display:flex; align-items:center; justify-content:center; font-size:.9rem}
-  .task.done .box{background:var(--accent2); border-color:var(--accent2); color:#0d0e14}
-  .monthgrid{display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin-top:8px}
-  .day{aspect-ratio:1; border-radius:8px; background:var(--card2); display:flex; align-items:center;
-    justify-content:center; font-size:.72rem; color:var(--dim)}
-  .day.full{background:var(--accent2); color:#0d0e14; font-weight:700}
-  .day.part{background:#3a5f52; color:var(--text)}
-  .day.today{outline:2px solid var(--accent)}
-  .bigcard{min-height:220px; display:flex; flex-direction:column; align-items:center; justify-content:center;
-    text-align:center; padding:24px 16px; gap:10px}
-  .bigcard .front{font-size:1.55rem; font-weight:700; line-height:1.3}
-  .bigcard .back{font-size:1.1rem; color:var(--accent2)}
-  .pill{display:inline-block; padding:3px 10px; border-radius:99px; background:var(--card2);
-    font-size:.72rem; color:var(--dim)}
-  .stat{display:flex; justify-content:space-between; padding:6px 0; font-size:.9rem}
-  select,input[type=text]{width:100%; padding:12px; border-radius:12px; border:1px solid #333747;
-    background:var(--card2); color:var(--text); font-size:.95rem; font-family:inherit}
-  .weekpick{display:flex; gap:6px; margin:8px 0}
-  .weekpick button{flex:1; padding:8px 0; font-size:.85rem}
-  .weekpick button.on{background:var(--accent); color:#0d0e14; font-weight:700}
-  .quizopt{display:block; width:100%; text-align:left; margin:6px 0; padding:14px}
-  .quizopt.correct{background:var(--accent2); color:#0d0e14; font-weight:700}
-  .quizopt.wrong{background:var(--danger); color:#0d0e14; font-weight:700}
-  .fsletter{font-size:5rem; font-weight:800; text-align:center; min-height:120px;
-    display:flex; align-items:center; justify-content:center; letter-spacing:2px}
-  .subtabs{display:flex; gap:6px; overflow-x:auto; padding-bottom:4px}
-  .subtabs button{white-space:nowrap; font-size:.82rem; padding:9px 14px}
-  .subtabs button.on{background:var(--accent); color:#0d0e14; font-weight:700}
-  .listitem{display:flex; justify-content:space-between; align-items:center; gap:8px;
-    padding:10px 12px; background:var(--card2); border-radius:12px; margin:6px 0; font-size:.9rem}
-  .listitem button{padding:6px 10px; font-size:.8rem}
-  .prog{height:8px; background:var(--card2); border-radius:99px; overflow:hidden; margin:8px 0}
-  .prog>div{height:100%; background:linear-gradient(90deg,var(--accent),var(--accent2)); border-radius:99px}
-  .milestone{border-left:3px solid var(--warn); padding:8px 12px; margin:8px 0; font-size:.87rem; background:var(--card2); border-radius:0 12px 12px 0}
-  .speak{background:var(--card2); border-radius:99px; width:46px; height:46px; font-size:1.3rem; padding:0}
-  .hidden{display:none !important}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0; font-family:var(--sans); background:var(--paper); color:var(--ink);
+    padding-bottom:76px; min-height:100vh; font-size:15px; line-height:1.5;
+    -webkit-font-smoothing:antialiased}
+
+  /* ---------- header ---------- */
+  header{padding:20px 20px 14px; display:flex; align-items:flex-end; justify-content:space-between;
+    border-bottom:1px solid var(--rule); background:var(--surface)}
+  header h1{font-family:var(--serif); font-size:1.3rem; font-weight:600; margin:0; letter-spacing:-.01em}
+  header h1 em{font-style:italic; color:var(--muted); font-weight:400}
+  .streak{text-align:right; line-height:1.1}
+  .streak b{font-family:var(--serif); font-size:1.45rem; font-weight:600; display:block; color:var(--accent)}
+  .streak span{font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+
+  main{padding:16px 16px 24px; max-width:620px; margin:0 auto}
+
+  /* ---------- surfaces ---------- */
+  .card{background:var(--surface); border:1px solid var(--rule); border-radius:var(--r);
+    padding:16px 16px 18px; margin:0 0 14px}
+  .card h2{font-family:var(--serif); font-size:1.05rem; font-weight:600; margin:0 0 4px; letter-spacing:-.01em}
+  .card h3{margin:18px 0 8px; font-size:.66rem; color:var(--muted); font-weight:600;
+    text-transform:uppercase; letter-spacing:.15em}
+  .card h3:first-child{margin-top:2px}
+  .dim{color:var(--muted); font-size:.85rem}
   .center{text-align:center}
   .mt{margin-top:12px}
+  .hidden{display:none !important}
   a{color:var(--accent)}
-  .aslimg{background:#fff; border-radius:14px; padding:10px; width:120px; height:120px; object-fit:contain}
-  .aslimg.small{width:64px; height:64px; padding:6px; border-radius:10px}
-  .abcgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
-  .abccell{background:var(--card2); border-radius:14px; padding:10px; text-align:center}
-  .abccell img{background:#fff; border-radius:10px; padding:6px; width:100%; aspect-ratio:1; object-fit:contain}
-  .abccell b{display:block; margin-top:4px; font-size:1.05rem}
-  .abccell span{font-size:.62rem; color:var(--dim); line-height:1.25; display:block; margin-top:2px}
-  .bigemoji{font-size:6rem; line-height:1.1}
-  .catgrid{display:flex; gap:6px; flex-wrap:wrap}
-  .catgrid button{font-size:.82rem; padding:8px 13px}
-  .catgrid button.on{background:var(--accent); color:#0d0e14; font-weight:700}
+  hr{border:0; border-top:1px solid var(--rule); margin:14px 0}
+
+  /* ---------- buttons ---------- */
+  button{font-family:inherit; font-size:.88rem; border:1px solid var(--rule-2); border-radius:7px;
+    padding:11px 15px; background:var(--surface); color:var(--ink); cursor:pointer;
+    touch-action:manipulation; transition:background .12s, border-color .12s}
+  button:active{background:var(--sunk)}
+  button.primary{background:var(--accent); border-color:var(--accent); color:var(--accent-ink); font-weight:600}
+  button.good{background:var(--green); border-color:var(--green); color:#fffdf9; font-weight:600}
+  button.warn{background:transparent; border-color:var(--accent); color:var(--accent); font-weight:600}
+  button.danger{background:transparent; border-color:var(--red); color:var(--red); font-weight:600}
+  button.ghost{background:transparent; border-color:var(--rule); color:var(--muted); font-weight:500}
+  button:disabled{opacity:.55}
+  .row{display:flex; gap:8px; flex-wrap:wrap}
+  .row>button{flex:1; min-width:90px}
+  .startbtn{width:100%; padding:15px; font-size:.95rem; letter-spacing:.01em; margin-bottom:8px}
+
+  /* ---------- bottom nav ---------- */
+  nav{position:fixed; bottom:0; left:0; right:0; display:flex; background:var(--surface);
+    border-top:1px solid var(--rule); padding-bottom:env(safe-area-inset-bottom); z-index:10}
+  nav button{flex:1; background:none; border:0; border-top:2px solid transparent; border-radius:0;
+    padding:11px 2px 12px; font-size:.68rem; color:var(--muted); letter-spacing:.06em;
+    text-transform:uppercase; font-weight:600}
+  nav button.active{color:var(--accent); border-top-color:var(--accent); background:var(--accent-soft)}
+
+  /* ---------- checklist ---------- */
+  .task{display:flex; align-items:center; gap:13px; padding:11px 2px; cursor:pointer;
+    user-select:none; border-bottom:1px solid var(--rule)}
+  .task:last-of-type{border-bottom:0}
+  .task .box{width:19px; height:19px; border-radius:4px; border:1.5px solid var(--rule-2);
+    flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:.7rem;
+    color:transparent; background:var(--surface)}
+  .task.done .box{background:var(--accent); border-color:var(--accent); color:var(--accent-ink)}
+  .task .lbl{font-size:.9rem; line-height:1.35}
+  .task.done .lbl{color:var(--muted); text-decoration:line-through; text-decoration-thickness:1px}
+
+  /* ---------- month grid ---------- */
+  .monthgrid{display:grid; grid-template-columns:repeat(7,1fr); gap:4px; margin:10px 0 4px}
+  .day{aspect-ratio:1; border-radius:3px; background:var(--sunk); border:1px solid transparent;
+    display:flex; align-items:center; justify-content:center; font-size:.62rem;
+    color:var(--muted); font-variant-numeric:tabular-nums}
+  .day.part{background:var(--accent-soft); color:var(--accent)}
+  .day.full{background:var(--accent); color:var(--accent-ink); font-weight:600}
+  .day.today{border-color:var(--gold); color:var(--gold); font-weight:700}
+  .day.full.today{color:var(--accent-ink)}
+  .prog{height:3px; background:var(--sunk); border-radius:2px; overflow:hidden; margin:12px 0 8px}
+  .prog>div{height:100%; background:var(--accent)}
+
+  /* ---------- study card ---------- */
+  .bigcard{min-height:210px; display:flex; flex-direction:column; align-items:center;
+    justify-content:center; text-align:center; padding:26px 16px; gap:12px;
+    background:var(--surface); border:1px solid var(--rule); border-radius:var(--r); margin:10px 0}
+  .bigcard .front{font-family:var(--serif); font-size:1.7rem; font-weight:600; line-height:1.25;
+    letter-spacing:-.015em}
+  .bigcard .back{font-size:1rem; color:var(--ink-2); line-height:1.45}
+  .pill{display:inline-block; padding:3px 9px; border-radius:99px; border:1px solid var(--rule);
+    font-size:.63rem; color:var(--muted); letter-spacing:.09em; text-transform:uppercase}
+  .bigemoji{font-size:5rem; line-height:1}
+  .wordimg{width:148px; height:148px; object-fit:cover; border-radius:6px; background:var(--sunk);
+    border:1px solid var(--rule)}
+  .wordimg.big{width:188px; height:188px}
+  .speak{width:40px; height:40px; padding:0; border-radius:99px; display:inline-flex;
+    align-items:center; justify-content:center; color:var(--accent); border-color:var(--rule-2)}
+  .speak svg{width:17px; height:17px; display:block}
+  .bn{color:var(--gold)}
+
+  /* ---------- tabs / pickers ---------- */
+  .subtabs{display:flex; gap:0; overflow-x:auto; border-bottom:1px solid var(--rule);
+    margin:2px -4px 0; padding:0 4px; scrollbar-width:none}
+  .subtabs::-webkit-scrollbar{display:none}
+  .subtabs button{white-space:nowrap; font-size:.8rem; padding:9px 12px 10px; border:0;
+    border-bottom:2px solid transparent; border-radius:0; background:none; color:var(--muted)}
+  .subtabs button.on{color:var(--ink); border-bottom-color:var(--accent); font-weight:600}
+  .weekpick{display:flex; gap:6px; margin:12px 0 4px}
+  .weekpick button{flex:1; padding:7px 0; font-size:.78rem; color:var(--muted)}
+  .weekpick button.on{background:var(--accent-soft); border-color:var(--accent); color:var(--accent); font-weight:600}
+  .catgrid{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:4px}
+  .catgrid button{font-size:.76rem; padding:6px 11px; color:var(--muted)}
+  .catgrid button.on{background:var(--accent-soft); border-color:var(--accent); color:var(--accent); font-weight:600}
+
+  /* ---------- quiz ---------- */
+  .quizopt{display:block; width:100%; text-align:left; margin:7px 0; padding:13px 15px;
+    font-size:.92rem; line-height:1.35}
+  .quizopt.correct{background:var(--green); border-color:var(--green); color:#fffdf9; font-weight:600}
+  .quizopt.wrong{background:var(--red); border-color:var(--red); color:#fffdf9; font-weight:600}
+  .quizopt img{width:100%; aspect-ratio:1; object-fit:cover; border-radius:5px;
+    background:var(--sunk); display:block}
+  .imgopt{padding:5px !important}
+  .scorebig{font-family:var(--serif); font-size:3.2rem; font-weight:600; line-height:1;
+    letter-spacing:-.03em; color:var(--accent)}
+
+  /* ---------- lists ---------- */
+  .listitem{display:flex; justify-content:space-between; align-items:center; gap:10px;
+    padding:12px 2px; border-bottom:1px solid var(--rule); font-size:.89rem}
+  .listitem:last-child{border-bottom:0}
+  .listitem button{padding:5px 9px; font-size:.75rem}
   .lesson-item{cursor:pointer}
-  .exrow{display:flex; justify-content:space-between; align-items:center; gap:10px; background:var(--card2);
-    border-radius:10px; padding:9px 12px; margin:5px 0; cursor:pointer}
-  .exrow b{font-size:.95rem}
-  .exrow span{color:var(--dim); font-size:.8rem; text-align:right}
-  .picopt{font-size:1.05rem}
-</style>
+  .lesson-item:active{background:var(--sunk)}
+  .lesson-item .idx{font-family:var(--serif); color:var(--muted); font-size:.85rem;
+    margin-right:10px; font-variant-numeric:tabular-nums}
+  .exrow{display:flex; justify-content:space-between; align-items:center; gap:12px;
+    padding:11px 2px; border-bottom:1px solid var(--rule); cursor:pointer}
+  .exrow:active{background:var(--sunk)}
+  .exrow b{font-size:.94rem; font-weight:600}
+  .exrow span{color:var(--muted); font-size:.79rem; text-align:right; line-height:1.35}
+  .note{border-left:2px solid var(--gold); padding:9px 0 9px 13px; margin:10px 0;
+    font-size:.86rem; color:var(--ink-2); line-height:1.5}
+  .stat{display:flex; justify-content:space-between; padding:9px 0; font-size:.87rem;
+    border-bottom:1px solid var(--rule)}
+  .stat:last-of-type{border-bottom:0}
+  .stat b{font-variant-numeric:tabular-nums}
+
+  /* ---------- ASL ---------- */
+  .aslimg{background:var(--surface); border:1px solid var(--rule); border-radius:8px; padding:8px;
+    width:118px; height:118px; object-fit:contain}
+  .aslimg.small{width:56px; height:56px; padding:4px; border-radius:6px}
+  .abcgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:9px; margin-top:12px}
+  .abccell{border:1px solid var(--rule); border-radius:7px; padding:8px; text-align:center;
+    background:var(--surface)}
+  .abccell img{background:#fff; border-radius:4px; padding:5px; width:100%; aspect-ratio:1;
+    object-fit:contain}
+  .abccell b{display:block; margin-top:5px; font-family:var(--serif); font-size:1.05rem}
+  .abccell span{font-size:.6rem; color:var(--muted); line-height:1.3; display:block; margin-top:2px}
+  .fsletter{font-family:var(--serif); font-size:4rem; font-weight:600; text-align:center;
+    min-height:118px; display:flex; align-items:center; justify-content:center; letter-spacing:.04em}
+
+  /* ---------- session ---------- */
+  .stepnum{font-size:.63rem; color:var(--muted); letter-spacing:.16em; text-transform:uppercase;
+    font-weight:600}
+  .steptitle{font-family:var(--serif); font-size:1.35rem; font-weight:600; line-height:1.25;
+    margin:8px 0 8px; letter-spacing:-.015em}
+  #resumePill{position:fixed; bottom:78px; left:50%; transform:translateX(-50%);
+    background:var(--accent); color:var(--accent-ink); font-weight:600; padding:10px 20px;
+    border-radius:99px; font-size:.82rem; cursor:pointer; z-index:9;
+    box-shadow:0 3px 14px rgba(20,15,5,.22)}
+  textarea{width:100%; min-height:120px; padding:13px; border-radius:7px; border:1px solid var(--rule-2);
+    background:var(--surface); color:var(--ink); font-size:.95rem; font-family:var(--serif);
+    line-height:1.6; resize:vertical}
+  input[type=text],select{width:100%; padding:12px 13px; border-radius:7px; border:1px solid var(--rule-2);
+    background:var(--surface); color:var(--ink); font-size:.92rem; font-family:inherit; margin-bottom:8px}
+  textarea:focus,input:focus{outline:2px solid var(--accent); outline-offset:-1px; border-color:transparent}
+
+  /* ---------- misc ---------- */
+  .videowrap{position:relative; width:100%; aspect-ratio:16/9; border-radius:7px; overflow:hidden;
+    background:#000; margin:10px 0; border:1px solid var(--rule)}
+  .videowrap iframe{position:absolute; inset:0; width:100%; height:100%; border:0}
+  .numcell img{background:#fff; border-radius:4px; padding:4px; width:100%; aspect-ratio:1; object-fit:contain}
+  .offline-note{border-left:2px solid var(--gold); padding:10px 0 10px 13px; font-size:.85rem;
+    color:var(--muted); line-height:1.5}
+  .watchlink{font-size:.76rem; color:var(--accent); text-decoration:none; letter-spacing:.02em}
+  .picopt{font-size:.95rem}
+  </style>
 </head>
 <body>
 <header>
-  <h1>🌞 Summer Goals</h1>
-  <div class="streak" id="streakBadge">🔥 0</div>
+  <h1>Summer Goals <em>— août</em></h1>
+  <div class="streak" id="streakBadge"></div>
 </header>
 <main id="main"></main>
+<div id="resumePill" class="hidden">Resume session</div>
 <nav id="nav">
-  <button data-v="today"><span class="ico">📅</span>Today</button>
-  <button data-v="learn"><span class="ico">📖</span>Learn</button>
-  <button data-v="cards"><span class="ico">🃏</span>Cards</button>
-  <button data-v="quiz"><span class="ico">❓</span>Quiz</button>
-  <button data-v="asl"><span class="ico">🤟</span>ASL</button>
-  <button data-v="more"><span class="ico">⚙️</span>More</button>
+  <button data-v="today">Today</button>
+  <button data-v="learn">Learn</button>
+  <button data-v="cards">Cards</button>
+  <button data-v="quiz">Quiz</button>
+  <button data-v="asl">ASL</button>
+  <button data-v="more">More</button>
 </nav>
 
 <script src="data.js"></script>
@@ -128,6 +237,16 @@ const store = {
   set(k, v){ localStorage.setItem("sg_"+k, JSON.stringify(v)); }
 };
 const $ = s => document.querySelector(s);
+// ---- gloss language: "en" | "bn" | "both" ----
+function glossLang(){ return store.get("gloss", "both"); }
+function gloss(fr, en){
+  const bn = (APP_DATA.bn||{})[fr];
+  const L = glossLang();
+  if (L==="bn" && bn) return bn;
+  if (L==="both" && bn) return en + "<br><span style='color:var(--warn)'>" + bn + "</span>";
+  return en;
+}
+function bnOf(fr){ return (APP_DATA.bn||{})[fr] || ""; }
 const todayStr = () => { const d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); };
 const esc = s => String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
@@ -190,7 +309,13 @@ function calcStreak(){
   }
   return streak;
 }
-function updateStreak(){ $("#streakBadge").textContent = "🔥 " + calcStreak(); }
+const ICO_SOUND = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
+function updateStreak(){
+  const n = calcStreak();
+  $("#streakBadge").innerHTML = n
+    ? `<b>${n}</b><span>day${n>1?"s":""} running</span>`
+    : `<b>—</b><span>start today</span>`;
+}
 
 // ================= views =================
 let view = "today";
@@ -201,20 +326,29 @@ V.today = function(){
   const log = dayLog()[t] || {};
   const due = dueCards(allVocab(), rangeWeeks(wk)).length + dueCards(aslDeck(), rangeWeeks(wk)).length;
   const ms = APP_DATA.plan.milestones.find(m => m.date >= t);
+  const sess = sessData();
+  const stepsN = buildSteps().length, doneN = sess.done.length;
+  const startLabel = sess.complete ? "Session complete"
+    : doneN>0 ? `Resume — step ${Math.min(doneN+1,stepsN)} of ${stepsN}`
+    : "Start today's session";
   let h = `<div class="card">
     <h2>Week ${wk} — ${esc(w.title)}</h2>
-    <div class="dim">🇫🇷 ${esc(w.fr)}</div>
-    <div class="dim mt">🤟 ${esc(w.asl)}</div>
+    <h3>French</h3><div class="dim">${esc(w.fr)}</div>
+    <h3>ASL</h3><div class="dim">${esc(w.asl)}</div>
+  </div>
+  <div class="card">
+    <button class="${sess.complete?"good":"primary"} startbtn" id="startSess" ${sess.complete?"disabled":""}>${startLabel}</button>
+    <div class="dim center" style="font-size:.78rem">One tap — the app walks you through the whole day, step by step.</div>
   </div>
   <div class="card"><h2>Today's checklist</h2>`;
   for (const task of APP_DATA.plan.dailyTasks){
     const done = !!log[task.id];
     h += `<div class="task ${done?"done":""}" data-task="${task.id}">
       <div class="box">${done?"✓":""}</div>
-      <div class="lbl">${task.icon} ${esc(task.label)}</div></div>`;
+      <div class="lbl">${esc(task.label)}</div></div>`;
   }
   h += `<div class="dim mt">${due} flashcards due today · a day counts toward your streak at 3+ tasks</div></div>`;
-  if (ms) h += `<div class="card"><h2>Next milestone — ${ms.date.slice(5).replace("-","/")} </h2><div class="milestone">${esc(ms.text)}</div></div>`;
+  if (ms) h += `<div class="card"><h2>Next milestone — ${ms.date.slice(5).replace("-","/")} </h2><div class="note">${esc(ms.text)}</div></div>`;
   h += `<div class="card"><h2>August progress</h2><div class="monthgrid">`;
   for (let d=1; d<=31; d++){
     const s = "2026-08-"+String(d).padStart(2,"0");
@@ -226,6 +360,8 @@ V.today = function(){
   h += `</div><div class="prog"><div style="width:${Math.round(totalDone/31*100)}%"></div></div>
   <div class="dim">${totalDone}/31 days completed</div></div>`;
   $("#main").innerHTML = h;
+  const sb = $("#startSess");
+  if (sb && !sess.complete) sb.onclick = ()=>{ view="session"; V.session(); };
   document.querySelectorAll(".task").forEach(el=>{
     el.onclick = ()=>{
       const l = dayLog(); l[t] = l[t]||{};
@@ -237,19 +373,190 @@ V.today = function(){
 
 function rangeWeeks(wk){ const r=[]; for(let i=1;i<=wk;i++) r.push(i); return r; }
 
+// -------- guided daily session --------
+function dayInWeek(){ // 1..7 within the current plan week
+  const t = new Date();
+  if (t.getFullYear()===2026 && t.getMonth()===7) return ((t.getDate()-1) % 7) + 1;
+  return ((t.getDate()-1) % 7) + 1;
+}
+function ltFor(week, d){
+  const ranges = {1:[1,12], 2:[13,26], 3:[27,40]};
+  if (!ranges[week]) return null;
+  const [a,b] = ranges[week], per = Math.ceil((b-a+1)/6);
+  const s = a + (d-1)*per;
+  if (s > b) return "review";
+  return [s, Math.min(s+per-1, b)];
+}
+function lpFor(week, d){
+  const r = {1:[1,4], 2:[5,9], 3:[10,14], 4:[15,18]}[week];
+  return r[0] + Math.min(Math.floor((d-1)*(r[1]-r[0]+1)/6), r[1]-r[0]);
+}
+function buildSteps(){
+  const wk = currentWeek(), d = dayInWeek(), steps = [];
+  const rest = d === 7;
+  const lt = ltFor(wk, d);
+  const lessonsOfWeek = APP_DATA.lessons.map((L,i)=>({...L,i})).filter(L=>L.w===wk);
+  const appLesson = (!rest && d <= lessonsOfWeek.length) ? lessonsOfWeek[d-1] : null;
+  const cat = PIC_CATS[(new Date().getDate()) % PIC_CATS.length];
+  const quizType = rest ? "week" : {1:null, 2:"pic", 3:"listen", 4:"pic", 5:"week", 6:"listen"}[d];
+  const wp = APP_DATA.writingPrompts[wk];
+
+  if (rest){
+    steps.push({id:"rest", task:"lt", icon:"🧘", t:"Rest-day catch-up",
+      d:"Light day. Re-listen to any Language Transfer lesson that felt shaky this week, or just skip ahead to reviews."});
+  } else if (lt === "review"){
+    steps.push({id:"lt", task:"lt", icon:"🎧", t:"Language Transfer — review day",
+      d:"No new lessons today. Re-listen to this week's hardest lesson and answer out loud before the student does.",
+      go:{l:"Open the course", f:()=>{ learnTab="videos"; gotoView("learn"); }}});
+  } else if (lt){
+    steps.push({id:"lt", task:"lt", icon:"🎧", t:`Language Transfer — lessons ${lt[0]}–${lt[1]}`,
+      d:"~45 min. Pause at every question and answer ALOUD before the student does. This is the most important step of the day.",
+      go:{l:"Open the course", f:()=>{ learnTab="videos"; gotoView("learn"); }}});
+  } else {
+    steps.push({id:"lt", task:"lt", icon:"🎧", t:"Consolidation — no new grammar",
+      d:"Week 4: re-listen to one earlier Language Transfer lesson that felt hard, at faster speed.",
+      go:{l:"Open the course", f:()=>{ learnTab="videos"; gotoView("learn"); }}});
+  }
+  if (appLesson) steps.push({id:"lesson", task:"lt", icon:"📚", t:`Read: “${appLesson.t}”`,
+    d:"5 min. Tap every example to hear it, repeat each one aloud twice.",
+    go:{l:"Open lesson", f:()=>{ learnTab="lessons"; openLesson=appLesson.i; gotoView("learn"); }}});
+  steps.push({id:"cards", task:"srs", icon:"🃏", t:"Clear your flashcard reviews",
+    d:"Say every card OUT LOUD. Grade honestly — 'Again' is your friend, not your enemy.",
+    go:{l:"Open flashcards", f:()=>{ cardState.deckName="fr"; cardState.weeks=rangeWeeks(currentWeek()); cardState.queue=[]; gotoView("cards"); }}});
+  if (!rest) steps.push({id:"pics", task:"srs", icon:"🖼", t:`Picture words — today: ${cat}`,
+    d:"One category a day keeps them in rotation. See object → say the French BEFORE revealing.",
+    go:{l:"Open picture words", f:()=>{ learnTab="pics"; picCat=cat; gotoView("learn"); }}});
+  if (quizType==="week") steps.push({id:"quiz", task:"srs", icon:"❓", t:`Week ${wk} quiz`,
+    d:"10 questions. Under 6/10? Redo today's lesson examples before tomorrow.",
+    go:{l:"Start quiz", f:()=>{ gotoView("quiz"); startQuiz(currentWeek()); }}});
+  if (quizType==="listen") steps.push({id:"quiz", task:"srs", icon:"🎧", t:"Listening quiz",
+    d:"10 rounds of ear training. Don't read — listen first, guess, then check.",
+    go:{l:"Start listening quiz", f:()=>{ gotoView("quiz"); startListening(); }}});
+  if (quizType==="pic") steps.push({id:"quiz", task:"srs", icon:"🎯", t:"Picture quiz",
+    d:"10 rounds — pictures to words and back.",
+    go:{l:"Start picture quiz", f:()=>{ learnTab="picquiz"; gotoView("learn"); }}});
+  if (!rest) steps.push({id:"input", task:"input", icon:"📺", t: wk===1 ? "French input — TV5Monde" : "Watch one Super Easy French video",
+    d: wk===1 ? "15–20 min of A1 exercises on TV5Monde (in More → Resources), or browse the videos tab."
+              : "One video (~7 min), French subtitles ON. Watch twice: once for gist, once pausing on new words — add 2–3 to your flashcards.",
+    go:{l:"Open videos", f:()=>{ learnTab="videos"; gotoView("learn"); }}});
+  if (wp && !rest) steps.push({id:"write", task:"conv", icon:"✍️", t:"Write your daily French", write:true,
+    d:"Prompt: " + wp[(d-1) % wp.length]});
+  steps.push({id:"conv", task:"conv", icon:"💬", t:"Conversation practice with Claude", conv:true,
+    d:"The 30 minutes where knowledge becomes speaking. Copy the prompt, open a Claude chat, go."});
+  steps.push({id:"asl", task:"asl", icon:"🤟", t: rest ? "ASL — light review" : `ASL — Lifeprint Lesson ${lpFor(wk,d)} + fingerspelling`,
+    d: rest ? "Review this week's signs in flashcards, then one fast fingerspelling round."
+            : "Watch the lesson in the ASL videos tab, signing along. Then a 5-min fingerspelling drill and your ASL flashcards.",
+    go:{l:"Open ASL practice", f:()=>{ aslTab = rest ? "spell" : "videos"; gotoView("asl"); }}});
+  return steps;
+}
+function sessData(){ return store.get("sess_"+todayStr(), {done:[]}); }
+function saveSess(s){ store.set("sess_"+todayStr(), s); }
+function sessionActive(){ const s = sessData(); return (s.started || s.done.length>0) && !s.complete; }
+V.session = function(){
+  const steps = buildSteps(), s = sessData();
+  if (!s.started){ s.started = true; saveSess(s); }
+  const cur = steps.findIndex(st=>!s.done.includes(st.id));
+  if (cur === -1){
+    s.complete = true; saveSess(s);
+    $("#main").innerHTML = `<div class="card bigcard"><div class="pill">session complete</div>
+      <div class="front">Bravo.</div>
+      <div class="dim">Every task checked off — streak safe. À demain !</div>
+      <button class="primary mt" id="bkT">Back to Today</button></div>`;
+    $("#bkT").onclick = ()=>gotoView("today");
+    updateStreak(); updatePill(); return;
+  }
+  const st = steps[cur];
+  let inner = `<div class="stepnum">Step ${cur+1} of ${steps.length}</div>
+    <div class="prog"><div style="width:${Math.round(cur/steps.length*100)}%"></div></div>
+    <div class="steptitle">${esc(st.t)}</div>
+    <div class="dim" style="font-size:.9rem">${esc(st.d)}</div>`;
+  if (st.write){
+    const saved = store.get("writing_"+todayStr(), "");
+    inner += `<textarea id="wArea" class="mt" placeholder="Écris ici… (5–8 phrases)">${esc(saved)}</textarea>
+      <button class="ghost mt" id="wCopy">Copy text + correction request for Claude</button>`;
+  }
+  if (st.conv){
+    const p = APP_DATA.convPrompts.find(x=>x.w===currentWeek());
+    inner += `<div class="milestone mt">${esc(p.p)}</div><button class="ghost" id="cCopy">Copy prompt</button>`;
+  }
+  inner += `<div class="row mt">
+      ${st.go?`<button class="warn" id="goBtn">${esc(st.go.l)}</button>`:""}
+      <button class="good" id="doneBtn">Done &rarr;</button>
+    </div>
+    <div class="row mt"><button class="ghost" id="skipBtn">Skip this step</button>
+    <button class="ghost" id="quitBtn">Pause session</button></div>`;
+  $("#main").innerHTML = `<div class="card">${inner}</div>`;
+  const wa = $("#wArea");
+  if (wa) wa.oninput = ()=> store.set("writing_"+todayStr(), wa.value);
+  const wc = $("#wCopy");
+  if (wc) wc.onclick = ()=>{
+    const txt = "Please correct my A2 French writing. Explain each mistake briefly, then give a natural version:\n\n" + ($("#wArea").value||"");
+    navigator.clipboard.writeText(txt).then(()=> wc.textContent = "Copied ✓ — paste it to Claude");
+  };
+  const cc = $("#cCopy");
+  if (cc) cc.onclick = ()=>{
+    navigator.clipboard.writeText(APP_DATA.convPrompts.find(x=>x.w===currentWeek()).p).then(()=> cc.textContent = "Copied ✓");
+  };
+  const adv = ()=>{
+    const s2 = sessData(); if (!s2.done.includes(st.id)) s2.done.push(st.id); saveSess(s2);
+    // auto-check the Today task when all its steps are done
+    const allSteps = buildSteps();
+    const mine = allSteps.filter(x=>x.task===st.task).map(x=>x.id);
+    if (mine.every(id=>s2.done.includes(id))){
+      const l = dayLog(); l[todayStr()] = l[todayStr()]||{}; l[todayStr()][st.task] = true;
+      store.set("daylog", l); updateStreak();
+    }
+    V.session();
+  };
+  $("#doneBtn").onclick = adv;
+  $("#skipBtn").onclick = adv;
+  $("#quitBtn").onclick = ()=>gotoView("today");
+  const gb = $("#goBtn"); if (gb) gb.onclick = st.go.f;
+  updatePill();
+};
+function updatePill(){
+  const p = $("#resumePill");
+  p.classList.toggle("hidden", !(sessionActive() && view!=="session"));
+}
+$("#resumePill").onclick = ()=>{ view="session"; V.session(); };
+function gotoView(v){
+  clearInterval(fsTimer);
+  view = v;
+  document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("active", x.dataset.v===v));
+  V[v](); updatePill();
+}
+
 // -------- learn (lessons + picture words) --------
 let learnTab = "lessons", picCat = "food", openLesson = -1;
 V.learn = function(){
   let h = `<div class="card"><h2>Learn French</h2>
     <div class="subtabs">
-      <button data-lt="lessons" class="${learnTab==="lessons"?"on":""}">📚 Lessons</button>
-      <button data-lt="pics" class="${learnTab==="pics"?"on":""}">🖼 Picture words</button>
-      <button data-lt="picquiz" class="${learnTab==="picquiz"?"on":""}">🎯 Picture quiz</button>
+      <button data-lt="lessons" class="${learnTab==="lessons"?"on":""}">Lessons</button>
+      <button data-lt="pics" class="${learnTab==="pics"?"on":""}">Pictures</button>
+      <button data-lt="picquiz" class="${learnTab==="picquiz"?"on":""}">Picture quiz</button>
+      <button data-lt="videos" class="${learnTab==="videos"?"on":""}">Videos</button>
     </div><div id="learnArea" class="mt"></div></div>`;
   $("#main").innerHTML = h;
-  document.querySelectorAll("[data-lt]").forEach(b=> b.onclick = ()=>{ learnTab=b.dataset.lt; V.learn(); });
-  ({lessons:learnLessons, pics:learnPics, picquiz:learnPicQuiz})[learnTab]();
+  document.querySelectorAll("[data-lt]").forEach(b=> b.onclick = ()=>{
+    if (b.dataset.lt==="lessons" && learnTab==="lessons") openLesson = -1; // tapping the tab again returns to the list
+    learnTab=b.dataset.lt; V.learn(); });
+  ({lessons:learnLessons, pics:learnPics, picquiz:learnPicQuiz, videos:()=>renderVideos($("#learnArea"), APP_DATA.videos.french)})[learnTab]();
 };
+function renderVideos(area, vids){
+  if (!navigator.onLine){
+    area.innerHTML = `<div class="offline-note">You&#39;re offline — videos need internet. Everything else in the app still works.
+      Tip: Language Transfer's audio can be <b>downloaded free</b> for offline listening (link appears when online).</div>`;
+    return;
+  }
+  area.innerHTML = vids.map(v=>`
+    <h3 style="text-transform:none;letter-spacing:0;color:var(--text)">${esc(v.t)}</h3>
+    <div class="dim" style="font-size:.83rem">${esc(v.n)}</div>
+    <div class="videowrap"><iframe src="https://www.youtube-nocookie.com/embed/videoseries?list=${v.list}"
+      title="${esc(v.t)}" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+      allowfullscreen loading="lazy"></iframe></div>
+    ${v.dl?`<a class="watchlink" href="${v.dl}">Download all audio free — for offline listening</a>`:""}`
+  ).join("") + `<div class="dim mt">Use the ☰ icon inside the player to jump to a specific lesson number.</div>`;
+}
 function learnLessons(){
   const area = $("#learnArea"), wk = currentWeek();
   if (openLesson >= 0){
@@ -258,7 +565,11 @@ function learnLessons(){
       <h3 style="color:var(--accent);font-size:1rem;text-transform:none;letter-spacing:0">${esc(L.t)} <span class="pill">week ${L.w}</span></h3>`;
     L.p.forEach(p=>{
       h += `<div class="dim mt" style="font-size:.92rem;color:var(--text)">${esc(p.x)}</div>`;
-      (p.ex||[]).forEach(([fr,en])=> h += `<div class="exrow" data-say="${esc(fr)}"><b>🔊 ${esc(fr)}</b><span>${esc(en)}</span></div>`);
+      (p.ex||[]).forEach(([fr,en])=>{
+        const bn = bnOf(fr), L = glossLang();
+        const right = (L!=="en" && bn) ? (L==="bn" ? esc(bn) : esc(en)+"<br><span class='bn' style='font-size:.85rem'>"+esc(bn)+"</span>") : esc(en);
+        h += `<div class="exrow" data-say="${esc(fr)}"><b>${esc(fr)}</b><span>${right}</span></div>`;
+      });
     });
     h += `<div class="dim mt">Tap any example to hear it.</div>`;
     area.innerHTML = h;
@@ -270,7 +581,7 @@ function learnLessons(){
   [1,2,3,4].forEach(w=>{
     h += `<h3>Week ${w}${w===wk?" — now":""}</h3>`;
     APP_DATA.lessons.forEach((L,i)=>{
-      if (L.w===w) h += `<div class="listitem lesson-item" data-li="${i}"><span>📖 ${esc(L.t)}</span><span class="dim">›</span></div>`;
+      if (L.w===w) h += `<div class="listitem lesson-item" data-li="${i}"><span><span class="idx">${String(i+1).padStart(2,"0")}</span>${esc(L.t)}</span><span class="dim">›</span></div>`;
     });
   });
   area.innerHTML = h;
@@ -285,10 +596,10 @@ function learnPics(){
     const items = pool(); const it = items[idx % items.length];
     area.innerHTML = `<div class="catgrid">${PIC_CATS.map(c=>`<button data-c="${c}" class="${c===picCat?"on":""}">${c}</button>`).join("")}</div>
       <div class="bigcard" id="picCard">
-        <div class="bigemoji">${it.i}</div>
+        ${it.p?`<img src="${it.p}" alt="" class="wordimg big">`:`<div class="bigemoji">${it.i}</div>`}
         ${revealed
-          ? `<div class="front" style="font-size:1.5rem">${esc(it.f)}</div><div class="back">${esc(it.e)}</div>
-             <button class="speak" id="againBtn">🔊</button>`
+          ? `<div class="front" style="font-size:1.5rem">${esc(it.f)}</div><div class="back">${gloss(it.f, esc(it.e))}</div>
+             <button class="speak" id="againBtn">${ICO_SOUND}</button>`
           : `<div class="dim">What is this in French? Tap to reveal + hear</div>`}
         <span class="pill">${idx % items.length + 1}/${items.length} · ${picCat}</span>
       </div>
@@ -309,8 +620,9 @@ function learnPicQuiz(){
   let score = 0, round = 0, mode = Math.random()<.5;
   function next(){
     if (round===10){
-      area.innerHTML = `<div class="bigcard"><div style="font-size:2.5rem">${score>=8?"🏆":score>=6?"👍":"📚"}</div>
-        <div>${score}/10</div><button class="primary mt" id="againQ">Play again</button></div>`;
+      area.innerHTML = `<div class="bigcard"><div class="scorebig">${score}<span style="color:var(--muted);font-size:1.4rem">/10</span></div>
+        <div class="dim">${score>=8?"Excellent.":score>=6?"Solid — review the misses.":"Worth another pass."}</div>
+        <button class="primary mt" id="againQ">Play again</button></div>`;
       $("#againQ").onclick = learnPicQuiz; return;
     }
     round++;
@@ -322,11 +634,13 @@ function learnPicQuiz(){
     const pickWord = round%2===1; // odd rounds: see picture pick word; even: see word pick picture
     let h = `<div class="dim">Round ${round}/10 · score ${score}</div>`;
     if (pickWord){
-      h += `<div class="center mt bigemoji">${ans.i}</div><div class="center dim">Pick the French word:</div>`;
+      h += `<div class="center mt">${ans.p?`<img src="${ans.p}" alt="" class="wordimg big">`:`<span class="bigemoji">${ans.i}</span>`}</div>
+        <div class="center dim">Pick the French word:</div>`;
       opts.forEach((o,i)=> h += `<button class="quizopt picopt" data-i="${i}">${esc(o.f)}</button>`);
     } else {
-      h += `<div class="center mt front" style="font-size:1.4rem;font-weight:700">${esc(ans.f)} <button class="speak" id="sayQ" style="width:38px;height:38px;font-size:1rem">🔊</button></div>
-        <div class="row mt">${opts.map((o,i)=>`<button class="quizopt" style="text-align:center;font-size:2.4rem" data-i="${i}">${o.i}</button>`).join("")}</div>`;
+      h += `<div class="center mt front" style="font-size:1.4rem;font-weight:700">${esc(ans.f)} <button class="speak" id="sayQ" style="width:32px;height:32px">${ICO_SOUND}</button></div>
+        ${glossLang()!=="en"&&bnOf(ans.f)?`<div class="center bn">${esc(bnOf(ans.f))}</div>`:""}
+        <div class="row mt">${opts.map((o,i)=>`<button class="quizopt ${o.p?"imgopt":""}" style="text-align:center;font-size:2.4rem" data-i="${i}">${o.p?`<img src="${o.p}" alt="">`:o.i}</button>`).join("")}</div>`;
     }
     area.innerHTML = h;
     const sq = $("#sayQ"); if (sq){ speak(ans.f); sq.onclick=()=>speak(ans.f); }
@@ -353,8 +667,8 @@ V.cards = function(){
   if (!cardState.weeks) cardState.weeks = rangeWeeks(wk);
   let h = `<div class="card"><h2>Flashcards</h2>
     <div class="subtabs">
-      <button id="dFr" class="${cardState.deckName==="fr"?"on":""}">🇫🇷 French</button>
-      <button id="dAsl" class="${cardState.deckName==="asl"?"on":""}">🤟 ASL signs</button>
+      <button id="dFr" class="${cardState.deckName==="fr"?"on":""}">French</button>
+      <button id="dAsl" class="${cardState.deckName==="asl"?"on":""}">ASL signs</button>
     </div>
     <div class="weekpick">${[1,2,3,4].map(n=>`<button data-w="${n}" class="${cardState.weeks.includes(n)?"on":""}">W${n}</button>`).join("")}</div>
     <div id="cardArea"></div></div>`;
@@ -383,8 +697,8 @@ function renderCard(){
   const area = $("#cardArea"); if (!area) return;
   const q = cardState.queue;
   if (cardState.idx >= q.length){
-    area.innerHTML = `<div class="bigcard"><div style="font-size:2.5rem">🎉</div>
-      <div>All done — ${cardState.done} cards reviewed.</div>
+    area.innerHTML = `<div class="bigcard"><div class="scorebig">${cardState.done}</div>
+      <div>cards reviewed — all caught up.</div>
       <div class="dim">Come back later; cards return on their schedule.</div>
       <button class="ghost mt" id="restudy">Study ahead anyway</button></div>`;
     $("#restudy").onclick = ()=>{
@@ -399,10 +713,12 @@ function renderCard(){
   const vis = isFr ? APP_DATA.visual.find(v=>v.f===c.f) : null;
   area.innerHTML = `<div class="bigcard" id="flip">
       <span class="pill">${esc(c.c||"")} · week ${c.w} · ${cardState.idx+1}/${q.length}</span>
-      ${vis?`<div style="font-size:3rem">${vis.i}</div>`:""}
+      ${vis?(vis.p?`<img src="${vis.p}" alt="" class="wordimg">`:`<div style="font-size:3rem">${vis.i}</div>`):""}
       <div class="front">${esc(c.f)}</div>
-      ${isFr?`<button class="speak" id="sayBtn">🔊</button>`:""}
-      <div class="back ${cardState.flipped?"":"hidden"}" id="back">${esc(c.e)}</div>
+      ${isFr?`<button class="speak" id="sayBtn">${ICO_SOUND}</button>`:""}
+      <div class="back ${cardState.flipped?"":"hidden"}" id="back">${isFr?gloss(c.f, esc(c.e)):esc(c.e)}</div>
+      ${!isFr ? `<a class="watchlink ${cardState.flipped?"":"hidden"}" id="signWatch" target="_blank" rel="noopener"
+        href="https://www.signasl.org/sign/${encodeURIComponent(c.f.split("(")[0].split("/")[0].trim().toLowerCase().replace(/'/g,"").replace(/\s+/g,"-"))}">Watch this sign &rarr;</a>` : ""}
       ${cardState.flipped?"":`<div class="dim">tap card to reveal</div>`}
     </div>
     <div class="row ${cardState.flipped?"":"hidden"}" id="gradeRow">
@@ -411,8 +727,9 @@ function renderCard(){
       <button class="good" data-g="2">Easy</button>
     </div>`;
   $("#flip").onclick = e=>{
-    if (e.target.id==="sayBtn") return;
+    if (e.target.id==="sayBtn" || e.target.id==="signWatch") return;
     cardState.flipped = true; $("#back").classList.remove("hidden"); $("#gradeRow").classList.remove("hidden");
+    const swl = $("#signWatch"); if (swl) swl.classList.remove("hidden");
     if (isFr) speak(c.f);
   };
   const sb = $("#sayBtn"); if (sb) sb.onclick = ()=>speak(c.f);
@@ -434,7 +751,7 @@ V.quiz = function(){
     <h3>Grammar / vocab</h3>
     <div class="weekpick">${[1,2,3,4].map(n=>`<button data-qw="${n}" ${n>wk?'style="opacity:.5"':""}>Week ${n}</button>`).join("")}</div>
     <h3>Listening</h3>
-    <button class="primary" id="listenBtn" style="width:100%">🎧 Start listening quiz (10 rounds)</button>
+    <button class="primary" id="listenBtn" style="width:100%">Start listening quiz</button>
     <div id="quizArea" class="mt"></div></div>`;
   $("#main").innerHTML = h;
   document.querySelectorAll("[data-qw]").forEach(b=> b.onclick = ()=> startQuiz(+b.dataset.qw));
@@ -457,7 +774,8 @@ function startListening(){
       if (!opts.some(x=>x.e===o.e)) opts.push(o);
     }
     opts.sort(()=>Math.random()-.5);
-    qs.push({say:ans.f, o:opts.map(x=>x.e), a:opts.indexOf(ans)});
+    qs.push({say:ans.f, o:opts.map(x=>{ const b=bnOf(x.f), L=glossLang();
+      return (L==="bn"&&b) ? b : (L==="both"&&b) ? x.e+" — "+b : x.e; }), a:opts.indexOf(ans)});
   }
   quizState = {qs, i:0, score:0, mode:"listen"};
   renderQuiz();
@@ -465,15 +783,14 @@ function startListening(){
 function renderQuiz(){
   const area = $("#quizArea"); const st = quizState;
   if (st.i >= st.qs.length){
-    area.innerHTML = `<div class="bigcard"><div style="font-size:2.5rem">${st.score>=8?"🏆":st.score>=6?"👍":"📚"}</div>
-      <div>Score: ${st.score}/${st.qs.length}</div>
+    area.innerHTML = `<div class="bigcard"><div class="scorebig">${st.score}<span style="color:var(--muted);font-size:1.4rem">/${st.qs.length}</span></div>
       <div class="dim">${st.score>=8?"Excellent — move on.":st.score>=6?"Good — review the misses.":"Revisit this week's material, then retry."}</div></div>`;
     return;
   }
   const q = st.qs[st.i];
   let h = `<div class="dim">Question ${st.i+1}/${st.qs.length} · score ${st.score}</div>`;
   if (st.mode==="listen"){
-    h += `<div class="center mt"><button class="speak" id="replay" style="width:64px;height:64px;font-size:1.6rem">🔊</button>
+    h += `<div class="center mt"><button class="speak" id="replay" style="width:62px;height:62px">${ICO_SOUND}</button>
       <div class="dim mt">Tap to hear, pick the meaning</div></div>`;
   } else {
     h += `<div class="mt" style="font-size:1.05rem;font-weight:600">${esc(q.q)}</div>`;
@@ -502,21 +819,28 @@ V.asl = function(){
     <div class="subtabs">
       <button data-at="spell" class="${aslTab==="spell"?"on":""}">Fingerspell</button>
       <button data-at="abc" class="${aslTab==="abc"?"on":""}">Alphabet</button>
+      <button data-at="nums" class="${aslTab==="nums"?"on":""}">Numbers</button>
       <button data-at="quiz" class="${aslTab==="quiz"?"on":""}">Handshape quiz</button>
       <button data-at="tips" class="${aslTab==="tips"?"on":""}">Grammar</button>
+      <button data-at="videos" class="${aslTab==="videos"?"on":""}">Videos</button>
     </div><div id="aslArea" class="mt"></div></div>`;
   $("#main").innerHTML = h;
   document.querySelectorAll("[data-at]").forEach(b=> b.onclick = ()=>{ aslTab=b.dataset.at; clearInterval(fsTimer); V.asl(); });
-  ({spell:aslSpell, abc:aslAbc, quiz:aslQuiz, tips:aslTips})[aslTab]();
+  ({spell:aslSpell, abc:aslAbc, nums:aslNums, quiz:aslQuiz, tips:aslTips, videos:()=>renderVideos($("#aslArea"), APP_DATA.videos.asl)})[aslTab]();
 };
+function aslNums(){
+  $("#aslArea").innerHTML = `<div class="abcgrid">` + APP_DATA.numbers.map(x=>
+    `<div class="abccell numcell">${x.img?`<img src="${x.img}" alt="ASL ${x.n}" loading="lazy">`:`<div style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:10px;color:#333;font-size:.68rem;padding:6px;text-align:center">${esc(x.d)}</div>`}<b>${x.n}</b>${x.note?`<span>${esc(x.note)}</span>`:""}</div>`).join("") + `</div>
+    <div class="dim mt">Palm faces the viewer for 1–5, and for 6–9 the palm faces you-ish — watch Vicars' numbers video (Videos tab) for the details. Number images: CC BY-SA 4.0, Wikimedia Commons.</div>`;
+}
 const FS_WORDS = ["cat","dog","play","game","name","food","water","friend","happy","learn","sign","deaf","home","work","book","read","blue","red","milk","bread","phone","hello","paris","month","august","goal","code","dev","music","movie","sleep","dream","hand","face","eyes","smile","world","story","light","night","summer","french","psy","claude","pizza","coffee","train","beach","cloud","star"];
 function aslSpell(){
   const area = $("#aslArea");
   area.innerHTML = `<div class="dim">Mode 1 — <b>Receptive:</b> real handshapes flash one by one — read the word like you'd read someone's hand.<br><br>
     Mode 2 — <b>Expressive:</b> a word appears; fingerspell it with your own hand, then check against the handshape images.</div>
     <div class="row mt">
-      <button class="primary" id="recBtn">👀 Receptive drill</button>
-      <button class="good" id="expBtn">🖐 Expressive drill</button>
+      <button class="primary" id="recBtn">Receptive drill</button>
+      <button class="good" id="expBtn">Expressive drill</button>
     </div>
     <div class="row mt"><span class="dim" style="align-self:center">Speed:</span>
       <button class="ghost" data-sp="1200">Slow</button>
@@ -570,7 +894,8 @@ function aslQuiz(){
   const area = $("#aslArea");
   let score = 0, round = 0;
   function next(){
-    if (round === 10){ area.innerHTML = `<div class="bigcard"><div style="font-size:2.5rem">${score>=8?"🏆":"🤟"}</div><div>${score}/10</div></div>`; return; }
+    if (round === 10){ area.innerHTML = `<div class="bigcard"><div class="scorebig">${score}<span style="color:var(--muted);font-size:1.4rem">/10</span></div>
+        <div class="dim">${score>=8?"Sharp.":"Keep drilling the alphabet."}</div></div>`; return; }
     round++;
     const abc = APP_DATA.asl.alphabet;
     const ans = abc[Math.floor(Math.random()*abc.length)];
@@ -596,7 +921,7 @@ function aslQuiz(){
   next();
 }
 function aslTips(){
-  $("#aslArea").innerHTML = APP_DATA.asl.grammarTips.map(t=>`<div class="milestone">${esc(t)}</div>`).join("");
+  $("#aslArea").innerHTML = APP_DATA.asl.grammarTips.map(t=>`<div class="note">${esc(t)}</div>`).join("");
 }
 
 // -------- more --------
@@ -604,9 +929,17 @@ V.more = function(){
   const wk = currentWeek();
   const uw = userWords();
   const prompt = APP_DATA.convPrompts.find(p=>p.w===wk);
-  let h = `<div class="card"><h2>Add your own French words</h2>
+  let h = `<div class="card"><h2>Translation language / অনুবাদের ভাষা</h2>
+    <div class="row">
+      <button data-gl="en" class="${glossLang()==="en"?"primary":"ghost"}">English</button>
+      <button data-gl="bn" class="${glossLang()==="bn"?"primary":"ghost"}">বাংলা</button>
+      <button data-gl="both" class="${glossLang()==="both"?"primary":"ghost"}">Both</button>
+    </div>
+    <div class="dim mt" style="font-size:.8rem">Applies to flashcards, picture words, lessons and the listening quiz.</div>
+  </div>
+  <div class="card"><h2>Add your own French words</h2>
     <input type="text" id="nf" placeholder="French — e.g. le clavier">
-    <input type="text" id="ne" placeholder="English — e.g. the keyboard" class="mt">
+    <input type="text" id="ne" placeholder="English/বাংলা — e.g. the keyboard / কীবোর্ড" class="mt">
     <button class="primary mt" id="addW" style="width:100%">Add to flashcards</button>
     ${uw.length?`<h3>Your words (${uw.length})</h3>`+uw.map(w=>
       `<div class="listitem"><span><b>${esc(w.f)}</b> — ${esc(w.e)}</span><button class="ghost" data-del="${w.id}">✕</button></div>`).join(""):""}
@@ -618,11 +951,11 @@ V.more = function(){
   </div>
   <div class="card"><h2>Resources (online)</h2>
     <div class="dim">
-      🇫🇷 <a href="https://www.languagetransfer.org/free-courses-1">Language Transfer — Complete French</a><br>
-      🇫🇷 <a href="https://apprendre.tv5monde.com/en">TV5Monde — Apprendre</a><br>
-      🇫🇷 <a href="https://www.youtube.com/@EasyFrench">Easy French (YouTube)</a><br>
-      🤟 <a href="https://www.lifeprint.com/asl101/lessons/lessons.htm">Lifeprint / ASL University</a><br>
-      🤟 <a href="https://www.handspeak.com">Handspeak dictionary</a>
+      <a href="https://www.languagetransfer.org/french">Language Transfer — Introduction to French</a><br>
+      <a href="https://apprendre.tv5monde.com/en">TV5Monde — Apprendre le français</a><br>
+      <a href="https://www.youtube.com/@EasyFrench">Easy French</a><br>
+      <a href="https://www.lifeprint.com/asl101/lessons/lessons.htm">Lifeprint — ASL University</a><br>
+      <a href="https://www.handspeak.com">Handspeak — sign dictionary</a>
     </div>
   </div>
   <div class="card"><h2>Data</h2>
@@ -640,6 +973,7 @@ V.more = function(){
   const lvl = pre => Object.entries(s).filter(([k,v])=>k.startsWith(pre)&&v.lv>=2).length;
   $("#statFr").textContent = lvl("v")+lvl("p")+lvl("u");
   $("#statAsl").textContent = lvl("a");
+  document.querySelectorAll("[data-gl]").forEach(b=> b.onclick = ()=>{ store.set("gloss", b.dataset.gl); V.more(); });
   $("#addW").onclick = ()=>{
     const f = $("#nf").value.trim(), e = $("#ne").value.trim();
     if (!f || !e) return;
@@ -665,16 +999,9 @@ V.more = function(){
 function prompt2(msg){ return window.prompt(msg); }
 
 // ================= nav =================
-document.querySelectorAll("nav button").forEach(b=>{
-  b.onclick = ()=>{
-    clearInterval(fsTimer);
-    view = b.dataset.v;
-    document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("active", x===b));
-    V[view]();
-  };
-});
+document.querySelectorAll("nav button").forEach(b=>{ b.onclick = ()=>gotoView(b.dataset.v); });
 document.querySelector('nav button[data-v="today"]').classList.add("active");
-V.today(); updateStreak();
+V.today(); updateStreak(); updatePill();
 
 // ================= service worker =================
 if ("serviceWorker" in navigator && location.protocol !== "file:")

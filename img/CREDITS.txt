@@ -1,0 +1,4 @@
+Vocabulary photos sourced from Wikipedia/Wikimedia Commons article lead images via the
+Wikimedia REST API. Individual images are under their respective free licenses
+(public domain / CC BY / CC BY-SA). See the corresponding English Wikipedia article
+for each subject for full attribution.

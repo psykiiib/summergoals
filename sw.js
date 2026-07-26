@@ -1,6 +1,8 @@
-const CACHE = "summergoals-v2";
+const CACHE = "summergoals-v6";
 const LETTERS = "abcdefghijklmnopqrstuvwxyz".split("").map(c => "./asl/" + c + ".svg");
-const ASSETS = ["./", "./index.html", "./data.js", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", ...LETTERS];
+const NUMBERS = [1,2,3,4,6,7,8,9].map(n => "./asl/n" + n + ".jpg");
+const WORDIMGS = ["./img/apple.jpg", "./img/arm.jpg", "./img/baby.jpg", "./img/bag.jpg", "./img/banana.jpg", "./img/bank.jpg", "./img/beach.jpg", "./img/bed.jpg", "./img/bicycle.jpg", "./img/bird.jpg", "./img/boat.jpg", "./img/book.jpg", "./img/bread.jpg", "./img/bridge.jpg", "./img/building.jpg", "./img/bus.jpg", "./img/butter.jpg", "./img/cake.jpg", "./img/camera.jpg", "./img/car.jpg", "./img/cat.jpg", "./img/chair.jpg", "./img/cheese.jpg", "./img/chicken.jpg", "./img/chocolate.jpg", "./img/church.jpg", "./img/cloud.jpg", "./img/coffee.jpg", "./img/computer.jpg", "./img/cow.jpg", "./img/doctor.jpg", "./img/dog.jpg", "./img/door.jpg", "./img/ear.jpg", "./img/egg.jpg", "./img/elephant.jpg", "./img/eyes.jpg", "./img/family.jpg", "./img/fire.jpg", "./img/fish.jpg", "./img/flower.jpg", "./img/foot.jpg", "./img/fork.jpg", "./img/glasses.jpg", "./img/hand.jpg", "./img/head.jpg", "./img/heart.jpg", "./img/horse.jpg", "./img/hospital.jpg", "./img/house.jpg", "./img/juice.jpg", "./img/key.jpg", "./img/knife.jpg", "./img/leg.jpg", "./img/lion.jpg", "./img/meat.jpg", "./img/milk.jpg", "./img/money.jpg", "./img/moon.jpg", "./img/mountain.jpg", "./img/mouse.jpg", "./img/mouth.jpg", "./img/nose.jpg", "./img/orange.jpg", "./img/paper.jpg", "./img/pencil.jpg", "./img/phone.jpg", "./img/pizza.jpg", "./img/plane.jpg", "./img/plate.jpg", "./img/police.jpg", "./img/rabbit.jpg", "./img/rain.jpg", "./img/restaurant.jpg", "./img/rice.jpg", "./img/salad.jpg", "./img/salt.jpg", "./img/school.jpg", "./img/sea.jpg", "./img/shirt.jpg", "./img/shoes.jpg", "./img/shop.jpg", "./img/snake.jpg", "./img/snowpic.jpg", "./img/soup.jpg", "./img/spoon.jpg", "./img/star.jpg", "./img/sugar.jpg", "./img/sun.jpg", "./img/taxi.jpg", "./img/tea.jpg", "./img/train.jpg", "./img/tree.jpg", "./img/trousers.jpg", "./img/tv.jpg", "./img/vegetables.jpg", "./img/videogame.jpg", "./img/watch.jpg", "./img/water.jpg", "./img/wind.jpg", "./img/window.jpg", "./img/wine.jpg"];
+const ASSETS = ["./", "./index.html", "./data.js", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", ...LETTERS, ...NUMBERS, ...WORDIMGS];
 
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
@@ -15,7 +17,7 @@ self.addEventListener("activate", e => {
 
 // Cache-first: everything works offline; network only as fallback for anything uncached.
 self.addEventListener("fetch", e => {
-  if (e.request.method !== "GET") return;
+  if (e.request.method !== "GET" || new URL(e.request.url).origin !== location.origin) return; // let video/CDN requests hit the network directly
   e.respondWith(
     caches.match(e.request, {ignoreSearch: true}).then(hit =>
       hit || fetch(e.request).then(res => {

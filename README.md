@@ -1,12 +1,20 @@
 # Summer Goals — French + ASL companion app
 
-Offline-first PWA for the August plan: daily tracker with streaks, built-in French grammar lessons with audio examples, picture-based vocabulary learning (object → French word → pronunciation), spaced-repetition flashcards, quizzes (grammar, listening, picture), and ASL practice with real handshape images (receptive/expressive fingerspelling drills, illustrated alphabet, handshape quiz, grammar tips). All progress is stored on your device (localStorage).
+Offline-first PWA for the August plan. **Easiest way to use it: open the app, tap "Start today's session", and follow the steps** — the app knows the date and tells you exactly which Language Transfer lessons, which grammar lesson, which drills, what to write, and which Lifeprint lesson to do, checking off your day as you go.
+
+Also included: daily tracker with streaks, built-in French grammar lessons with audio examples, picture-based vocabulary learning (object → French word → pronunciation), spaced-repetition flashcards, quizzes (grammar, listening, picture), and ASL practice with real handshape images (receptive/expressive fingerspelling drills, illustrated alphabet, handshape quiz, grammar tips). All progress is stored on your device (localStorage).
 
 ## Files
 
 - `index.html` — the whole app (UI + logic)
 - `data.js` — all learning content (edit this to add/change vocab, lessons, quizzes, signs)
 - `asl/a.svg … z.svg` — ASL fingerspelling handshapes (public domain, via Wikimedia Commons)
+- `asl/n1 … n9.jpg` — ASL number handshapes (CC BY-SA 4.0, via Wikimedia Commons)
+- `img/*.jpg` — 102 real photos for the picture-word vocabulary (Wikipedia/Wikimedia, openly licensed)
+
+## Languages
+
+Glosses can be shown in **English, বাংলা, or both** — change it in **More → Translation language**. Every French word, phrase and lesson example has a Bengali translation, so you can learn French directly from your mother tongue instead of translating through English.
 - `sw.js` — service worker (makes it work offline)
 - `manifest.webmanifest` + icons — makes it installable on your phone
 
