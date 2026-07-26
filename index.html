@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#12131a">
+<title>Summer Goals — French + ASL</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+  :root{
+    --bg:#12131a; --card:#1c1e28; --card2:#242736; --text:#e8e9f0; --dim:#9095a8;
+    --accent:#7c8cff; --accent2:#4fd1a5; --warn:#ffb86b; --danger:#ff7b93;
+    --radius:16px;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  body{margin:0; font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+    background:var(--bg); color:var(--text); padding-bottom:78px; min-height:100vh}
+  header{padding:18px 18px 8px; display:flex; align-items:baseline; justify-content:space-between}
+  header h1{font-size:1.15rem; margin:0; letter-spacing:.3px}
+  header .streak{font-size:.95rem; color:var(--warn); font-weight:600}
+  main{padding:0 14px; max-width:640px; margin:0 auto}
+  .card{background:var(--card); border-radius:var(--radius); padding:16px; margin:12px 0}
+  .card h2{margin:0 0 10px; font-size:1rem; color:var(--accent)}
+  .card h3{margin:14px 0 6px; font-size:.9rem; color:var(--dim); font-weight:600; text-transform:uppercase; letter-spacing:.5px}
+  .dim{color:var(--dim); font-size:.85rem}
+  button{font-family:inherit; border:0; border-radius:12px; padding:12px 16px; font-size:.95rem;
+    background:var(--card2); color:var(--text); cursor:pointer; touch-action:manipulation}
+  button:active{transform:scale(.97)}
+  button.primary{background:var(--accent); color:#0d0e14; font-weight:700}
+  button.good{background:var(--accent2); color:#0d0e14; font-weight:700}
+  button.warn{background:var(--warn); color:#0d0e14; font-weight:700}
+  button.danger{background:var(--danger); color:#0d0e14; font-weight:700}
+  button.ghost{background:transparent; color:var(--dim); border:1px solid #333747}
+  .row{display:flex; gap:8px; flex-wrap:wrap}
+  .row>button{flex:1}
+  nav{position:fixed; bottom:0; left:0; right:0; display:flex; background:#171822;
+    border-top:1px solid #262a38; padding-bottom:env(safe-area-inset-bottom)}
+  nav button{flex:1; background:none; border-radius:0; padding:10px 0 8px; font-size:.7rem; color:var(--dim);
+    display:flex; flex-direction:column; align-items:center; gap:2px}
+  nav button .ico{font-size:1.25rem}
+  nav button.active{color:var(--accent)}
+  .task{display:flex; align-items:center; gap:12px; padding:12px 10px; border-radius:12px; margin:6px 0;
+    background:var(--card2); cursor:pointer; user-select:none}
+  .task.done{opacity:.55}
+  .task.done .lbl{text-decoration:line-through}
+  .task .box{width:24px; height:24px; border-radius:8px; border:2px solid var(--dim); flex-shrink:0;
+    display:flex; align-items:center; justify-content:center; font-size:.9rem}
+  .task.done .box{background:var(--accent2); border-color:var(--accent2); color:#0d0e14}
+  .monthgrid{display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin-top:8px}
+  .day{aspect-ratio:1; border-radius:8px; background:var(--card2); display:flex; align-items:center;
+    justify-content:center; font-size:.72rem; color:var(--dim)}
+  .day.full{background:var(--accent2); color:#0d0e14; font-weight:700}
+  .day.part{background:#3a5f52; color:var(--text)}
+  .day.today{outline:2px solid var(--accent)}
+  .bigcard{min-height:220px; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:24px 16px; gap:10px}
+  .bigcard .front{font-size:1.55rem; font-weight:700; line-height:1.3}
+  .bigcard .back{font-size:1.1rem; color:var(--accent2)}
+  .pill{display:inline-block; padding:3px 10px; border-radius:99px; background:var(--card2);
+    font-size:.72rem; color:var(--dim)}
+  .stat{display:flex; justify-content:space-between; padding:6px 0; font-size:.9rem}
+  select,input[type=text]{width:100%; padding:12px; border-radius:12px; border:1px solid #333747;
+    background:var(--card2); color:var(--text); font-size:.95rem; font-family:inherit}
+  .weekpick{display:flex; gap:6px; margin:8px 0}
+  .weekpick button{flex:1; padding:8px 0; font-size:.85rem}
+  .weekpick button.on{background:var(--accent); color:#0d0e14; font-weight:700}
+  .quizopt{display:block; width:100%; text-align:left; margin:6px 0; padding:14px}
+  .quizopt.correct{background:var(--accent2); color:#0d0e14; font-weight:700}
+  .quizopt.wrong{background:var(--danger); color:#0d0e14; font-weight:700}
+  .fsletter{font-size:5rem; font-weight:800; text-align:center; min-height:120px;
+    display:flex; align-items:center; justify-content:center; letter-spacing:2px}
+  .subtabs{display:flex; gap:6px; overflow-x:auto; padding-bottom:4px}
+  .subtabs button{white-space:nowrap; font-size:.82rem; padding:9px 14px}
+  .subtabs button.on{background:var(--accent); color:#0d0e14; font-weight:700}
+  .listitem{display:flex; justify-content:space-between; align-items:center; gap:8px;
+    padding:10px 12px; background:var(--card2); border-radius:12px; margin:6px 0; font-size:.9rem}
+  .listitem button{padding:6px 10px; font-size:.8rem}
+  .prog{height:8px; background:var(--card2); border-radius:99px; overflow:hidden; margin:8px 0}
+  .prog>div{height:100%; background:linear-gradient(90deg,var(--accent),var(--accent2)); border-radius:99px}
+  .milestone{border-left:3px solid var(--warn); padding:8px 12px; margin:8px 0; font-size:.87rem; background:var(--card2); border-radius:0 12px 12px 0}
+  .speak{background:var(--card2); border-radius:99px; width:46px; height:46px; font-size:1.3rem; padding:0}
+  .hidden{display:none !important}
+  .center{text-align:center}
+  .mt{margin-top:12px}
+  a{color:var(--accent)}
+</style>
+</head>
+<body>
+<header>
+  <h1>🌞 Summer Goals</h1>
+  <div class="streak" id="streakBadge">🔥 0</div>
+</header>
+<main id="main"></main>
+<nav id="nav">
+  <button data-v="today"><span class="ico">📅</span>Today</button>
+  <button data-v="cards"><span class="ico">🃏</span>Cards</button>
+  <button data-v="quiz"><span class="ico">❓</span>Quiz</button>
+  <button data-v="asl"><span class="ico">🤟</span>ASL</button>
+  <button data-v="more"><span class="ico">⚙️</span>More</button>
+</nav>
+
+<script src="data.js"></script>
+<script>
+"use strict";
+// ================= storage =================
+const store = {
+  get(k, fb){ try{ const v = localStorage.getItem("sg_"+k); return v===null?fb:JSON.parse(v);}catch(e){return fb;} },
+  set(k, v){ localStorage.setItem("sg_"+k, JSON.stringify(v)); }
+};
+const $ = s => document.querySelector(s);
+const todayStr = () => { const d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); };
+const esc = s => String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+// ================= deck building =================
+function userWords(){ return store.get("userwords", []); }
+function allVocab(){
+  const v = APP_DATA.french.vocab.map((x,i)=>({id:"v"+i, ...x}));
+  const p = APP_DATA.french.phrases.map((x,i)=>({id:"p"+i, ...x, c:"phrases"}));
+  const u = userWords().map(x=>({...x, c:"custom"}));
+  return v.concat(p).concat(u);
+}
+function aslDeck(){ return APP_DATA.asl.signs.map((x,i)=>({id:"a"+i, f:x.s, e:x.d, w:x.w, c:"asl"})); }
+
+// ================= SRS (simplified SM-2) =================
+const IVS = [0, 1, 3, 7, 14, 30, 60];
+function srs(){ return store.get("srs", {}); }
+function saveSrs(s){ store.set("srs", s); }
+function dueCards(deck, weeks){
+  const s = srs(), t = todayStr();
+  return deck.filter(c => (!weeks || weeks.includes(c.w)) && (!s[c.id] || s[c.id].due <= t));
+}
+function grade(id, g){ // g: 0=again 1=good 2=easy
+  const s = srs(); const cur = s[id] || {lv:0};
+  let lv = g===0 ? 0 : Math.min(cur.lv + (g===2?2:1), IVS.length-1);
+  const d = new Date(); d.setDate(d.getDate() + IVS[lv]);
+  s[id] = {lv, due: d.toISOString().slice(0,10)};
+  saveSrs(s);
+}
+
+// ================= TTS =================
+let frVoice = null;
+function pickVoice(){
+  const vs = speechSynthesis.getVoices();
+  frVoice = vs.find(v=>v.lang==="fr-FR") || vs.find(v=>v.lang && v.lang.startsWith("fr")) || null;
+}
+if ("speechSynthesis" in window){ pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+function speak(text){
+  if(!("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text.replace(/\(.*?\)/g,"").replace(/…/g,""));
+  u.lang = "fr-FR"; if(frVoice) u.voice = frVoice; u.rate = 0.88;
+  speechSynthesis.speak(u);
+}
+
+// ================= plan helpers =================
+function currentWeek(){
+  const t = new Date(), y=2026, m=7; // August 2026
+  if (t.getFullYear()===y && t.getMonth()===m) return Math.min(4, Math.ceil(t.getDate()/7.75)) || 1;
+  if (t < new Date(y, m, 1)) return 1;
+  return 4;
+}
+function dayLog(){ return store.get("daylog", {}); }
+function tasksDone(dateS){ const l = dayLog()[dateS]; return l ? Object.values(l).filter(Boolean).length : 0; }
+function calcStreak(){
+  let streak = 0; const d = new Date();
+  if (tasksDone(todayStr()) < 3) d.setDate(d.getDate()-1); // today not done yet -> start from yesterday
+  while (true){
+    const s = d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+    if (tasksDone(s) >= 3){ streak++; d.setDate(d.getDate()-1); } else break;
+  }
+  return streak;
+}
+function updateStreak(){ $("#streakBadge").textContent = "🔥 " + calcStreak(); }
+
+// ================= views =================
+let view = "today";
+const V = {};
+
+V.today = function(){
+  const t = todayStr(), wk = currentWeek(), w = APP_DATA.plan.weeks[wk-1];
+  const log = dayLog()[t] || {};
+  const due = dueCards(allVocab(), rangeWeeks(wk)).length + dueCards(aslDeck(), rangeWeeks(wk)).length;
+  const ms = APP_DATA.plan.milestones.find(m => m.date >= t);
+  let h = `<div class="card">
+    <h2>Week ${wk} — ${esc(w.title)}</h2>
+    <div class="dim">🇫🇷 ${esc(w.fr)}</div>
+    <div class="dim mt">🤟 ${esc(w.asl)}</div>
+  </div>
+  <div class="card"><h2>Today's checklist</h2>`;
+  for (const task of APP_DATA.plan.dailyTasks){
+    const done = !!log[task.id];
+    h += `<div class="task ${done?"done":""}" data-task="${task.id}">
+      <div class="box">${done?"✓":""}</div>
+      <div class="lbl">${task.icon} ${esc(task.label)}</div></div>`;
+  }
+  h += `<div class="dim mt">${due} flashcards due today · a day counts toward your streak at 3+ tasks</div></div>`;
+  if (ms) h += `<div class="card"><h2>Next milestone — ${ms.date.slice(5).replace("-","/")} </h2><div class="milestone">${esc(ms.text)}</div></div>`;
+  h += `<div class="card"><h2>August progress</h2><div class="monthgrid">`;
+  for (let d=1; d<=31; d++){
+    const s = "2026-08-"+String(d).padStart(2,"0");
+    const n = tasksDone(s);
+    const cls = (n>=5?"full":n>=3?"part":"") + (s===t?" today":"");
+    h += `<div class="day ${cls}">${d}</div>`;
+  }
+  const totalDone = Object.keys(dayLog()).filter(k=>k.startsWith("2026-08")&&tasksDone(k)>=3).length;
+  h += `</div><div class="prog"><div style="width:${Math.round(totalDone/31*100)}%"></div></div>
+  <div class="dim">${totalDone}/31 days completed</div></div>`;
+  $("#main").innerHTML = h;
+  document.querySelectorAll(".task").forEach(el=>{
+    el.onclick = ()=>{
+      const l = dayLog(); l[t] = l[t]||{};
+      l[t][el.dataset.task] = !l[t][el.dataset.task];
+      store.set("daylog", l); V.today(); updateStreak();
+    };
+  });
+};
+
+function rangeWeeks(wk){ const r=[]; for(let i=1;i<=wk;i++) r.push(i); return r; }
+
+// -------- flashcards --------
+let cardState = {queue:[], idx:0, flipped:false, deckName:"fr", weeks:null, done:0};
+V.cards = function(){
+  const wk = currentWeek();
+  if (!cardState.weeks) cardState.weeks = rangeWeeks(wk);
+  let h = `<div class="card"><h2>Flashcards</h2>
+    <div class="subtabs">
+      <button id="dFr" class="${cardState.deckName==="fr"?"on":""}">🇫🇷 French</button>
+      <button id="dAsl" class="${cardState.deckName==="asl"?"on":""}">🤟 ASL signs</button>
+    </div>
+    <div class="weekpick">${[1,2,3,4].map(n=>`<button data-w="${n}" class="${cardState.weeks.includes(n)?"on":""}">W${n}</button>`).join("")}</div>
+    <div id="cardArea"></div></div>`;
+  $("#main").innerHTML = h;
+  $("#dFr").onclick = ()=>{ cardState.deckName="fr"; startCards(); };
+  $("#dAsl").onclick = ()=>{ cardState.deckName="asl"; startCards(); };
+  document.querySelectorAll(".weekpick button").forEach(b=>{
+    b.onclick = ()=>{
+      const n = +b.dataset.w;
+      cardState.weeks = cardState.weeks.includes(n) ? cardState.weeks.filter(x=>x!==n) : cardState.weeks.concat(n);
+      if (!cardState.weeks.length) cardState.weeks = [n];
+      startCards();
+    };
+  });
+  startCards(true);
+};
+function startCards(keep){
+  const deck = cardState.deckName==="fr" ? allVocab() : aslDeck();
+  if (!keep || !cardState.queue.length){
+    cardState.queue = dueCards(deck, cardState.weeks).sort(()=>Math.random()-.5);
+    cardState.idx = 0; cardState.flipped = false; cardState.done = 0;
+  }
+  renderCard();
+}
+function renderCard(){
+  const area = $("#cardArea"); if (!area) return;
+  const q = cardState.queue;
+  if (cardState.idx >= q.length){
+    area.innerHTML = `<div class="bigcard"><div style="font-size:2.5rem">🎉</div>
+      <div>All done — ${cardState.done} cards reviewed.</div>
+      <div class="dim">Come back later; cards return on their schedule.</div>
+      <button class="ghost mt" id="restudy">Study ahead anyway</button></div>`;
+    $("#restudy").onclick = ()=>{
+      const deck = cardState.deckName==="fr" ? allVocab() : aslDeck();
+      cardState.queue = deck.filter(c=>cardState.weeks.includes(c.w)).sort(()=>Math.random()-.5).slice(0,20);
+      cardState.idx=0; cardState.flipped=false; renderCard();
+    };
+    return;
+  }
+  const c = q[cardState.idx];
+  const isFr = cardState.deckName==="fr";
+  area.innerHTML = `<div class="bigcard" id="flip">
+      <span class="pill">${esc(c.c||"")} · week ${c.w} · ${cardState.idx+1}/${q.length}</span>
+      <div class="front">${esc(c.f)}</div>
+      ${isFr?`<button class="speak" id="sayBtn">🔊</button>`:""}
+      <div class="back ${cardState.flipped?"":"hidden"}" id="back">${esc(c.e)}</div>
+      ${cardState.flipped?"":`<div class="dim">tap card to reveal</div>`}
+    </div>
+    <div class="row ${cardState.flipped?"":"hidden"}" id="gradeRow">
+      <button class="danger" data-g="0">Again</button>
+      <button class="primary" data-g="1">Good</button>
+      <button class="good" data-g="2">Easy</button>
+    </div>`;
+  $("#flip").onclick = e=>{
+    if (e.target.id==="sayBtn") return;
+    cardState.flipped = true; $("#back").classList.remove("hidden"); $("#gradeRow").classList.remove("hidden");
+    if (isFr) speak(c.f);
+  };
+  const sb = $("#sayBtn"); if (sb) sb.onclick = ()=>speak(c.f);
+  document.querySelectorAll("#gradeRow button").forEach(b=>{
+    b.onclick = ()=>{
+      grade(c.id, +b.dataset.g);
+      if (+b.dataset.g===0) cardState.queue.push(c); // see it again this session
+      cardState.idx++; cardState.flipped=false; cardState.done++; renderCard();
+    };
+  });
+}
+
+// -------- quiz --------
+let quizState = null;
+V.quiz = function(){
+  const wk = currentWeek();
+  let h = `<div class="card"><h2>Quiz</h2>
+    <div class="dim">Grammar & vocab checks, plus a listening mode using your phone's French voice.</div>
+    <h3>Grammar / vocab</h3>
+    <div class="weekpick">${[1,2,3,4].map(n=>`<button data-qw="${n}" ${n>wk?'style="opacity:.5"':""}>Week ${n}</button>`).join("")}</div>
+    <h3>Listening</h3>
+    <button class="primary" id="listenBtn" style="width:100%">🎧 Start listening quiz (10 rounds)</button>
+    <div id="quizArea" class="mt"></div></div>`;
+  $("#main").innerHTML = h;
+  document.querySelectorAll("[data-qw]").forEach(b=> b.onclick = ()=> startQuiz(+b.dataset.qw));
+  $("#listenBtn").onclick = startListening;
+};
+function startQuiz(w){
+  const qs = APP_DATA.french.quizzes.filter(q=>q.w===w).sort(()=>Math.random()-.5).slice(0,10);
+  quizState = {qs, i:0, score:0, mode:"mc"};
+  renderQuiz();
+}
+function startListening(){
+  const wk = currentWeek();
+  const pool = allVocab().filter(c=>c.w<=wk && c.c!=="custom");
+  const qs = [];
+  for (let i=0;i<10;i++){
+    const ans = pool[Math.floor(Math.random()*pool.length)];
+    const opts = [ans];
+    while (opts.length<4){
+      const o = pool[Math.floor(Math.random()*pool.length)];
+      if (!opts.some(x=>x.e===o.e)) opts.push(o);
+    }
+    opts.sort(()=>Math.random()-.5);
+    qs.push({say:ans.f, o:opts.map(x=>x.e), a:opts.indexOf(ans)});
+  }
+  quizState = {qs, i:0, score:0, mode:"listen"};
+  renderQuiz();
+}
+function renderQuiz(){
+  const area = $("#quizArea"); const st = quizState;
+  if (st.i >= st.qs.length){
+    area.innerHTML = `<div class="bigcard"><div style="font-size:2.5rem">${st.score>=8?"🏆":st.score>=6?"👍":"📚"}</div>
+      <div>Score: ${st.score}/${st.qs.length}</div>
+      <div class="dim">${st.score>=8?"Excellent — move on.":st.score>=6?"Good — review the misses.":"Revisit this week's material, then retry."}</div></div>`;
+    return;
+  }
+  const q = st.qs[st.i];
+  let h = `<div class="dim">Question ${st.i+1}/${st.qs.length} · score ${st.score}</div>`;
+  if (st.mode==="listen"){
+    h += `<div class="center mt"><button class="speak" id="replay" style="width:64px;height:64px;font-size:1.6rem">🔊</button>
+      <div class="dim mt">Tap to hear, pick the meaning</div></div>`;
+  } else {
+    h += `<div class="mt" style="font-size:1.05rem;font-weight:600">${esc(q.q)}</div>`;
+  }
+  q.o.forEach((o,i)=> h += `<button class="quizopt" data-i="${i}">${esc(o)}</button>`);
+  area.innerHTML = h;
+  if (st.mode==="listen"){ speak(q.say); $("#replay").onclick = ()=>speak(q.say); }
+  document.querySelectorAll(".quizopt").forEach(b=>{
+    b.onclick = ()=>{
+      const i = +b.dataset.i;
+      document.querySelectorAll(".quizopt").forEach((x,xi)=>{
+        if (xi===q.a) x.classList.add("correct");
+        else if (xi===i) x.classList.add("wrong");
+        x.onclick = null;
+      });
+      if (i===q.a) st.score++;
+      setTimeout(()=>{ st.i++; renderQuiz(); }, i===q.a?650:1400);
+    };
+  });
+}
+
+// -------- ASL --------
+let aslTab = "spell", fsTimer = null;
+V.asl = function(){
+  let h = `<div class="card"><h2>ASL practice</h2>
+    <div class="subtabs">
+      <button data-at="spell" class="${aslTab==="spell"?"on":""}">Fingerspell</button>
+      <button data-at="abc" class="${aslTab==="abc"?"on":""}">Alphabet</button>
+      <button data-at="quiz" class="${aslTab==="quiz"?"on":""}">Handshape quiz</button>
+      <button data-at="tips" class="${aslTab==="tips"?"on":""}">Grammar</button>
+    </div><div id="aslArea" class="mt"></div></div>`;
+  $("#main").innerHTML = h;
+  document.querySelectorAll("[data-at]").forEach(b=> b.onclick = ()=>{ aslTab=b.dataset.at; clearInterval(fsTimer); V.asl(); });
+  ({spell:aslSpell, abc:aslAbc, quiz:aslQuiz, tips:aslTips})[aslTab]();
+};
+const FS_WORDS = ["cat","dog","play","game","name","food","water","friend","happy","learn","sign","deaf","home","work","book","read","blue","red","milk","bread","phone","hello","paris","month","august","goal","code","dev","music","movie","sleep","dream","hand","face","eyes","smile","world","story","light","night","summer","french","psy","claude","pizza","coffee","train","beach","cloud","star"];
+function aslSpell(){
+  const area = $("#aslArea");
+  area.innerHTML = `<div class="dim">Mode 1 — <b>Receptive:</b> letters appear one by one; picture the handshape for each (check Alphabet tab if stuck), then guess the word.<br><br>
+    Mode 2 — <b>Expressive:</b> a word appears; fingerspell it with your hand, then tap to check letter order.</div>
+    <div class="row mt">
+      <button class="primary" id="recBtn">👀 Receptive drill</button>
+      <button class="good" id="expBtn">🖐 Expressive drill</button>
+    </div>
+    <div class="row mt"><span class="dim" style="align-self:center">Speed:</span>
+      <button class="ghost" data-sp="1200">Slow</button>
+      <button class="ghost" data-sp="800">Medium</button>
+      <button class="ghost" data-sp="500">Fast</button></div>
+    <div id="fsArea" class="mt"></div>`;
+  let speed = store.get("fsspeed", 1000);
+  document.querySelectorAll("[data-sp]").forEach(b=> b.onclick = ()=>{ speed = +b.dataset.sp; store.set("fsspeed", speed); });
+  $("#recBtn").onclick = ()=>{
+    clearInterval(fsTimer);
+    const word = FS_WORDS[Math.floor(Math.random()*FS_WORDS.length)].toUpperCase();
+    const fa = $("#fsArea"); let i = 0;
+    fa.innerHTML = `<div class="fsletter" id="fsl"></div><div class="center dim">Watch… then what was the word?</div>`;
+    fsTimer = setInterval(()=>{
+      const el = $("#fsl"); if (!el){ clearInterval(fsTimer); return; }
+      if (i < word.length){ el.textContent = word[i]; i++; }
+      else {
+        clearInterval(fsTimer);
+        fa.innerHTML = `<div class="fsletter">?</div>
+          <div class="row"><button class="primary" id="revealW">Reveal word</button></div>`;
+        $("#revealW").onclick = ()=>{
+          fa.innerHTML = `<div class="fsletter" style="font-size:2.2rem">${word}</div>
+            <div class="row"><button class="good" id="nextW">Next word →</button></div>`;
+          $("#nextW").onclick = ()=>$("#recBtn").click();
+        };
+      }
+    }, speed);
+  };
+  $("#expBtn").onclick = ()=>{
+    clearInterval(fsTimer);
+    const word = FS_WORDS[Math.floor(Math.random()*FS_WORDS.length)].toUpperCase();
+    $("#fsArea").innerHTML = `<div class="fsletter" style="font-size:2.2rem">${word}</div>
+      <div class="center dim">Fingerspell it now — smooth, steady hand, no bouncing</div>
+      <div class="row mt"><button class="primary" id="chk">Show letters</button><button class="good" id="nx">Next →</button></div>`;
+    $("#chk").onclick = ()=> $("#chk").outerHTML = `<div class="pill" style="align-self:center">${word.split("").join(" · ")}</div>`;
+    $("#nx").onclick = ()=> $("#expBtn").click();
+  };
+}
+function aslAbc(){
+  $("#aslArea").innerHTML = APP_DATA.asl.alphabet.map(a=>
+    `<div class="listitem"><b style="width:24px;font-size:1.1rem">${a.l}</b><span class="dim" style="flex:1">${esc(a.d)}</span></div>`).join("") +
+    `<div class="dim mt">Descriptions are memory aids — verify shapes against <a href="https://www.lifeprint.com/asl101/topics/wallpaper1.htm">Lifeprint's chart</a> when online.</div>`;
+}
+function aslQuiz(){
+  const area = $("#aslArea");
+  let score = 0, round = 0;
+  function next(){
+    if (round === 10){ area.innerHTML = `<div class="bigcard"><div style="font-size:2.5rem">${score>=8?"🏆":"🤟"}</div><div>${score}/10</div></div>`; return; }
+    round++;
+    const abc = APP_DATA.asl.alphabet;
+    const ans = abc[Math.floor(Math.random()*abc.length)];
+    const opts = [ans];
+    while (opts.length<4){ const o = abc[Math.floor(Math.random()*abc.length)]; if(!opts.includes(o)) opts.push(o); }
+    opts.sort(()=>Math.random()-.5);
+    area.innerHTML = `<div class="dim">Round ${round}/10 · score ${score}</div>
+      <div class="mt" style="font-size:1rem"><b>Which letter is:</b><br>"${esc(ans.d)}"</div>
+      <div class="row mt">${opts.map(o=>`<button class="quizopt" style="text-align:center;font-size:1.3rem;font-weight:700" data-l="${o.l}">${o.l}</button>`).join("")}</div>`;
+    document.querySelectorAll(".quizopt").forEach(b=>{
+      b.onclick = ()=>{
+        document.querySelectorAll(".quizopt").forEach(x=>{
+          if (x.dataset.l===ans.l) x.classList.add("correct");
+          else if (x===b) x.classList.add("wrong");
+          x.onclick=null;
+        });
+        if (b.dataset.l===ans.l) score++;
+        setTimeout(next, b.dataset.l===ans.l?600:1300);
+      };
+    });
+  }
+  next();
+}
+function aslTips(){
+  $("#aslArea").innerHTML = APP_DATA.asl.grammarTips.map(t=>`<div class="milestone">${esc(t)}</div>`).join("");
+}
+
+// -------- more --------
+V.more = function(){
+  const wk = currentWeek();
+  const uw = userWords();
+  const prompt = APP_DATA.convPrompts.find(p=>p.w===wk);
+  let h = `<div class="card"><h2>Add your own French words</h2>
+    <input type="text" id="nf" placeholder="French — e.g. le clavier">
+    <input type="text" id="ne" placeholder="English — e.g. the keyboard" class="mt">
+    <button class="primary mt" id="addW" style="width:100%">Add to flashcards</button>
+    ${uw.length?`<h3>Your words (${uw.length})</h3>`+uw.map(w=>
+      `<div class="listitem"><span><b>${esc(w.f)}</b> — ${esc(w.e)}</span><button class="ghost" data-del="${w.id}">✕</button></div>`).join(""):""}
+  </div>
+  <div class="card"><h2>Daily conversation with Claude</h2>
+    <div class="dim">Copy this week's prompt into a Claude chat for your 30-min practice block:</div>
+    <div class="milestone mt" id="convP">${esc(prompt.p)}</div>
+    <button class="ghost" id="copyP">Copy prompt</button>
+  </div>
+  <div class="card"><h2>Resources (online)</h2>
+    <div class="dim">
+      🇫🇷 <a href="https://www.languagetransfer.org/free-courses-1">Language Transfer — Complete French</a><br>
+      🇫🇷 <a href="https://apprendre.tv5monde.com/en">TV5Monde — Apprendre</a><br>
+      🇫🇷 <a href="https://www.youtube.com/@EasyFrench">Easy French (YouTube)</a><br>
+      🤟 <a href="https://www.lifeprint.com/asl101/lessons/lessons.htm">Lifeprint / ASL University</a><br>
+      🤟 <a href="https://www.handspeak.com">Handspeak dictionary</a>
+    </div>
+  </div>
+  <div class="card"><h2>Data</h2>
+    <div class="stat"><span>French cards learned (level 2+)</span><b id="statFr"></b></div>
+    <div class="stat"><span>ASL cards learned (level 2+)</span><b id="statAsl"></b></div>
+    <div class="stat"><span>Current streak</span><b>${calcStreak()} days</b></div>
+    <div class="row mt">
+      <button class="ghost" id="expBtn2">Export progress</button>
+      <button class="ghost" id="impBtn">Import</button>
+      <button class="danger" id="rstBtn">Reset all</button>
+    </div>
+  </div>`;
+  $("#main").innerHTML = h;
+  const s = srs();
+  const lvl = pre => Object.entries(s).filter(([k,v])=>k.startsWith(pre)&&v.lv>=2).length;
+  $("#statFr").textContent = lvl("v")+lvl("p")+lvl("u");
+  $("#statAsl").textContent = lvl("a");
+  $("#addW").onclick = ()=>{
+    const f = $("#nf").value.trim(), e = $("#ne").value.trim();
+    if (!f || !e) return;
+    const u = userWords(); u.push({id:"u"+Date.now(), f, e, w:currentWeek()});
+    store.set("userwords", u); V.more();
+  };
+  document.querySelectorAll("[data-del]").forEach(b=> b.onclick = ()=>{
+    store.set("userwords", userWords().filter(w=>w.id!==b.dataset.del)); V.more();
+  });
+  $("#copyP").onclick = ()=>{ navigator.clipboard.writeText(prompt.p).then(()=> $("#copyP").textContent="Copied ✓"); };
+  $("#expBtn2").onclick = ()=>{
+    const data = JSON.stringify({daylog:dayLog(), srs:srs(), userwords:userWords()});
+    navigator.clipboard.writeText(data).then(()=>alert("Progress copied to clipboard — save it somewhere safe."));
+  };
+  $("#impBtn").onclick = ()=>{
+    const t = prompt2("Paste exported progress:");
+    if (!t) return;
+    try{ const d = JSON.parse(t); store.set("daylog", d.daylog||{}); store.set("srs", d.srs||{}); store.set("userwords", d.userwords||[]); alert("Imported."); V.more(); updateStreak(); }
+    catch(e){ alert("Invalid data."); }
+  };
+  $("#rstBtn").onclick = ()=>{ if (confirm("Erase ALL progress?")){ ["daylog","srs","userwords"].forEach(k=>localStorage.removeItem("sg_"+k)); V.more(); updateStreak(); } };
+};
+function prompt2(msg){ return window.prompt(msg); }
+
+// ================= nav =================
+document.querySelectorAll("nav button").forEach(b=>{
+  b.onclick = ()=>{
+    clearInterval(fsTimer);
+    view = b.dataset.v;
+    document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("active", x===b));
+    V[view]();
+  };
+});
+document.querySelector('nav button[data-v="today"]').classList.add("active");
+V.today(); updateStreak();
+
+// ================= service worker =================
+if ("serviceWorker" in navigator && location.protocol !== "file:")
+  navigator.serviceWorker.register("sw.js").catch(()=>{});
+</script>
+</body>
+</html>
