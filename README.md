@@ -4,10 +4,24 @@ Offline-first PWA for the August plan. **Easiest way to use it: open the app, ta
 
 Also included: daily tracker with streaks, built-in French grammar lessons with audio examples, picture-based vocabulary learning (object → French word → pronunciation), spaced-repetition flashcards, quizzes (grammar, listening, picture), and ASL practice with real handshape images (receptive/expressive fingerspelling drills, illustrated alphabet, handshape quiz, grammar tips). All progress is stored on your device (localStorage).
 
+## What's inside
+
+**Today** — guided session, checklist, streak, August grid
+**Learn** — 14 grammar lessons · 119 picture words · picture quiz · 7 graded readings (tap any word to gloss it) · 8 interactive dialogues · embedded video courses
+**Drill** — Speak (mic scores your pronunciation) · Type · Dictation · Conjugate (36 verbs × 4 tenses) · Gender · Numbers · Word-order builder
+**Cards** — spaced repetition, French + ASL
+**Quiz** — grammar, listening, picture
+**ASL** — fingerspelling drills, illustrated alphabet + numbers, handshape quiz, sign-order practice, video course
+**Stats** — mastery bars, per-drill accuracy, auto-collected weak spots
+**More** — trilingual dictionary search, language toggle, custom words, backup
+
+Desktop keyboard shortcuts: `alt`+`1–8` switch tabs · `space` flip card / record / next step · `1`/`2`/`3` grade a card · `R` replay audio · `←`/`→` le/la.
+
 ## Files
 
 - `index.html` — the whole app (UI + logic)
-- `data.js` — all learning content (edit this to add/change vocab, lessons, quizzes, signs)
+- `data.js` — vocabulary, lessons, quizzes, ASL signs, Bengali glosses
+- `data2.js` — verbs, dialogues, readings, sentence-builder items, extra glossary
 - `asl/a.svg … z.svg` — ASL fingerspelling handshapes (public domain, via Wikimedia Commons)
 - `asl/n1 … n9.jpg` — ASL number handshapes (CC BY-SA 4.0, via Wikimedia Commons)
 - `img/*.jpg` — 102 real photos for the picture-word vocabulary (Wikipedia/Wikimedia, openly licensed)

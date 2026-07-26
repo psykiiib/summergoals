@@ -210,6 +210,173 @@
     color:var(--muted); line-height:1.5}
   .watchlink{font-size:.76rem; color:var(--accent); text-decoration:none; letter-spacing:.02em}
   .picopt{font-size:.95rem}
+
+  /* ---------- desktop layout ---------- */
+  @media (min-width:900px){
+    body{padding-bottom:0; display:grid; grid-template-columns:226px minmax(0,1fr);
+      grid-template-rows:auto minmax(0,1fr); min-height:100vh; font-size:15.5px}
+    header{grid-column:1 / -1; padding:20px 34px 15px; position:sticky; top:0; z-index:12}
+    header h1{font-size:1.5rem}
+    .streak b{font-size:1.6rem}
+
+    /* sidebar — placed explicitly: nav comes after main in the DOM */
+    nav{grid-column:1; grid-row:2;
+      position:sticky; top:71px; align-self:start; flex-direction:column; height:calc(100vh - 71px);
+      border-top:0; border-right:1px solid var(--rule); padding:16px 12px; gap:1px;
+      background:var(--surface); overflow-y:auto}
+    nav button{flex:none; text-align:left; padding:8px 12px; border-top:0; border-left:2px solid transparent;
+      border-radius:5px; font-size:.75rem; letter-spacing:.07em; transition:background .12s, color .12s}
+    nav button:hover{background:var(--sunk); color:var(--ink)}
+    nav button.active{border-top:0; border-left-color:var(--accent); background:var(--accent-soft)}
+    nav::after{content:"alt + 1…8 to switch"; display:block; margin-top:auto; padding:12px;
+      font-size:.6rem; color:var(--muted); letter-spacing:.08em; text-transform:uppercase}
+
+    main{grid-column:2; grid-row:2; padding:26px 34px 70px; max-width:1240px; margin:0; width:100%}
+    .card{padding:20px 22px 22px; margin-bottom:16px}
+    /* single-column views keep a readable measure; the dashboard uses full width */
+    main>.card,main>.row,main>.dim{max-width:880px}
+    main>.cols{max-width:none}
+    .card h2{font-size:1.12rem}
+
+    /* two-column dashboard */
+    .cols{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr); gap:0 20px;
+      align-items:start}
+    .cols>div{min-width:0}
+    .twocol{display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:start}
+
+    /* denser, mouse-first controls */
+    button{padding:9px 14px; font-size:.85rem}
+    button:hover{background:var(--sunk); border-color:var(--rule-2)}
+    button.primary:hover{background:var(--accent); filter:brightness(1.12)}
+    button.good:hover{background:var(--green); filter:brightness(1.12)}
+    button.warn:hover,button.danger:hover{background:var(--accent-soft)}
+    .startbtn{padding:14px; font-size:.98rem}
+    .task{padding:9px 4px; border-radius:5px}
+    .task:hover{background:var(--sunk)}
+    .listitem{padding:10px 6px; border-radius:5px}
+    .lesson-item:hover,.exrow:hover{background:var(--sunk)}
+    .quizopt:hover{border-color:var(--accent); background:var(--accent-soft)}
+    .quizopt.correct:hover,.quizopt.wrong:hover{filter:brightness(1.05)}
+    .chip:hover{border-color:var(--accent); background:var(--accent-soft)}
+    .subtabs button:hover{color:var(--ink)}
+    :focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:4px}
+
+    /* content sizing */
+    .abcgrid{grid-template-columns:repeat(6,1fr)}
+    .bigcard{min-height:270px; padding:32px 20px}
+    .bigcard .front{font-size:2rem}
+    .wordimg{width:180px;height:180px} .wordimg.big{width:230px;height:230px}
+    .aslimg{width:132px;height:132px}
+    .drillbox{padding:28px 24px}
+    .prompt-lg{font-size:2rem}
+    .answer-in{font-size:1.4rem !important; max-width:440px; margin:0 auto !important}
+    .accents button{padding:6px 10px}
+    .monthgrid{gap:5px}
+    .day{font-size:.7rem}
+    .passage{font-size:1.3rem; line-height:1.95; max-width:34em}
+    .bubble{max-width:62%}
+    .videowrap{max-width:780px}
+    .numgrid{grid-template-columns:repeat(5,1fr)}
+    #resumePill{bottom:26px; left:auto; right:36px; transform:none}
+    .kbd-hint{display:block !important}
+
+    .glossbox.empty{border-style:dashed; border-color:var(--rule); color:var(--muted)}
+  }
+  /* reading: gloss becomes a docked side panel only when there's real room for both */
+  @media (min-width:1150px){
+    .readwrap{display:grid; grid-template-columns:minmax(0,1fr) minmax(220px,270px); gap:26px; align-items:start}
+    .glossbox{position:sticky; top:92px; bottom:auto; margin-top:0}
+    main>.card{max-width:1000px}
+  }
+  @media (min-width:1400px){
+    main{padding-left:44px; padding-right:44px}
+    .cols{gap:0 28px}
+  }
+
+  /* ---------- shortcuts overlay ---------- */
+  #shortcuts{position:fixed; inset:0; background:rgba(20,16,8,.55); display:flex; align-items:center;
+    justify-content:center; z-index:50; padding:20px}
+  #shortcuts .sheet{background:var(--surface); border:1px solid var(--rule); border-radius:12px;
+    padding:24px 26px; max-width:420px; width:100%; max-height:80vh; overflow:auto}
+  #shortcuts h2{font-family:var(--serif); font-size:1.15rem; margin:0 0 14px}
+  #shortcuts .krow{display:flex; justify-content:space-between; align-items:center; gap:14px;
+    padding:8px 0; border-bottom:1px solid var(--rule); font-size:.86rem}
+  #shortcuts .krow:last-of-type{border-bottom:0}
+  .helpbtn{position:fixed; right:14px; bottom:88px; width:32px; height:32px; padding:0; border-radius:50%;
+    font-family:var(--serif); font-size:.95rem; z-index:8; opacity:.75}
+  @media (min-width:900px){
+    .helpbtn{bottom:16px; top:auto; right:16px; opacity:.8}
+    .helpbtn:hover{opacity:1}
+    #resumePill{bottom:16px; right:60px}
+  }
+  .kbd-hint{display:none; font-size:.68rem; color:var(--muted); letter-spacing:.06em; margin-top:10px}
+  kbd{font-family:var(--mono); font-size:.66rem; border:1px solid var(--rule-2); border-bottom-width:2px;
+    border-radius:4px; padding:1px 5px; background:var(--surface); color:var(--ink-2)}
+
+  /* ---------- drills ---------- */
+  .drillbox{background:var(--surface); border:1px solid var(--rule); border-radius:var(--r);
+    padding:22px 18px; text-align:center; margin:12px 0}
+  .prompt-sm{font-size:.8rem; color:var(--muted); letter-spacing:.12em; text-transform:uppercase; font-weight:600}
+  .prompt-lg{font-family:var(--serif); font-size:1.75rem; font-weight:600; line-height:1.25;
+    letter-spacing:-.015em; margin:10px 0}
+  .prompt-md{font-family:var(--serif); font-size:1.3rem; font-weight:600; margin:6px 0}
+  .answer-in{font-family:var(--serif) !important; font-size:1.25rem !important; text-align:center;
+    padding:13px !important; margin:0 !important}
+  .accents{display:flex; flex-wrap:wrap; gap:5px; justify-content:center; margin:9px 0 2px}
+  .accents button{padding:7px 11px; font-family:var(--serif); font-size:1rem; min-width:0; flex:none}
+  .verdict{border-radius:7px; padding:12px 14px; margin:12px 0; font-size:.9rem; line-height:1.5; text-align:left}
+  .verdict.ok{background:var(--accent-soft); border-left:3px solid var(--green)}
+  .verdict.no{background:var(--accent-soft); border-left:3px solid var(--red)}
+  .verdict b{font-family:var(--serif); font-size:1.05rem}
+  .mic{width:96px; height:96px; border-radius:50%; margin:6px auto; display:flex; align-items:center;
+    justify-content:center; border:2px solid var(--accent); color:var(--accent); background:var(--surface); padding:0}
+  .mic svg{width:34px; height:34px}
+  .mic.live{background:var(--accent); color:var(--accent-ink); animation:pulse 1.1s ease-in-out infinite}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+  .meter{height:6px; background:var(--sunk); border-radius:3px; overflow:hidden; margin:10px 0}
+  .meter>div{height:100%; background:var(--green); transition:width .35s}
+  .meter.mid>div{background:var(--gold)} .meter.low>div{background:var(--red)}
+  .chips{display:flex; flex-wrap:wrap; gap:7px; justify-content:center; margin:14px 0}
+  .chip{padding:9px 13px; border:1px solid var(--rule-2); border-radius:6px; background:var(--surface);
+    font-family:var(--serif); font-size:1.02rem; cursor:pointer}
+  .chip.used{opacity:.28; pointer-events:none}
+  .slot{min-height:52px; border:1px dashed var(--rule-2); border-radius:7px; padding:9px;
+    display:flex; flex-wrap:wrap; gap:7px; align-items:center; justify-content:center; background:var(--sunk)}
+  .slot .chip{background:var(--accent-soft); border-color:var(--accent)}
+  .conjgrid{display:grid; grid-template-columns:auto 1fr; gap:6px 12px; align-items:center;
+    text-align:left; margin:10px 0}
+  .conjgrid span{color:var(--muted); font-size:.82rem}
+  .conjgrid b{font-family:var(--serif); font-size:1.05rem; font-weight:600}
+
+  /* ---------- dialogue ---------- */
+  .bubble{max-width:82%; padding:11px 14px; border-radius:12px; margin:8px 0; font-size:.95rem; line-height:1.45}
+  .bubble.them{background:var(--sunk); border:1px solid var(--rule); border-bottom-left-radius:3px}
+  .bubble.you{background:var(--accent-soft); border:1px solid var(--accent); margin-left:auto;
+    border-bottom-right-radius:3px}
+  .bubble .tr{font-size:.78rem; color:var(--muted); margin-top:5px}
+  .bubble .fr{font-family:var(--serif); font-size:1.05rem}
+  .bubble .say{cursor:pointer}
+  .setting{font-style:italic; color:var(--muted); font-size:.84rem; text-align:center; margin:10px 0 14px}
+
+  /* ---------- reading ---------- */
+  .passage{font-family:var(--serif); font-size:1.18rem; line-height:1.85; margin:14px 0}
+  .passage w{cursor:pointer; border-bottom:1px dotted var(--rule-2)}
+  .passage w:hover,.passage w.on{background:var(--accent-soft); border-bottom-color:var(--accent)}
+  .glossbox{position:sticky; bottom:82px; background:var(--surface); border:1px solid var(--accent);
+    border-radius:8px; padding:11px 14px; font-size:.9rem; margin-top:12px}
+  @media (min-width:900px){ .glossbox{bottom:14px} }
+
+  /* ---------- stats ---------- */
+  .barrow{display:grid; grid-template-columns:110px 1fr 44px; gap:10px; align-items:center;
+    font-size:.82rem; margin:7px 0}
+  .barrow .bt{height:8px; background:var(--sunk); border-radius:4px; overflow:hidden}
+  .barrow .bt>div{height:100%; background:var(--accent)}
+  .barrow .bn2{text-align:right; color:var(--muted); font-variant-numeric:tabular-nums; font-size:.76rem}
+  .bignum{font-family:var(--serif); font-size:2.1rem; font-weight:600; line-height:1; color:var(--accent)}
+  .numgrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(94px,1fr)); gap:10px; margin:10px 0}
+  .numcard{border:1px solid var(--rule); border-radius:7px; padding:12px 10px; text-align:center}
+  .numcard span{display:block; font-size:.66rem; color:var(--muted); text-transform:uppercase;
+    letter-spacing:.1em; margin-top:5px}
   </style>
 </head>
 <body>
@@ -219,16 +386,36 @@
 </header>
 <main id="main"></main>
 <div id="resumePill" class="hidden">Resume session</div>
+<button class="helpbtn" id="helpBtn" title="Keyboard shortcuts (?)" aria-label="keyboard shortcuts">?</button>
+<div id="shortcuts" class="hidden"><div class="sheet">
+  <h2>Keyboard shortcuts</h2>
+  <div class="krow"><span>Switch tab</span><span><kbd>alt</kbd> + <kbd>1</kbd>…<kbd>8</kbd></span></div>
+  <div class="krow"><span>Flashcards — flip</span><span><kbd>space</kbd></span></div>
+  <div class="krow"><span>Flashcards — grade</span><span><kbd>1</kbd> again <kbd>2</kbd> good <kbd>3</kbd> easy</span></div>
+  <div class="krow"><span>Replay audio</span><span><kbd>R</kbd></span></div>
+  <div class="krow"><span>Speak drill — record</span><span><kbd>space</kbd></span></div>
+  <div class="krow"><span>Speak drill — next word</span><span><kbd>N</kbd></span></div>
+  <div class="krow"><span>Gender drill</span><span><kbd>←</kbd> le · <kbd>→</kbd> la</span></div>
+  <div class="krow"><span>Answer a quiz option</span><span><kbd>1</kbd>…<kbd>4</kbd></span></div>
+  <div class="krow"><span>Session — next step</span><span><kbd>space</kbd> or <kbd>D</kbd></span></div>
+  <div class="krow"><span>Submit an answer</span><span><kbd>enter</kbd></span></div>
+  <div class="krow"><span>Dictation — submit</span><span><kbd>ctrl</kbd> + <kbd>enter</kbd></span></div>
+  <div class="krow"><span>This panel</span><span><kbd>?</kbd> · close <kbd>esc</kbd></span></div>
+  <button class="primary mt" id="closeSc" style="width:100%">Close</button>
+</div></div>
 <nav id="nav">
   <button data-v="today">Today</button>
   <button data-v="learn">Learn</button>
+  <button data-v="drill">Drill</button>
   <button data-v="cards">Cards</button>
   <button data-v="quiz">Quiz</button>
   <button data-v="asl">ASL</button>
+  <button data-v="stats">Stats</button>
   <button data-v="more">More</button>
 </nav>
 
 <script src="data.js"></script>
+<script src="data2.js"></script>
 <script>
 "use strict";
 // ================= storage =================
@@ -331,7 +518,8 @@ V.today = function(){
   const startLabel = sess.complete ? "Session complete"
     : doneN>0 ? `Resume — step ${Math.min(doneN+1,stepsN)} of ${stepsN}`
     : "Start today's session";
-  let h = `<div class="card">
+  let h = `<div class="cols"><div>
+  <div class="card">
     <h2>Week ${wk} — ${esc(w.title)}</h2>
     <h3>French</h3><div class="dim">${esc(w.fr)}</div>
     <h3>ASL</h3><div class="dim">${esc(w.asl)}</div>
@@ -347,8 +535,17 @@ V.today = function(){
       <div class="box">${done?"✓":""}</div>
       <div class="lbl">${esc(task.label)}</div></div>`;
   }
-  h += `<div class="dim mt">${due} flashcards due today · a day counts toward your streak at 3+ tasks</div></div>`;
+  h += `<div class="dim mt">${due} flashcards due today · a day counts toward your streak at 3+ tasks</div></div>
+  </div><div>`;
   if (ms) h += `<div class="card"><h2>Next milestone — ${ms.date.slice(5).replace("-","/")} </h2><div class="note">${esc(ms.text)}</div></div>`;
+  const ds0 = store.get("drillstats",{}), dTot = Object.values(ds0).reduce((a,b)=>a+b.n,0);
+  const srsAll = srs(), matAll = Object.values(srsAll).filter(x=>x.lv>=3).length;
+  h += `<div class="card"><h2>At a glance</h2>
+    <div class="numgrid" style="grid-template-columns:repeat(2,1fr)">
+      <div class="numcard"><div class="bignum">${matAll}</div><span>items known</span></div>
+      <div class="numcard"><div class="bignum">${dTot}</div><span>drills done</span></div>
+    </div>
+    <button class="ghost mt" id="toStats" style="width:100%">See full progress</button></div>`;
   h += `<div class="card"><h2>August progress</h2><div class="monthgrid">`;
   for (let d=1; d<=31; d++){
     const s = "2026-08-"+String(d).padStart(2,"0");
@@ -358,8 +555,9 @@ V.today = function(){
   }
   const totalDone = Object.keys(dayLog()).filter(k=>k.startsWith("2026-08")&&tasksDone(k)>=3).length;
   h += `</div><div class="prog"><div style="width:${Math.round(totalDone/31*100)}%"></div></div>
-  <div class="dim">${totalDone}/31 days completed</div></div>`;
+  <div class="dim">${totalDone}/31 days completed</div></div></div></div>`;
   $("#main").innerHTML = h;
+  const ts = $("#toStats"); if (ts) ts.onclick = ()=>gotoView("stats");
   const sb = $("#startSess");
   if (sb && !sess.complete) sb.onclick = ()=>{ view="session"; V.session(); };
   document.querySelectorAll(".task").forEach(el=>{
@@ -372,6 +570,480 @@ V.today = function(){
 };
 
 function rangeWeeks(wk){ const r=[]; for(let i=1;i<=wk;i++) r.push(i); return r; }
+
+// ============ shared drill helpers ============
+const ICO_MIC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 17v5"/></svg>';
+const ACCENTS = ["à","â","ç","é","è","ê","ë","î","ï","ô","û","ù","œ","«»"];
+function norm(s){ return (s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")
+  .replace(/[’']/g,"'").replace(/[.,!?;:«»"]/g,"").replace(/\s+/g," ").trim(); }
+function lev(a,b){
+  const m=a.length,n=b.length; if(!m)return n; if(!n)return m;
+  let prev=Array.from({length:n+1},(_,i)=>i), cur=new Array(n+1);
+  for(let i=1;i<=m;i++){ cur[0]=i;
+    for(let j=1;j<=n;j++) cur[j]=Math.min(prev[j]+1,cur[j-1]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));
+    [prev,cur]=[cur,prev]; }
+  return prev[n];
+}
+function similarity(a,b){ a=norm(a); b=norm(b); if(!a&&!b)return 1; const L=Math.max(a.length,b.length);
+  return L? 1-lev(a,b)/L : 0; }
+function accentsMatch(a,b){ return a.normalize("NFC").toLowerCase().replace(/[.,!?;:]/g,"").trim()
+  === b.normalize("NFC").toLowerCase().replace(/[.,!?;:]/g,"").trim(); }
+// per-drill accuracy log
+function logDrill(kind, ok){
+  const s = store.get("drillstats", {});
+  s[kind] = s[kind] || {n:0, ok:0};
+  s[kind].n++; if(ok) s[kind].ok++;
+  store.set("drillstats", s);
+  const t = todayStr(), day = store.get("drilldays", {});
+  day[t] = (day[t]||0) + 1; store.set("drilldays", day);
+}
+function markWeak(key, ok){
+  const w = store.get("weak", {});
+  if (ok){ if(w[key]){ w[key]--; if(w[key]<=0) delete w[key]; } }
+  else w[key] = (w[key]||0) + 1;
+  store.set("weak", w);
+}
+function accentBar(targetId){
+  return `<div class="accents">${ACCENTS.map(a=>a==="«»"?"":`<button data-acc="${a}">${a}</button>`).join("")}</div>`;
+}
+function wireAccents(inputId){
+  document.querySelectorAll("[data-acc]").forEach(b=> b.onclick = ()=>{
+    const el = $("#"+inputId); if(!el) return;
+    const s = el.selectionStart ?? el.value.length, e = el.selectionEnd ?? s;
+    el.value = el.value.slice(0,s) + b.dataset.acc + el.value.slice(e);
+    el.focus(); el.selectionStart = el.selectionEnd = s + b.dataset.acc.length;
+  });
+}
+// French number speller (0–1000)
+const NUM_1_16=["zéro","un","deux","trois","quatre","cinq","six","sept","huit","neuf","dix","onze","douze","treize","quatorze","quinze","seize"];
+function frNum(n){
+  if(n<=16) return NUM_1_16[n];
+  if(n<20) return "dix-"+NUM_1_16[n-10];
+  if(n<70){ const t=Math.floor(n/10)*10, u=n%10;
+    const T={20:"vingt",30:"trente",40:"quarante",50:"cinquante",60:"soixante"}[t];
+    if(!u) return T; if(u===1) return T+" et un"; return T+"-"+NUM_1_16[u]; }
+  if(n<80){ const r=n-60; if(r===11) return "soixante et onze";
+    return "soixante-"+(r<=16?NUM_1_16[r]:"dix-"+NUM_1_16[r-10]); }
+  if(n<100){ const r=n-80; if(!r) return "quatre-vingts";
+    return "quatre-vingt-"+(r<=16?NUM_1_16[r]:"dix-"+NUM_1_16[r-10]); }
+  if(n===100) return "cent";
+  if(n<1000){ const h=Math.floor(n/100), r=n%100;
+    const H = h===1?"cent":NUM_1_16[h]+" cent"+(r?"":"s");
+    return r? H+" "+frNum(r) : H; }
+  return "mille";
+}
+function conjugate(verb, tense, pi){
+  const P = ["je","tu","il","nous","vous","ils"];
+  if (tense==="present"){
+    let pr = P[pi];
+    if (pi===0 && /^[aeéiouh]/i.test(verb.p[0])) pr = "j'";
+    return (pr==="j'"? "j'" : pr+" ") + verb.p[pi];
+  }
+  if (tense==="passe"){
+    if (verb.aux==="être"){
+      const aux=["suis","es","est","sommes","êtes","sont"][pi];
+      const agree = (pi===3||pi===5) ? verb.pp+"s" : verb.pp;
+      return P[pi]+" "+aux+" "+agree;
+    }
+    const aux=["ai","as","a","avons","avez","ont"][pi];
+    const pr = pi===0 ? "j'" : P[pi]+" ";
+    return pr+aux+" "+verb.pp;
+  }
+  if (tense==="futur"){
+    const al=["vais","vas","va","allons","allez","vont"][pi];
+    const pr = pi===0 ? "je " : P[pi]+" ";
+    return pr+al+" "+verb.v;
+  }
+  if (tense==="imparfait"){
+    const stem = verb.imp || verb.p[3].replace(/ons$/,"");
+    const end=["ais","ais","ait","ions","iez","aient"][pi];
+    let s = stem;
+    // nous-stem already carries the softening (mange-, commenç-); drop it before i-endings
+    if (end[0]==="i"){
+      if (/ge$/.test(s)) s = s.slice(0,-1);      // mange- → mang-ions
+      if (/ç$/.test(s))  s = s.slice(0,-1)+"c";  // commenç- → commenc-ions
+    }
+    const pr = pi===0 ? (/^[aeéiouh]/i.test(s) ? "j'" : "je ") : P[pi]+" ";
+    return pr + s + end;
+  }
+}
+const TENSES = [
+  {k:"present",  n:"Présent", d:"what you do now"},
+  {k:"passe",    n:"Passé composé", d:"what you did"},
+  {k:"futur",    n:"Futur proche", d:"what you're going to do"},
+  {k:"imparfait",n:"Imparfait", d:"what you used to do / was doing"}
+];
+
+// ============ DRILL view ============
+let drillTab = store.get("drilltab","speak");
+V.drill = function(){
+  const tabs = [["speak","Speak"],["type","Type"],["dictation","Dictation"],["conjugate","Conjugate"],
+                ["gender","Gender"],["numbers","Numbers"],["build","Build"]];
+  $("#main").innerHTML = `<div class="card"><h2>Drill</h2>
+    <div class="dim" style="font-size:.82rem">Production practice — the part that actually makes you able to speak.</div>
+    <div class="subtabs mt">${tabs.map(([k,n])=>`<button data-dt="${k}" class="${drillTab===k?"on":""}">${n}</button>`).join("")}</div>
+    <div id="drillArea"></div></div>`;
+  document.querySelectorAll("[data-dt]").forEach(b=> b.onclick = ()=>{
+    drillTab=b.dataset.dt; store.set("drilltab",drillTab); V.drill(); });
+  ({speak:dSpeak,type:dType,dictation:dDictation,conjugate:dConjugate,
+    gender:dGender,numbers:dNumbers,build:dBuild})[drillTab]();
+};
+function drillPool(){
+  const wk = currentWeek();
+  return allVocab().filter(c=>c.w<=wk && c.c!=="custom")
+    .concat(APP_DATA.french.phrases.filter(p=>p.w<=wk).map((p,i)=>({id:"dp"+i,...p})));
+}
+
+// ---- 1. SPEAK (speech recognition) ----
+let recog = null, recogOn = false;
+function dSpeak(){
+  const area = $("#drillArea");
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const pool = drillPool();
+  let item = pool[Math.floor(Math.random()*pool.length)];
+  function draw(res){
+    area.innerHTML = `<div class="drillbox">
+        <div class="prompt-sm">say this in french</div>
+        <div class="prompt-lg">${esc(item.f)}</div>
+        <div class="dim">${gloss(item.f, esc(item.e))}</div>
+        <button class="speak mt" id="hearIt" style="width:44px;height:44px">${ICO_SOUND}</button>
+        ${SR ? `<button class="mic" id="micBtn" aria-label="record">${ICO_MIC}</button>
+                <div class="dim" id="micState">tap the mic, then say it out loud</div>` :
+               `<div class="verdict no mt">Speech recognition needs Chrome or Edge on desktop.
+                 In other browsers, listen and repeat aloud — then self-grade below.</div>
+                <div class="row"><button class="ghost" id="selfNo">Struggled</button>
+                <button class="good" id="selfOk">Said it well</button></div>`}
+      </div>
+      <div id="speakRes"></div>
+      <div class="row"><button class="ghost" id="skipS">Skip</button>
+        <button class="primary" id="nextS">Next word</button></div>
+      <div class="kbd-hint"><kbd>space</kbd> record · <kbd>R</kbd> replay · <kbd>N</kbd> next</div>`;
+    $("#hearIt").onclick = ()=>speak(item.f);
+    $("#nextS").onclick = $("#skipS").onclick = ()=>{ item = pool[Math.floor(Math.random()*pool.length)]; draw(); };
+    if (!SR){
+      $("#selfOk").onclick = ()=>{ logDrill("speak",1); markWeak("s:"+item.f,1); $("#nextS").click(); };
+      $("#selfNo").onclick = ()=>{ logDrill("speak",0); markWeak("s:"+item.f,0); speak(item.f); };
+      return;
+    }
+    $("#micBtn").onclick = ()=>{
+      if (recogOn && recog){ recog.stop(); return; }
+      try{
+        recog = new SR(); recog.lang="fr-FR"; recog.interimResults=false; recog.maxAlternatives=3;
+        recog.onstart = ()=>{ recogOn=true; $("#micBtn").classList.add("live"); $("#micState").textContent="listening… say it now"; };
+        recog.onerror = e =>{ recogOn=false; $("#micBtn").classList.remove("live");
+          $("#micState").textContent = e.error==="not-allowed" ? "microphone blocked — allow mic access" : "didn't catch that, try again"; };
+        recog.onend = ()=>{ recogOn=false; $("#micBtn").classList.remove("live"); };
+        recog.onresult = ev =>{
+          const alts=[...ev.results[0]].map(r=>r.transcript);
+          const best = alts.reduce((a,b)=> similarity(b,item.f)>similarity(a,item.f)?b:a, alts[0]);
+          const score = Math.round(similarity(best,item.f)*100);
+          const ok = score>=80;
+          logDrill("speak", ok?1:0); markWeak("s:"+item.f, ok?1:0);
+          $("#speakRes").innerHTML = `<div class="meter ${score>=80?"":score>=55?"mid":"low"}"><div style="width:${score}%"></div></div>
+            <div class="verdict ${ok?"ok":"no"}">
+              <b>${score}% match</b> — ${ok?"clear enough to be understood.":"not quite yet."}<br>
+              <span class="dim">it heard:</span> “${esc(best)}”<br>
+              <span class="dim">target:</span> ${esc(item.f)}
+              ${ok?"":"<br>Listen again and copy the rhythm — French stresses the END of the phrase."}</div>`;
+          $("#micState").textContent = "tap to try again";
+          if(!ok) setTimeout(()=>speak(item.f), 400);
+        };
+        recog.start();
+      }catch(e){ $("#micState").textContent = "couldn't start the microphone"; }
+    };
+  }
+  draw();
+}
+
+// ---- 2. TYPE (production) ----
+function dType(){
+  const area = $("#drillArea"); const pool = drillPool();
+  let item, answered=false;
+  function pick(){ item = pool[Math.floor(Math.random()*pool.length)]; answered=false; draw(); }
+  function draw(){
+    area.innerHTML = `<div class="drillbox">
+        <div class="prompt-sm">write it in french</div>
+        <div class="prompt-lg">${gloss(item.f, esc(item.e))}</div>
+        <input type="text" id="tIn" class="answer-in" placeholder="…" autocomplete="off" autocapitalize="off" spellcheck="false">
+        ${accentBar()}
+      </div>
+      <div id="typeRes"></div>
+      <div class="row"><button class="ghost" id="showT">Show answer</button>
+        <button class="primary" id="checkT">Check</button></div>
+      <div class="kbd-hint"><kbd>enter</kbd> check · <kbd>enter</kbd> again for next</div>`;
+    wireAccents("tIn");
+    const inp = $("#tIn"); inp.focus();
+    const check = ()=>{
+      if (answered){ pick(); return; }
+      const val = inp.value.trim(); if(!val) return;
+      answered = true;
+      const exact = accentsMatch(val, item.f);
+      const close = similarity(val, item.f) >= 0.92;
+      const ok = exact || close;
+      logDrill("type", ok?1:0); markWeak("t:"+item.f, ok?1:0);
+      $("#typeRes").innerHTML = `<div class="verdict ${ok?"ok":"no"}">
+        ${exact ? "<b>Exact.</b>" : close ? "<b>Right — but check the accents.</b>" : "<b>Not yet.</b>"}<br>
+        <span class="dim">you wrote:</span> ${esc(val)}<br>
+        <span class="dim">answer:</span> <b>${esc(item.f)}</b></div>`;
+      speak(item.f);
+      $("#checkT").textContent = "Next →";
+    };
+    $("#checkT").onclick = check;
+    inp.onkeydown = e =>{ if(e.key==="Enter"){ e.preventDefault(); check(); } };
+    $("#showT").onclick = ()=>{ answered=true; $("#typeRes").innerHTML =
+      `<div class="verdict no"><span class="dim">answer:</span> <b>${esc(item.f)}</b></div>`;
+      speak(item.f); logDrill("type",0); markWeak("t:"+item.f,0); $("#checkT").textContent="Next →"; };
+  }
+  pick();
+}
+
+// ---- 3. DICTATION ----
+function dDictation(){
+  const area = $("#drillArea");
+  const wk = currentWeek();
+  const pool = APP_DATA.french.phrases.filter(p=>p.w<=wk)
+    .concat(DRILL.sentences.filter(s=>s.w<=wk).map(s=>({f:s.f,e:s.e})));
+  let item, answered=false;
+  function pick(){ item = pool[Math.floor(Math.random()*pool.length)]; answered=false; draw(); setTimeout(()=>speak(item.f),350); }
+  function draw(){
+    area.innerHTML = `<div class="drillbox">
+        <div class="prompt-sm">listen and write what you hear</div>
+        <button class="speak" id="replayD" style="width:62px;height:62px;margin:14px auto">${ICO_SOUND}</button>
+        <textarea id="dIn" placeholder="write the sentence…" style="font-size:1.1rem"></textarea>
+        ${accentBar()}
+      </div>
+      <div id="dRes"></div>
+      <div class="row"><button class="ghost" id="slowD">Play slowly</button>
+        <button class="primary" id="checkD">Check</button></div>
+      <div class="kbd-hint"><kbd>R</kbd> replay · <kbd>ctrl</kbd>+<kbd>enter</kbd> check</div>`;
+    wireAccents("dIn");
+    $("#replayD").onclick = ()=>speak(item.f);
+    $("#slowD").onclick = ()=>{ if(!("speechSynthesis" in window))return; speechSynthesis.cancel();
+      const u=new SpeechSynthesisUtterance(item.f); u.lang="fr-FR"; if(frVoice)u.voice=frVoice; u.rate=0.55;
+      speechSynthesis.speak(u); };
+    const check = ()=>{
+      if (answered){ pick(); return; }
+      const val = $("#dIn").value.trim(); if(!val) return;
+      answered = true;
+      const sim = similarity(val, item.f), ok = sim>=0.9;
+      logDrill("dictation", ok?1:0); markWeak("d:"+item.f, ok?1:0);
+      // word-by-word diff
+      const tw = item.f.split(/\s+/), yw = val.split(/\s+/);
+      const marked = tw.map((w,i)=> norm(w)===norm(yw[i]||"") ? esc(w)
+        : `<span style="color:var(--red);font-weight:600">${esc(w)}</span>`).join(" ");
+      $("#dRes").innerHTML = `<div class="verdict ${ok?"ok":"no"}">
+        <b>${Math.round(sim*100)}% correct</b><br>
+        <span class="dim">you wrote:</span> ${esc(val)}<br>
+        <span class="dim">actual:</span> ${marked}<br>
+        <span class="dim">${esc(item.e)}</span></div>`;
+      $("#checkD").textContent = "Next →";
+    };
+    $("#checkD").onclick = check;
+    $("#dIn").onkeydown = e =>{ if(e.key==="Enter" && (e.ctrlKey||e.metaKey)){ e.preventDefault(); check(); } };
+  }
+  pick();
+}
+
+// ---- 4. CONJUGATE ----
+let conjTense = store.get("conjtense","present");
+function dConjugate(){
+  const area = $("#drillArea"); const wk = currentWeek();
+  const pool = DRILL.verbs.filter(v=>v.w<=wk);
+  let v, pi, answered=false;
+  function pick(){ v = pool[Math.floor(Math.random()*pool.length)]; pi = Math.floor(Math.random()*6);
+    answered=false; draw(); }
+  function draw(){
+    const P = ["je","tu","il / elle","nous","vous","ils / elles"];
+    area.innerHTML = `<div class="row" style="margin:12px 0">${TENSES.map(t=>
+        `<button data-tn="${t.k}" class="${conjTense===t.k?"primary":"ghost"}" style="font-size:.76rem">${t.n}</button>`).join("")}</div>
+      <div class="dim center" style="font-size:.78rem">${TENSES.find(t=>t.k===conjTense).d}</div>
+      <div class="drillbox">
+        <div class="prompt-sm">${esc(v.v)} — ${esc(v.e)}${v.irr?" · irregular":""}</div>
+        <div class="prompt-lg">${esc(P[pi])} …?</div>
+        ${glossLang()!=="en"?`<div class="bn" style="font-size:.85rem">${esc(v.bn)} · ${esc(DRILL.pronounsBn[pi])}</div>`:""}
+        <input type="text" id="cIn" class="answer-in" placeholder="write the full form" autocomplete="off" spellcheck="false">
+        ${accentBar()}
+      </div>
+      <div id="cRes"></div>
+      <div class="row"><button class="ghost" id="tableC">Show table</button>
+        <button class="primary" id="checkC">Check</button></div>`;
+    document.querySelectorAll("[data-tn]").forEach(b=> b.onclick = ()=>{
+      conjTense=b.dataset.tn; store.set("conjtense",conjTense); pick(); });
+    wireAccents("cIn"); $("#cIn").focus();
+    const target = conjugate(v, conjTense, pi);
+    const check = ()=>{
+      if (answered){ pick(); return; }
+      const val = $("#cIn").value.trim(); if(!val) return;
+      answered = true;
+      const bare = target.replace(/^(je |j'|tu |il |nous |vous |ils )/,"");
+      const ok = accentsMatch(val,target) || accentsMatch(val,bare) ||
+                 similarity(val,target)>=0.93 || similarity(val,bare)>=0.93;
+      logDrill("conjugate", ok?1:0); markWeak("c:"+v.v+":"+conjTense, ok?1:0);
+      $("#cRes").innerHTML = `<div class="verdict ${ok?"ok":"no"}">
+        ${ok?"<b>Correct.</b>":"<b>Not quite.</b>"} <b>${esc(target)}</b><br>
+        ${conjTense==="passe"?`<span class="dim">auxiliary: ${v.aux} · participle: ${esc(v.pp)}</span>`:""}
+        ${conjTense==="imparfait"?`<span class="dim">stem from nous-form: ${esc(v.p[3])} → ${esc((v.imp||v.p[3].replace(/ons$/,"")))}-</span>`:""}</div>`;
+      speak(target); $("#checkC").textContent = "Next →";
+    };
+    $("#checkC").onclick = check;
+    $("#cIn").onkeydown = e =>{ if(e.key==="Enter"){ e.preventDefault(); check(); } };
+    $("#tableC").onclick = ()=>{
+      answered=true; logDrill("conjugate",0);
+      $("#cRes").innerHTML = `<div class="card" style="margin-top:10px"><h3>${esc(v.v)} · ${TENSES.find(t=>t.k===conjTense).n}</h3>
+        <div class="conjgrid">${[0,1,2,3,4,5].map(i=>
+          `<span>${P[i]}</span><b class="exrow" data-say="${esc(conjugate(v,conjTense,i))}" style="border:0;padding:0">${esc(conjugate(v,conjTense,i))}</b>`).join("")}</div></div>`;
+      document.querySelectorAll("#cRes [data-say]").forEach(el=> el.onclick=()=>speak(el.dataset.say));
+      $("#checkC").textContent = "Next →";
+    };
+  }
+  pick();
+}
+
+// ---- 5. GENDER ----
+function dGender(){
+  const area = $("#drillArea");
+  const nouns = APP_DATA.french.vocab.concat(APP_DATA.visual)
+    .filter(x=>/^(le |la )/.test(x.f)).map(x=>({f:x.f, e:x.e, g:x.f.startsWith("le ")?"le":"la"}));
+  const tricky = DRILL.trickyGender.map(([f,why])=>({f, e:"", g:f.startsWith("le ")?"le":"la", why}));
+  const pool = nouns.concat(tricky, tricky);
+  let item, streakN = 0;
+  function pick(){ item = pool[Math.floor(Math.random()*pool.length)]; draw(); }
+  function draw(res){
+    const bare = item.f.replace(/^(le |la )/,"");
+    area.innerHTML = `<div class="drillbox">
+        <div class="prompt-sm">masculine or feminine?</div>
+        <div class="prompt-lg">___ ${esc(bare)}</div>
+        <div class="dim">${item.e?gloss(item.f, esc(item.e)):""}</div>
+        <div class="row mt" style="max-width:280px;margin:14px auto 0">
+          <button class="primary" data-g2="le" style="font-size:1.15rem;font-family:var(--serif)">le</button>
+          <button class="primary" data-g2="la" style="font-size:1.15rem;font-family:var(--serif)">la</button>
+        </div>
+      </div>
+      <div id="gRes">${res||""}</div>
+      <div class="dim center">streak: ${streakN}</div>
+      <div class="kbd-hint"><kbd>←</kbd> le · <kbd>→</kbd> la</div>`;
+    document.querySelectorAll("[data-g2]").forEach(b=> b.onclick = ()=>answer(b.dataset.g2));
+  }
+  function answer(g){
+    const ok = g===item.g;
+    streakN = ok? streakN+1 : 0;
+    logDrill("gender", ok?1:0); markWeak("g:"+item.f, ok?1:0);
+    const hint = item.why ? "<br><span class='dim'>"+esc(item.why)+"</span>" : "";
+    const html = `<div class="verdict ${ok?"ok":"no"}">${ok?"<b>Oui.</b>":"<b>Non — </b>"}
+      <b>${esc(item.f)}</b>${hint}</div>`;
+    speak(item.f);
+    const prev = item; pick();
+    $("#gRes").innerHTML = html;
+  }
+  pick();
+}
+
+// ---- 6. NUMBERS ----
+function dNumbers(){
+  const area = $("#drillArea");
+  let mode = store.get("nummode","hear"), n = 0, answered=false;
+  const ranges = {easy:[0,69], hard:[60,100], big:[100,999]};
+  let range = store.get("numrange","easy");
+  function pick(){ const [a,b]=ranges[range]; n = a + Math.floor(Math.random()*(b-a+1)); answered=false; draw();
+    if(mode==="hear") setTimeout(()=>speak(frNum(n)),300); }
+  function draw(){
+    area.innerHTML = `<div class="row" style="margin:12px 0">
+        <button data-nm="hear" class="${mode==="hear"?"primary":"ghost"}" style="font-size:.76rem">Hear → digits</button>
+        <button data-nm="write" class="${mode==="write"?"primary":"ghost"}" style="font-size:.76rem">Digits → words</button>
+      </div>
+      <div class="row" style="margin-bottom:4px">
+        <button data-nr="easy" class="${range==="easy"?"primary":"ghost"}" style="font-size:.72rem">0–69</button>
+        <button data-nr="hard" class="${range==="hard"?"primary":"ghost"}" style="font-size:.72rem">60–100 (hard)</button>
+        <button data-nr="big" class="${range==="big"?"primary":"ghost"}" style="font-size:.72rem">100–999</button>
+      </div>
+      <div class="drillbox">
+        ${mode==="hear"
+          ? `<div class="prompt-sm">what number is this?</div>
+             <button class="speak" id="repN" style="width:62px;height:62px;margin:14px auto">${ICO_SOUND}</button>
+             <input type="text" id="nIn" class="answer-in" inputmode="numeric" placeholder="digits">`
+          : `<div class="prompt-sm">write this number in french</div>
+             <div class="prompt-lg" style="font-size:3rem">${n}</div>
+             <input type="text" id="nIn" class="answer-in" placeholder="en toutes lettres" spellcheck="false">
+             ${accentBar()}`}
+      </div>
+      <div id="nRes"></div>
+      <div class="row"><button class="ghost" id="skipN">Skip</button><button class="primary" id="checkN">Check</button></div>
+      <div class="dim center" style="font-size:.76rem">70 = soixante-dix (60+10) · 80 = quatre-vingts (4×20) · 90 = quatre-vingt-dix</div>`;
+    document.querySelectorAll("[data-nm]").forEach(b=>b.onclick=()=>{mode=b.dataset.nm; store.set("nummode",mode); pick();});
+    document.querySelectorAll("[data-nr]").forEach(b=>b.onclick=()=>{range=b.dataset.nr; store.set("numrange",range); pick();});
+    if(mode==="write" ) wireAccents("nIn");
+    const rp=$("#repN"); if(rp) rp.onclick=()=>speak(frNum(n));
+    $("#nIn").focus();
+    const check = ()=>{
+      if(answered){ pick(); return; }
+      const val=$("#nIn").value.trim(); if(!val) return;
+      answered=true;
+      const ok = mode==="hear" ? parseInt(val,10)===n : similarity(val, frNum(n))>=0.93;
+      logDrill("numbers", ok?1:0); markWeak("n:"+n, ok?1:0);
+      $("#nRes").innerHTML = `<div class="verdict ${ok?"ok":"no"}">${ok?"<b>Correct.</b>":"<b>Non.</b>"}
+        <b>${n}</b> = <b>${esc(frNum(n))}</b></div>`;
+      speak(frNum(n)); $("#checkN").textContent="Next →";
+    };
+    $("#checkN").onclick = check;
+    $("#skipN").onclick = ()=>pick();
+    $("#nIn").onkeydown = e =>{ if(e.key==="Enter"){ e.preventDefault(); check(); } };
+  }
+  pick();
+}
+
+// ---- 7. BUILD (word order) ----
+function dBuild(){
+  const area = $("#drillArea"); const wk = currentWeek();
+  const pool = DRILL.sentences.filter(s=>s.w<=wk);
+  let item, chosen=[], words=[];
+  function pick(){
+    item = pool[Math.floor(Math.random()*pool.length)];
+    words = item.f.replace(/([.!?])$/,"").split(/\s+/);
+    chosen = []; draw();
+  }
+  function draw(res){
+    const shuffled = words.map((w,i)=>({w,i})).sort((a,b)=>a.w.localeCompare(b.w));
+    area.innerHTML = `<div class="drillbox">
+        <div class="prompt-sm">build the french sentence</div>
+        <div class="prompt-md">${gloss(item.f, esc(item.e))}</div>
+        <div class="slot" id="slot">${chosen.length? chosen.map((c,ci)=>
+            `<span class="chip" data-un="${ci}">${esc(c.w)}</span>`).join("") :
+            `<span class="dim">tap the words in order</span>`}</div>
+        <div class="chips">${shuffled.map(o=>
+          `<span class="chip ${chosen.some(c=>c.i===o.i)?"used":""}" data-pick="${o.i}">${esc(o.w)}</span>`).join("")}</div>
+      </div>
+      <div id="bRes">${res||""}</div>
+      <div class="row"><button class="ghost" id="clearB">Clear</button>
+        <button class="ghost" id="showB">Show</button>
+        <button class="primary" id="checkB">Check</button></div>`;
+    document.querySelectorAll("[data-pick]").forEach(el=> el.onclick = ()=>{
+      const i=+el.dataset.pick; if(chosen.some(c=>c.i===i)) return;
+      chosen.push({w:words[i], i}); draw(); });
+    document.querySelectorAll("[data-un]").forEach(el=> el.onclick = ()=>{
+      chosen.splice(+el.dataset.un,1); draw(); });
+    $("#clearB").onclick = ()=>{ chosen=[]; draw(); };
+    $("#showB").onclick = ()=>{ logDrill("build",0); markWeak("b:"+item.f,0);
+      draw(`<div class="verdict no"><b>${esc(item.f)}</b>${item.note?"<br><span class='dim'>"+esc(item.note)+"</span>":""}</div>`);
+      speak(item.f); };
+    $("#checkB").onclick = ()=>{
+      if(!chosen.length) return;
+      const attempt = chosen.map(c=>c.w).join(" ");
+      const ok = norm(attempt)===norm(words.join(" "));
+      logDrill("build", ok?1:0); markWeak("b:"+item.f, ok?1:0);
+      if (ok){
+        speak(item.f);
+        draw(`<div class="verdict ok"><b>Exact.</b> ${esc(item.f)}
+          ${item.note?"<br><span class='dim'>"+esc(item.note)+"</span>":""}</div>`);
+        setTimeout(pick, 1900);
+      } else {
+        draw(`<div class="verdict no"><b>Not the natural order.</b><br>
+          <span class="dim">you built:</span> ${esc(attempt)}
+          ${item.note?"<br><span class='dim'>hint: "+esc(item.note)+"</span>":""}</div>`);
+      }
+    };
+  }
+  pick();
+}
 
 // -------- guided daily session --------
 function dayInWeek(){ // 1..7 within the current plan week
@@ -435,6 +1107,28 @@ function buildSteps(){
   if (quizType==="pic") steps.push({id:"quiz", task:"srs", icon:"🎯", t:"Picture quiz",
     d:"10 rounds — pictures to words and back.",
     go:{l:"Start picture quiz", f:()=>{ learnTab="picquiz"; gotoView("learn"); }}});
+  // --- production drills: the part that builds speaking ---
+  if (!rest){
+    const spoken = {1:"speak", 2:"speak", 3:"type", 4:"conjugate", 5:"dictation", 6:"speak"}[d] || "speak";
+    const DN = {speak:["Say 10 words out loud","The mic scores how close you are. Aim for 80%+. Repeat anything under that until it clicks."],
+                type:["Write 10 from memory","Recall is far stronger than recognition. Use the accent buttons."],
+                conjugate:["Conjugation drill","10 verbs. Wrong answers are the ones worth repeating — check the table when stuck."],
+                dictation:["Dictation — 5 sentences","Listen and write. This trains ear, spelling and grammar at once."]};
+    steps.push({id:"drill1", task:"conv", icon:"🎙", t:DN[spoken][0], d:DN[spoken][1],
+      go:{l:"Open drill", f:()=>{ drillTab=spoken; store.set("drilltab",spoken); gotoView("drill"); }}});
+    const second = wk===1 ? "numbers" : wk===2 ? "gender" : "build";
+    const SN = {numbers:["Numbers drill","French numbers break brains — 70, 80, 90 especially. 10 rounds."],
+                gender:["le or la — 10 rounds","Gender is the classic weak point. Learn nouns WITH their article."],
+                build:["Word-order builder","Assemble sentences from scrambled words — this is how syntax becomes automatic."]};
+    steps.push({id:"drill2", task:"srs", icon:"🧩", t:SN[second][0], d:SN[second][1],
+      go:{l:"Open drill", f:()=>{ drillTab=second; store.set("drilltab",second); gotoView("drill"); }}});
+  }
+  if (!rest && wk>=2 && (d===2||d===5)) steps.push({id:"talk", task:"conv", icon:"🗣", t:"Run one dialogue",
+    d:"A full role-play conversation. Say your lines out loud, don't just tap.",
+    go:{l:"Open dialogues", f:()=>{ learnTab="talk"; openTalk=-1; gotoView("learn"); }}});
+  if (!rest && (d===3||d===6)) steps.push({id:"read", task:"input", icon:"📄", t:"Read one text",
+    d:"Read it aloud first without translation, tap unknown words, then check yourself with the questions.",
+    go:{l:"Open reading", f:()=>{ learnTab="read"; openRead=-1; gotoView("learn"); }}});
   if (!rest) steps.push({id:"input", task:"input", icon:"📺", t: wk===1 ? "French input — TV5Monde" : "Watch one Super Easy French video",
     d: wk===1 ? "15–20 min of A1 exercises on TV5Monde (in More → Resources), or browse the videos tab."
               : "One video (~7 min), French subtitles ON. Watch twice: once for gist, once pausing on new words — add 2–3 to your flashcards.",
@@ -534,13 +1228,270 @@ V.learn = function(){
       <button data-lt="lessons" class="${learnTab==="lessons"?"on":""}">Lessons</button>
       <button data-lt="pics" class="${learnTab==="pics"?"on":""}">Pictures</button>
       <button data-lt="picquiz" class="${learnTab==="picquiz"?"on":""}">Picture quiz</button>
+      <button data-lt="read" class="${learnTab==="read"?"on":""}">Reading</button>
+      <button data-lt="talk" class="${learnTab==="talk"?"on":""}">Dialogues</button>
       <button data-lt="videos" class="${learnTab==="videos"?"on":""}">Videos</button>
     </div><div id="learnArea" class="mt"></div></div>`;
   $("#main").innerHTML = h;
   document.querySelectorAll("[data-lt]").forEach(b=> b.onclick = ()=>{
-    if (b.dataset.lt==="lessons" && learnTab==="lessons") openLesson = -1; // tapping the tab again returns to the list
+    // tapping the current tab again returns to its list
+    if (b.dataset.lt==="lessons" && learnTab==="lessons") openLesson = -1;
+    if (b.dataset.lt==="read" && learnTab==="read") openRead = -1;
+    if (b.dataset.lt==="talk" && learnTab==="talk") openTalk = -1;
     learnTab=b.dataset.lt; V.learn(); });
-  ({lessons:learnLessons, pics:learnPics, picquiz:learnPicQuiz, videos:()=>renderVideos($("#learnArea"), APP_DATA.videos.french)})[learnTab]();
+  ({lessons:learnLessons, pics:learnPics, picquiz:learnPicQuiz, read:learnRead, talk:learnTalk,
+    videos:()=>renderVideos($("#learnArea"), APP_DATA.videos.french)})[learnTab]();
+};
+
+// ---------- dictionary lookup used by reading + search ----------
+let DICT = null;
+function buildDict(){
+  if (DICT) return DICT;
+  DICT = {};
+  const add = (f,e,bn)=>{ const k = norm(f); if(k && !DICT[k]) DICT[k] = {f,e,bn:bn||""}; };
+  APP_DATA.french.vocab.forEach(v=>add(v.f,v.e,bnOf(v.f)));
+  APP_DATA.visual.forEach(v=>add(v.f,v.e,bnOf(v.f)));
+  APP_DATA.french.phrases.forEach(p=>add(p.f,p.e,bnOf(p.f)));
+  DRILL.verbs.forEach(v=>{
+    add(v.v, v.e, v.bn);
+    v.p.forEach(f=>add(f, v.e+" (conjugated)", v.bn));
+    add(v.pp, v.e+" (past participle)", v.bn);
+  });
+  // bare nouns without articles, plus plurals — keep the Bengali from the full entry
+  APP_DATA.french.vocab.concat(APP_DATA.visual).forEach(v=>{
+    const bare = v.f.replace(/^(le |la |les |l'|un |une |des )/,"");
+    const bn = bnOf(v.f);
+    add(bare, v.e, bn);
+    if (!/s$/.test(bare)) add(bare+"s", v.e+" (plural)", bn);
+    if (/eau$/.test(bare)) add(bare+"x", v.e+" (plural)", bn);
+  });
+  // function words the texts lean on
+  const FN = {
+    "le":"the (masculine)","la":"the (feminine)","les":"the (plural)","l'":"the (before a vowel)",
+    "un":"a / one (m.)","une":"a / one (f.)","des":"some / plural 'a'","du":"some / of the (m.)",
+    "de":"of / from","d'":"of / from","au":"to the / at the (m.)","aux":"to the (plural)",
+    "je":"I","j'":"I","tu":"you","il":"he / it","elle":"she / it","on":"we (casual) / one",
+    "nous":"we / us","vous":"you (formal or plural)","ils":"they (m.)","elles":"they (f.)",
+    "me":"me / myself","m'":"me / myself","te":"you / yourself","se":"himself / herself / themselves",
+    "s'":"himself / herself","lui":"him / to him","leur":"their / to them","y":"there","en":"in / of it",
+    "mon":"my (m.)","ma":"my (f.)","mes":"my (plural)","ton":"your (m.)","ta":"your (f.)",
+    "son":"his / her (m.)","sa":"his / her (f.)","ses":"his / her (plural)","notre":"our","nos":"our (pl.)",
+    "ce":"this / that","cet":"this (before vowel)","cette":"this (f.)","ces":"these / those",
+    "c'":"it / that","c'est":"it is / that is","qui":"who / which","que":"that / which","qu'":"that",
+    "ne":"not (first half)","n'":"not (first half)","pas":"not (second half)","plus":"more / no longer",
+    "très":"very","bien":"well","aussi":"also","alors":"so / then","puis":"then","donc":"so",
+    "beaucoup":"a lot","peu":"little","tout":"all / everything","toute":"all (f.)","tous":"all (pl.)",
+    "avec":"with","sans":"without","pour":"for","dans":"in","sur":"on","sous":"under","chez":"at (someone's place)",
+    "vers":"around / toward","pendant":"during","depuis":"since / for","entre":"between",
+    "ans":"years","heures":"hours / o'clock","fois":"time(s)","gens":"people","choses":"things",
+    "français":"French","française":"French (f.)","anglais":"English","étudiant":"student",
+    "signes":"signs","jeux":"games","yeux":"eyes","travaux":"works"
+  };
+  for (const k in FN) add(k, FN[k]);
+  const NAMES = {"psy":"— your name","dhaka":"Dhaka (city)","bangladesh":"Bangladesh",
+    "paris":"Paris","france":"France","camille":"Camille (a name)","asl":"American Sign Language"};
+  for (const k in NAMES) add(k, NAMES[k]);
+  // reading/dialogue glossary (carries its own Bengali)
+  for (const k in DRILL.extraGloss){ const [en,bn] = DRILL.extraGloss[k];
+    const kk = norm(k); if(!DICT[kk]) DICT[kk] = {f:k, e:en, bn}; }
+  return DICT;
+}
+function lookup(word){
+  const d = buildDict();
+  const tries = [];
+  const k = norm(word); tries.push(k);
+  // strip elisions: m'appelle → appelle, l'eau → eau, qu'il → il
+  const el = k.replace(/^(j|m|t|s|l|d|n|c|qu)'/,""); if(el!==k) tries.push(el);
+  // reflexive/pronoun-led forms: "me lève" → "lève"
+  tries.push(k.replace(/^(me|te|se|ne|le|la|les|un|une|des|du|au) /,""));
+  // singular guess
+  if (k.endsWith("s")) tries.push(k.slice(0,-1));
+  for (const t of tries){ if (t && d[t]) return d[t]; }
+  const bn = APP_DATA.bn;
+  for (const key in bn){ if (tries.includes(norm(key))) return {f:key, e:""}; }
+  return null;
+}
+
+// ---------- READING ----------
+let openRead = -1;
+function learnRead(){
+  const area = $("#learnArea"), wk = currentWeek();
+  if (openRead < 0){
+    area.innerHTML = `<div class="dim">Short graded texts. Tap any word to see what it means.</div>` +
+      DRILL.readings.map((r,i)=>`<div class="listitem lesson-item ${r.w>wk?"":""}" data-rd="${i}">
+        <span><span class="idx">W${r.w}</span>${esc(r.t)} <span class="dim">— ${esc(r.e)}</span></span>
+        <span class="dim">›</span></div>`).join("");
+    document.querySelectorAll("[data-rd]").forEach(el=> el.onclick = ()=>{ openRead=+el.dataset.rd; learnRead(); });
+    return;
+  }
+  const r = DRILL.readings[openRead];
+  let showTr = false;
+  function draw(){
+    const marked = r.text.split(/(\s+)/).map(tok=>
+      /^\s+$/.test(tok) ? tok : `<w data-w="${esc(tok)}">${esc(tok)}</w>`).join("");
+    area.innerHTML = `<button class="ghost" id="backR">← All texts</button>
+      <h3 style="text-transform:none;letter-spacing:0;color:var(--accent);font-size:1rem">${esc(r.t)}</h3>
+      <div class="readwrap">
+        <div>
+          <div class="passage">${marked}</div>
+          <div class="row"><button class="ghost" id="hearR">Read aloud</button>
+            <button class="ghost" id="trR">${showTr?"Hide":"Show"} translation</button></div>
+          ${showTr?`<div class="note mt">${esc(r.en)}${glossLang()!=="en"?`<br><br><span class="bn">${esc(r.bn)}</span>`:""}</div>`:""}
+          <h3>Comprehension</h3><div id="rq"></div>
+        </div>
+        <div id="glossOut"><div class="glossbox empty">Tap any word in the text to see what it means.</div></div>
+      </div>`;
+    $("#backR").onclick = ()=>{ openRead=-1; learnRead(); };
+    $("#hearR").onclick = ()=>speak(r.text);
+    $("#trR").onclick = ()=>{ showTr=!showTr; draw(); };
+    document.querySelectorAll(".passage w").forEach(el=> el.onclick = ()=>{
+      document.querySelectorAll(".passage w").forEach(x=>x.classList.remove("on"));
+      el.classList.add("on");
+      const raw = el.dataset.w.replace(/[.,!?;:«»"']$/,"");
+      const hit = lookup(raw);
+      const bn = hit ? (hit.bn || bnOf(hit.f) || "") : "";
+      $("#glossOut").innerHTML = `<div class="glossbox"><b class="prompt-md">${esc(raw)}</b>
+        <button class="speak" id="gsay" style="width:30px;height:30px;float:right">${ICO_SOUND}</button><br>
+        ${hit ? esc(hit.e)+(bn?`<br><span class="bn">${esc(bn)}</span>`:"") :
+          `<span class="dim">not in the dictionary — try the base form, or ask Claude</span>`}</div>`;
+      $("#gsay").onclick = ()=>speak(raw);
+      speak(raw);
+    });
+    // questions
+    let qi = 0, score = 0;
+    function drawQ(){
+      if (!$("#rq")) return; // user navigated away
+      if (qi >= r.q.length){ $("#rq").innerHTML = `<div class="verdict ${score===r.q.length?"ok":"no"}">
+        <b>${score}/${r.q.length}</b> — ${score===r.q.length?"full comprehension.":"re-read the text and try again."}</div>`;
+        logDrill("reading", score===r.q.length?1:0); return; }
+      const q = r.q[qi];
+      $("#rq").innerHTML = `<div class="dim">${qi+1}/${r.q.length}</div>
+        <div class="prompt-md" style="font-size:1.05rem">${esc(q.q)}</div>` +
+        q.o.map((o,i)=>`<button class="quizopt" data-rq="${i}">${esc(o)}</button>`).join("");
+      document.querySelectorAll("[data-rq]").forEach(b=> b.onclick = ()=>{
+        const i=+b.dataset.rq;
+        document.querySelectorAll("[data-rq]").forEach((x,xi)=>{
+          if(xi===q.a) x.classList.add("correct"); else if(xi===i) x.classList.add("wrong"); x.onclick=null; });
+        if(i===q.a) score++;
+        setTimeout(()=>{ qi++; drawQ(); }, i===q.a?700:1500);
+      });
+    }
+    drawQ();
+  }
+  draw();
+}
+
+// ---------- DIALOGUES ----------
+let openTalk = -1;
+function learnTalk(){
+  const area = $("#learnArea"), wk = currentWeek();
+  if (openTalk < 0){
+    const done = store.get("dlgdone", {});
+    area.innerHTML = `<div class="dim">Role-play a real conversation. Pick what you'd actually say — you'll be told why it works or doesn't.</div>` +
+      DRILL.dialogues.map((d,i)=>`<div class="listitem lesson-item" data-dg="${i}">
+        <span><span class="idx">W${d.w}</span>${esc(d.t)} <span class="dim">— ${esc(d.e)}</span></span>
+        <span class="dim">${done[d.id]?"✓":"›"}</span></div>`).join("");
+    document.querySelectorAll("[data-dg]").forEach(el=> el.onclick = ()=>{ openTalk=+el.dataset.dg; learnTalk(); });
+    return;
+  }
+  const d = DRILL.dialogues[openTalk];
+  let si = 0, history = [], mistakes = 0;
+  function draw(pending){
+    let h = `<button class="ghost" id="backT">← All dialogues</button>
+      <h3 style="text-transform:none;letter-spacing:0;color:var(--accent);font-size:1rem">${esc(d.t)} — ${esc(d.e)}</h3>
+      <div class="setting">${esc(d.setting)}</div>`;
+    history.forEach(b=> h += b);
+    if (pending) h += pending;
+    const st = d.steps[si];
+    if (st && st.s==="you"){
+      h += `<div class="prompt-sm mt" style="text-align:center">what do you say?</div>` +
+        st.opts.map((o,i)=>`<button class="quizopt" data-dc="${i}">${esc(o.f)}<br>
+          <span class="dim" style="font-size:.76rem">${esc(o.e)}</span></button>`).join("");
+    } else if (!st){
+      h += `<div class="verdict ${mistakes===0?"ok":"no"}" style="text-align:center">
+        <b>${mistakes===0?"Parfait — no mistakes.":mistakes+" wrong turn"+(mistakes>1?"s":"")+"."}</b><br>
+        <span class="dim">Now read the whole thing aloud once, playing both parts.</span></div>
+        <div class="row"><button class="ghost" id="againT">Replay</button>
+          <button class="primary" id="listT">Another dialogue</button></div>`;
+    }
+    area.innerHTML = h;
+    $("#backT").onclick = ()=>{ openTalk=-1; learnTalk(); };
+    document.querySelectorAll(".bubble .say").forEach(el=> el.onclick = ()=>speak(el.dataset.say||el.textContent));
+    document.querySelectorAll("[data-dc]").forEach(b=> b.onclick = ()=>{
+      const o = d.steps[si].opts[+b.dataset.dc];
+      logDrill("dialogue", o.ok?1:0);
+      if (!o.ok){
+        mistakes++;
+        b.classList.add("wrong");
+        const fix = `<div class="verdict no">${esc(o.why)}</div>`;
+        draw(fix); return;
+      }
+      history.push(`<div class="bubble you"><span class="fr say" data-say="${esc(o.f)}">${esc(o.f)}</span>
+        <div class="tr">${esc(o.e)}</div></div>`);
+      speak(o.f);
+      si++; advance();
+    });
+    const ag=$("#againT"); if(ag) ag.onclick = ()=>{ si=0; history=[]; mistakes=0; draw(); };
+    const lt=$("#listT"); if(lt) lt.onclick = ()=>{ const done=store.get("dlgdone",{}); done[d.id]=1;
+      store.set("dlgdone",done); openTalk=-1; learnTalk(); };
+    if (!d.steps[si]){ const done=store.get("dlgdone",{}); done[d.id]=1; store.set("dlgdone",done); }
+  }
+  function advance(){
+    while (d.steps[si] && d.steps[si].s==="them"){
+      const st = d.steps[si];
+      history.push(`<div class="bubble them"><span class="fr say" data-say="${esc(st.f)}">${esc(st.f)}</span>
+        <div class="tr">${esc(st.e)}${glossLang()!=="en"&&st.bn?`<br><span class="bn">${esc(st.bn)}</span>`:""}</div></div>`);
+      speak(st.f); si++;
+    }
+    draw();
+  }
+  advance();
+}
+
+// ============ STATS ============
+V.stats = function(){
+  const s = srs(), ds = store.get("drillstats",{}), weak = store.get("weak",{}), dl = dayLog();
+  const lvl = pre => Object.entries(s).filter(([k,v])=>k.startsWith(pre)).length;
+  const mature = pre => Object.entries(s).filter(([k,v])=>k.startsWith(pre)&&v.lv>=3).length;
+  const totalFr = APP_DATA.french.vocab.length + APP_DATA.french.phrases.length;
+  const seenFr = lvl("v")+lvl("p")+lvl("u"), matFr = mature("v")+mature("p")+mature("u");
+  const seenA = lvl("a"), matA = mature("a");
+  const days = Object.keys(dl).filter(k=>tasksDone(k)>=3).length;
+  const drillTotal = Object.values(ds).reduce((a,b)=>a+b.n,0);
+  const names = {speak:"Pronunciation",type:"Writing",dictation:"Dictation",conjugate:"Conjugation",
+    gender:"Gender",numbers:"Numbers",build:"Word order",dialogue:"Dialogues",reading:"Reading"};
+  const weakList = Object.entries(weak).sort((a,b)=>b[1]-a[1]).slice(0,12);
+  const KIND = {s:"say",t:"write",d:"dictation",c:"conjugate",g:"gender",n:"number",b:"word order"};
+  $("#main").innerHTML = `<div class="card"><h2>Progress</h2>
+      <div class="numgrid">
+        <div class="numcard"><div class="bignum">${days}</div><span>days done</span></div>
+        <div class="numcard"><div class="bignum">${calcStreak()}</div><span>streak</span></div>
+        <div class="numcard"><div class="bignum">${matFr}</div><span>french known</span></div>
+        <div class="numcard"><div class="bignum">${matA}</div><span>signs known</span></div>
+        <div class="numcard"><div class="bignum">${drillTotal}</div><span>drills done</span></div>
+      </div>
+      <h3>Vocabulary mastery</h3>
+      <div class="barrow"><span>French seen</span><div class="bt"><div style="width:${Math.round(seenFr/totalFr*100)}%"></div></div><span class="bn2">${seenFr}/${totalFr}</span></div>
+      <div class="barrow"><span>French mastered</span><div class="bt"><div style="width:${Math.round(matFr/totalFr*100)}%"></div></div><span class="bn2">${matFr}/${totalFr}</span></div>
+      <div class="barrow"><span>ASL signs seen</span><div class="bt"><div style="width:${Math.round(seenA/APP_DATA.asl.signs.length*100)}%"></div></div><span class="bn2">${seenA}/${APP_DATA.asl.signs.length}</span></div>
+    </div>
+    <div class="card"><h2>Drill accuracy</h2>
+      ${drillTotal? Object.entries(ds).map(([k,v])=>{
+        const pc = Math.round(v.ok/v.n*100);
+        return `<div class="barrow"><span>${names[k]||k}</span><div class="bt"><div style="width:${pc}%"></div></div><span class="bn2">${pc}%</span></div>`;
+      }).join("") : `<div class="dim">No drills yet — the Drill tab is where speaking actually gets built.</div>`}
+    </div>
+    <div class="card"><h2>Your weak spots</h2>
+      ${weakList.length ? `<div class="dim" style="font-size:.8rem">Missed most often. Tap to hear.</div>` +
+        weakList.map(([k,n])=>{ const kind=KIND[k[0]]||"item", txt=k.slice(2);
+          return `<div class="listitem"><span class="say2" data-say2="${esc(txt)}"><b>${esc(txt)}</b>
+            <span class="dim"> · ${kind}</span></span><span class="dim">×${n}</span></div>`; }).join("")
+        : `<div class="dim">Nothing flagged yet. Weak items appear here automatically as you drill.</div>`}
+    </div>
+    <div class="card"><h2>August</h2><div class="monthgrid">${
+      Array.from({length:31},(_,i)=>{ const dstr="2026-08-"+String(i+1).padStart(2,"0"), n=tasksDone(dstr);
+        return `<div class="day ${n>=5?"full":n>=3?"part":""}">${i+1}</div>`; }).join("")}</div></div>`;
+  document.querySelectorAll("[data-say2]").forEach(el=> el.onclick = ()=>speak(el.dataset.say2.split(":")[0]));
 };
 function renderVideos(area, vids){
   if (!navigator.onLine){
@@ -822,12 +1773,45 @@ V.asl = function(){
       <button data-at="nums" class="${aslTab==="nums"?"on":""}">Numbers</button>
       <button data-at="quiz" class="${aslTab==="quiz"?"on":""}">Handshape quiz</button>
       <button data-at="tips" class="${aslTab==="tips"?"on":""}">Grammar</button>
+      <button data-at="order" class="${aslTab==="order"?"on":""}">Sign order</button>
       <button data-at="videos" class="${aslTab==="videos"?"on":""}">Videos</button>
     </div><div id="aslArea" class="mt"></div></div>`;
   $("#main").innerHTML = h;
   document.querySelectorAll("[data-at]").forEach(b=> b.onclick = ()=>{ aslTab=b.dataset.at; clearInterval(fsTimer); V.asl(); });
-  ({spell:aslSpell, abc:aslAbc, nums:aslNums, quiz:aslQuiz, tips:aslTips, videos:()=>renderVideos($("#aslArea"), APP_DATA.videos.asl)})[aslTab]();
+  ({spell:aslSpell, abc:aslAbc, nums:aslNums, quiz:aslQuiz, tips:aslTips, order:aslOrder,
+    videos:()=>renderVideos($("#aslArea"), APP_DATA.videos.asl)})[aslTab]();
 };
+function aslOrder(){
+  const area = $("#aslArea");
+  let item, chosen=[];
+  function pick(){ item = DRILL.aslGloss[Math.floor(Math.random()*DRILL.aslGloss.length)]; chosen=[]; draw(); }
+  function draw(res){
+    const shuffled = item.gloss.map((w,i)=>({w,i})).sort((a,b)=>a.w.localeCompare(b.w));
+    area.innerHTML = `<div class="dim">English sentence → put the signs in ASL order. ASL is not English word order.</div>
+      <div class="drillbox">
+        <div class="prompt-md">${esc(item.en)}</div>
+        <div class="slot" id="slotA">${chosen.length? chosen.map((c,ci)=>
+          `<span class="chip" data-ua="${ci}">${esc(c.w)}</span>`).join("") : `<span class="dim">tap signs in order</span>`}</div>
+        <div class="chips">${shuffled.map(o=>
+          `<span class="chip ${chosen.some(c=>c.i===o.i)?"used":""}" data-pa="${o.i}">${esc(o.w)}</span>`).join("")}</div>
+      </div>
+      <div id="aRes">${res||""}</div>
+      <div class="row"><button class="ghost" id="clrA">Clear</button><button class="primary" id="chkA">Check</button></div>`;
+    document.querySelectorAll("[data-pa]").forEach(el=> el.onclick=()=>{ const i=+el.dataset.pa;
+      if(chosen.some(c=>c.i===i))return; chosen.push({w:item.gloss[i],i}); draw(); });
+    document.querySelectorAll("[data-ua]").forEach(el=> el.onclick=()=>{ chosen.splice(+el.dataset.ua,1); draw(); });
+    $("#clrA").onclick = ()=>{ chosen=[]; draw(); };
+    $("#chkA").onclick = ()=>{
+      if(!chosen.length) return;
+      const ok = chosen.map(c=>c.w).join(" ") === item.gloss.join(" ");
+      logDrill("aslorder", ok?1:0);
+      if(ok){ draw(`<div class="verdict ok"><b>${esc(item.gloss.join(" · "))}</b><br>
+        <span class="dim">${esc(item.why)}</span></div>`); setTimeout(pick,2200); }
+      else draw(`<div class="verdict no"><b>Not ASL order.</b><br><span class="dim">${esc(item.why)}</span></div>`);
+    };
+  }
+  pick();
+}
 function aslNums(){
   $("#aslArea").innerHTML = `<div class="abcgrid">` + APP_DATA.numbers.map(x=>
     `<div class="abccell numcell">${x.img?`<img src="${x.img}" alt="ASL ${x.n}" loading="lazy">`:`<div style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:10px;color:#333;font-size:.68rem;padding:6px;text-align:center">${esc(x.d)}</div>`}<b>${x.n}</b>${x.note?`<span>${esc(x.note)}</span>`:""}</div>`).join("") + `</div>
@@ -929,7 +1913,11 @@ V.more = function(){
   const wk = currentWeek();
   const uw = userWords();
   const prompt = APP_DATA.convPrompts.find(p=>p.w===wk);
-  let h = `<div class="card"><h2>Translation language / অনুবাদের ভাষা</h2>
+  let h = `<div class="card"><h2>Dictionary</h2>
+    <input type="text" id="searchIn" placeholder="search French, English or বাংলা…" autocomplete="off">
+    <div id="searchOut"></div>
+  </div>
+  <div class="card"><h2>Translation language / অনুবাদের ভাষা</h2>
     <div class="row">
       <button data-gl="en" class="${glossLang()==="en"?"primary":"ghost"}">English</button>
       <button data-gl="bn" class="${glossLang()==="bn"?"primary":"ghost"}">বাংলা</button>
@@ -973,6 +1961,24 @@ V.more = function(){
   const lvl = pre => Object.entries(s).filter(([k,v])=>k.startsWith(pre)&&v.lv>=2).length;
   $("#statFr").textContent = lvl("v")+lvl("p")+lvl("u");
   $("#statAsl").textContent = lvl("a");
+  $("#searchIn").oninput = e =>{
+    const q = e.target.value.trim();
+    if (q.length < 2){ $("#searchOut").innerHTML=""; return; }
+    const nq = norm(q);
+    const all = APP_DATA.french.vocab.map(v=>({...v,src:"word"}))
+      .concat(APP_DATA.visual.map(v=>({...v,src:"picture"})))
+      .concat(APP_DATA.french.phrases.map(p=>({...p,src:"phrase"})))
+      .concat(DRILL.verbs.map(v=>({f:v.v,e:v.e,src:"verb"})))
+      .concat(DRILL.sentences.map(s=>({f:s.f,e:s.e,src:"sentence"})));
+    const hits = all.filter(x=> norm(x.f).includes(nq) || norm(x.e).includes(nq) || (bnOf(x.f)||"").includes(q)).slice(0,25);
+    $("#searchOut").innerHTML = hits.length ? hits.map(x=>{
+      const bn = bnOf(x.f);
+      return `<div class="listitem"><span><b class="say3" data-say3="${esc(x.f)}">${esc(x.f)}</b>
+        <span class="dim"> — ${esc(x.e)}</span>${bn?`<br><span class="bn" style="font-size:.85rem">${esc(bn)}</span>`:""}</span>
+        <span class="dim" style="font-size:.7rem">${x.src}</span></div>`; }).join("")
+      : `<div class="dim mt">Nothing found. Ask Claude — that's what the conversation block is for.</div>`;
+    document.querySelectorAll("[data-say3]").forEach(el=> el.onclick = ()=>speak(el.dataset.say3));
+  };
   document.querySelectorAll("[data-gl]").forEach(b=> b.onclick = ()=>{ store.set("gloss", b.dataset.gl); V.more(); });
   $("#addW").onclick = ()=>{
     const f = $("#nf").value.trim(), e = $("#ne").value.trim();
@@ -1002,6 +2008,54 @@ function prompt2(msg){ return window.prompt(msg); }
 document.querySelectorAll("nav button").forEach(b=>{ b.onclick = ()=>gotoView(b.dataset.v); });
 document.querySelector('nav button[data-v="today"]').classList.add("active");
 V.today(); updateStreak(); updatePill();
+
+// ================= shortcuts overlay =================
+const scPanel = $("#shortcuts");
+function toggleShortcuts(show){ scPanel.classList.toggle("hidden", show===false ? true : show===true ? false : !scPanel.classList.contains("hidden")); }
+$("#helpBtn").onclick = ()=>toggleShortcuts(true);
+$("#closeSc").onclick = ()=>toggleShortcuts(false);
+scPanel.onclick = e =>{ if(e.target===scPanel) toggleShortcuts(false); };
+
+// ================= keyboard shortcuts (desktop) =================
+document.addEventListener("keydown", e=>{
+  const tag = (e.target.tagName||"").toLowerCase();
+  const typing = tag==="input" || tag==="textarea";
+  if (e.key==="Escape"){ toggleShortcuts(false); return; }
+  if (!typing && (e.key==="?" || (e.key==="/" && e.shiftKey))){ e.preventDefault(); toggleShortcuts(); return; }
+  if (!scPanel.classList.contains("hidden")) return;
+  // global view switching with alt+number
+  if (e.altKey && /^[1-8]$/.test(e.key)){
+    const v = ["today","learn","drill","cards","quiz","asl","stats","more"][+e.key-1];
+    if (v){ e.preventDefault(); gotoView(v); } return;
+  }
+  if (typing) return;
+  const k = e.key.toLowerCase();
+  if (view==="cards"){
+    const flip = $("#flip");
+    if (e.code==="Space" && flip){ e.preventDefault(); flip.onclick({target:{id:""}}); return; }
+    if (/^[123]$/.test(k)){ const b=document.querySelectorAll("#gradeRow button")[+k-1];
+      if(b && !$("#gradeRow").classList.contains("hidden")){ e.preventDefault(); b.onclick(); } return; }
+    if (k==="r"){ const s=$("#sayBtn"); if(s){ e.preventDefault(); s.onclick(); } return; }
+  }
+  if (view==="drill"){
+    if (k==="r"){ const r=$("#hearIt")||$("#replayD")||$("#repN"); if(r){ e.preventDefault(); r.onclick(); } return; }
+    if (e.code==="Space"){ const m=$("#micBtn"); if(m){ e.preventDefault(); m.onclick(); } return; }
+    if (k==="n"){ const n=$("#nextS"); if(n){ e.preventDefault(); n.onclick(); } return; }
+    if (drillTab==="gender"){
+      if (e.key==="ArrowLeft"){ const b=document.querySelector('[data-g2="le"]'); if(b){e.preventDefault(); b.onclick();} }
+      if (e.key==="ArrowRight"){ const b=document.querySelector('[data-g2="la"]'); if(b){e.preventDefault(); b.onclick();} }
+      return;
+    }
+  }
+  if (view==="session"){
+    if (e.code==="Space" || k==="d"){ const b=$("#doneBtn"); if(b){ e.preventDefault(); b.onclick(); } }
+    return;
+  }
+  if (view==="quiz" || view==="learn"){
+    if (/^[1-4]$/.test(k)){ const o=document.querySelectorAll(".quizopt")[+k-1];
+      if(o && o.onclick){ e.preventDefault(); o.onclick(); } }
+  }
+});
 
 // ================= service worker =================
 if ("serviceWorker" in navigator && location.protocol !== "file:")
