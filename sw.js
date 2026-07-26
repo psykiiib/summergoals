@@ -1,5 +1,6 @@
-const CACHE = "summergoals-v1";
-const ASSETS = ["./", "./index.html", "./data.js", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png"];
+const CACHE = "summergoals-v2";
+const LETTERS = "abcdefghijklmnopqrstuvwxyz".split("").map(c => "./asl/" + c + ".svg");
+const ASSETS = ["./", "./index.html", "./data.js", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", ...LETTERS];
 
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));

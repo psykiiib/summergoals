@@ -85,6 +85,23 @@
   .center{text-align:center}
   .mt{margin-top:12px}
   a{color:var(--accent)}
+  .aslimg{background:#fff; border-radius:14px; padding:10px; width:120px; height:120px; object-fit:contain}
+  .aslimg.small{width:64px; height:64px; padding:6px; border-radius:10px}
+  .abcgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
+  .abccell{background:var(--card2); border-radius:14px; padding:10px; text-align:center}
+  .abccell img{background:#fff; border-radius:10px; padding:6px; width:100%; aspect-ratio:1; object-fit:contain}
+  .abccell b{display:block; margin-top:4px; font-size:1.05rem}
+  .abccell span{font-size:.62rem; color:var(--dim); line-height:1.25; display:block; margin-top:2px}
+  .bigemoji{font-size:6rem; line-height:1.1}
+  .catgrid{display:flex; gap:6px; flex-wrap:wrap}
+  .catgrid button{font-size:.82rem; padding:8px 13px}
+  .catgrid button.on{background:var(--accent); color:#0d0e14; font-weight:700}
+  .lesson-item{cursor:pointer}
+  .exrow{display:flex; justify-content:space-between; align-items:center; gap:10px; background:var(--card2);
+    border-radius:10px; padding:9px 12px; margin:5px 0; cursor:pointer}
+  .exrow b{font-size:.95rem}
+  .exrow span{color:var(--dim); font-size:.8rem; text-align:right}
+  .picopt{font-size:1.05rem}
 </style>
 </head>
 <body>
@@ -95,6 +112,7 @@
 <main id="main"></main>
 <nav id="nav">
   <button data-v="today"><span class="ico">📅</span>Today</button>
+  <button data-v="learn"><span class="ico">📖</span>Learn</button>
   <button data-v="cards"><span class="ico">🃏</span>Cards</button>
   <button data-v="quiz"><span class="ico">❓</span>Quiz</button>
   <button data-v="asl"><span class="ico">🤟</span>ASL</button>
@@ -219,6 +237,115 @@ V.today = function(){
 
 function rangeWeeks(wk){ const r=[]; for(let i=1;i<=wk;i++) r.push(i); return r; }
 
+// -------- learn (lessons + picture words) --------
+let learnTab = "lessons", picCat = "food", openLesson = -1;
+V.learn = function(){
+  let h = `<div class="card"><h2>Learn French</h2>
+    <div class="subtabs">
+      <button data-lt="lessons" class="${learnTab==="lessons"?"on":""}">📚 Lessons</button>
+      <button data-lt="pics" class="${learnTab==="pics"?"on":""}">🖼 Picture words</button>
+      <button data-lt="picquiz" class="${learnTab==="picquiz"?"on":""}">🎯 Picture quiz</button>
+    </div><div id="learnArea" class="mt"></div></div>`;
+  $("#main").innerHTML = h;
+  document.querySelectorAll("[data-lt]").forEach(b=> b.onclick = ()=>{ learnTab=b.dataset.lt; V.learn(); });
+  ({lessons:learnLessons, pics:learnPics, picquiz:learnPicQuiz})[learnTab]();
+};
+function learnLessons(){
+  const area = $("#learnArea"), wk = currentWeek();
+  if (openLesson >= 0){
+    const L = APP_DATA.lessons[openLesson];
+    let h = `<button class="ghost" id="backL">← All lessons</button>
+      <h3 style="color:var(--accent);font-size:1rem;text-transform:none;letter-spacing:0">${esc(L.t)} <span class="pill">week ${L.w}</span></h3>`;
+    L.p.forEach(p=>{
+      h += `<div class="dim mt" style="font-size:.92rem;color:var(--text)">${esc(p.x)}</div>`;
+      (p.ex||[]).forEach(([fr,en])=> h += `<div class="exrow" data-say="${esc(fr)}"><b>🔊 ${esc(fr)}</b><span>${esc(en)}</span></div>`);
+    });
+    h += `<div class="dim mt">Tap any example to hear it.</div>`;
+    area.innerHTML = h;
+    $("#backL").onclick = ()=>{ openLesson=-1; learnLessons(); };
+    document.querySelectorAll("[data-say]").forEach(el=> el.onclick = ()=>speak(el.dataset.say));
+    return;
+  }
+  let h = `<div class="dim">Your grammar backbone, always in your pocket. Current week first.</div>`;
+  [1,2,3,4].forEach(w=>{
+    h += `<h3>Week ${w}${w===wk?" — now":""}</h3>`;
+    APP_DATA.lessons.forEach((L,i)=>{
+      if (L.w===w) h += `<div class="listitem lesson-item" data-li="${i}"><span>📖 ${esc(L.t)}</span><span class="dim">›</span></div>`;
+    });
+  });
+  area.innerHTML = h;
+  document.querySelectorAll("[data-li]").forEach(el=> el.onclick = ()=>{ openLesson=+el.dataset.li; learnLessons(); });
+}
+const PIC_CATS = [...new Set(APP_DATA.visual.map(v=>v.g))];
+function learnPics(){
+  const area = $("#learnArea");
+  let idx = 0, revealed = false;
+  const pool = ()=> APP_DATA.visual.filter(v=>v.g===picCat);
+  function draw(){
+    const items = pool(); const it = items[idx % items.length];
+    area.innerHTML = `<div class="catgrid">${PIC_CATS.map(c=>`<button data-c="${c}" class="${c===picCat?"on":""}">${c}</button>`).join("")}</div>
+      <div class="bigcard" id="picCard">
+        <div class="bigemoji">${it.i}</div>
+        ${revealed
+          ? `<div class="front" style="font-size:1.5rem">${esc(it.f)}</div><div class="back">${esc(it.e)}</div>
+             <button class="speak" id="againBtn">🔊</button>`
+          : `<div class="dim">What is this in French? Tap to reveal + hear</div>`}
+        <span class="pill">${idx % items.length + 1}/${items.length} · ${picCat}</span>
+      </div>
+      <div class="row"><button class="ghost" id="prevP">← Prev</button><button class="primary" id="nextP">Next →</button></div>`;
+    document.querySelectorAll("[data-c]").forEach(b=> b.onclick = ()=>{ picCat=b.dataset.c; idx=0; revealed=false; draw(); });
+    $("#picCard").onclick = e=>{
+      if (e.target.id==="againBtn"){ speak(pool()[idx % pool().length].f); return; }
+      if (!revealed){ revealed = true; draw(); speak(it.f); }
+    };
+    $("#nextP").onclick = ()=>{ idx++; revealed=false; draw(); };
+    $("#prevP").onclick = ()=>{ idx = (idx-1+items.length)%items.length; revealed=false; draw(); };
+    const ab = $("#againBtn"); if (ab) ab.onclick = ()=>speak(it.f);
+  }
+  draw();
+}
+function learnPicQuiz(){
+  const area = $("#learnArea");
+  let score = 0, round = 0, mode = Math.random()<.5;
+  function next(){
+    if (round===10){
+      area.innerHTML = `<div class="bigcard"><div style="font-size:2.5rem">${score>=8?"🏆":score>=6?"👍":"📚"}</div>
+        <div>${score}/10</div><button class="primary mt" id="againQ">Play again</button></div>`;
+      $("#againQ").onclick = learnPicQuiz; return;
+    }
+    round++;
+    const V2 = APP_DATA.visual;
+    const ans = V2[Math.floor(Math.random()*V2.length)];
+    const opts = [ans];
+    while (opts.length<4){ const o=V2[Math.floor(Math.random()*V2.length)]; if(!opts.some(x=>x.f===o.f)) opts.push(o); }
+    opts.sort(()=>Math.random()-.5);
+    const pickWord = round%2===1; // odd rounds: see picture pick word; even: see word pick picture
+    let h = `<div class="dim">Round ${round}/10 · score ${score}</div>`;
+    if (pickWord){
+      h += `<div class="center mt bigemoji">${ans.i}</div><div class="center dim">Pick the French word:</div>`;
+      opts.forEach((o,i)=> h += `<button class="quizopt picopt" data-i="${i}">${esc(o.f)}</button>`);
+    } else {
+      h += `<div class="center mt front" style="font-size:1.4rem;font-weight:700">${esc(ans.f)} <button class="speak" id="sayQ" style="width:38px;height:38px;font-size:1rem">🔊</button></div>
+        <div class="row mt">${opts.map((o,i)=>`<button class="quizopt" style="text-align:center;font-size:2.4rem" data-i="${i}">${o.i}</button>`).join("")}</div>`;
+    }
+    area.innerHTML = h;
+    const sq = $("#sayQ"); if (sq){ speak(ans.f); sq.onclick=()=>speak(ans.f); }
+    document.querySelectorAll(".quizopt").forEach(b=>{
+      b.onclick = ()=>{
+        const i=+b.dataset.i, ok = opts[i].f===ans.f;
+        document.querySelectorAll(".quizopt").forEach((x,xi)=>{
+          if (opts[xi].f===ans.f) x.classList.add("correct");
+          else if (xi===i) x.classList.add("wrong");
+          x.onclick=null;
+        });
+        if (ok){ score++; if(pickWord) speak(ans.f); }
+        setTimeout(next, ok?800:1500);
+      };
+    });
+  }
+  next();
+}
+
 // -------- flashcards --------
 let cardState = {queue:[], idx:0, flipped:false, deckName:"fr", weeks:null, done:0};
 V.cards = function(){
@@ -269,8 +396,10 @@ function renderCard(){
   }
   const c = q[cardState.idx];
   const isFr = cardState.deckName==="fr";
+  const vis = isFr ? APP_DATA.visual.find(v=>v.f===c.f) : null;
   area.innerHTML = `<div class="bigcard" id="flip">
       <span class="pill">${esc(c.c||"")} · week ${c.w} · ${cardState.idx+1}/${q.length}</span>
+      ${vis?`<div style="font-size:3rem">${vis.i}</div>`:""}
       <div class="front">${esc(c.f)}</div>
       ${isFr?`<button class="speak" id="sayBtn">🔊</button>`:""}
       <div class="back ${cardState.flipped?"":"hidden"}" id="back">${esc(c.e)}</div>
@@ -383,8 +512,8 @@ V.asl = function(){
 const FS_WORDS = ["cat","dog","play","game","name","food","water","friend","happy","learn","sign","deaf","home","work","book","read","blue","red","milk","bread","phone","hello","paris","month","august","goal","code","dev","music","movie","sleep","dream","hand","face","eyes","smile","world","story","light","night","summer","french","psy","claude","pizza","coffee","train","beach","cloud","star"];
 function aslSpell(){
   const area = $("#aslArea");
-  area.innerHTML = `<div class="dim">Mode 1 — <b>Receptive:</b> letters appear one by one; picture the handshape for each (check Alphabet tab if stuck), then guess the word.<br><br>
-    Mode 2 — <b>Expressive:</b> a word appears; fingerspell it with your hand, then tap to check letter order.</div>
+  area.innerHTML = `<div class="dim">Mode 1 — <b>Receptive:</b> real handshapes flash one by one — read the word like you'd read someone's hand.<br><br>
+    Mode 2 — <b>Expressive:</b> a word appears; fingerspell it with your own hand, then check against the handshape images.</div>
     <div class="row mt">
       <button class="primary" id="recBtn">👀 Receptive drill</button>
       <button class="good" id="expBtn">🖐 Expressive drill</button>
@@ -400,17 +529,23 @@ function aslSpell(){
     clearInterval(fsTimer);
     const word = FS_WORDS[Math.floor(Math.random()*FS_WORDS.length)].toUpperCase();
     const fa = $("#fsArea"); let i = 0;
-    fa.innerHTML = `<div class="fsletter" id="fsl"></div><div class="center dim">Watch… then what was the word?</div>`;
+    fa.innerHTML = `<div class="center" style="min-height:150px;display:flex;align-items:center;justify-content:center">
+        <img class="aslimg" id="fsl" src="" alt="" style="visibility:hidden"></div>
+      <div class="center dim">Read the handshapes… what's the word?</div>`;
     fsTimer = setInterval(()=>{
       const el = $("#fsl"); if (!el){ clearInterval(fsTimer); return; }
-      if (i < word.length){ el.textContent = word[i]; i++; }
-      else {
+      if (i < word.length){
+        el.style.visibility = "visible";
+        el.src = "asl/" + word[i].toLowerCase() + ".svg";
+        i++;
+      } else {
         clearInterval(fsTimer);
         fa.innerHTML = `<div class="fsletter">?</div>
           <div class="row"><button class="primary" id="revealW">Reveal word</button></div>`;
         $("#revealW").onclick = ()=>{
           fa.innerHTML = `<div class="fsletter" style="font-size:2.2rem">${word}</div>
-            <div class="row"><button class="good" id="nextW">Next word →</button></div>`;
+            <div class="center">${word.split("").map(c=>`<img class="aslimg small" src="asl/${c.toLowerCase()}.svg" alt="${c}" style="margin:2px">`).join("")}</div>
+            <div class="row mt"><button class="good" id="nextW">Next word →</button></div>`;
           $("#nextW").onclick = ()=>$("#recBtn").click();
         };
       }
@@ -422,14 +557,14 @@ function aslSpell(){
     $("#fsArea").innerHTML = `<div class="fsletter" style="font-size:2.2rem">${word}</div>
       <div class="center dim">Fingerspell it now — smooth, steady hand, no bouncing</div>
       <div class="row mt"><button class="primary" id="chk">Show letters</button><button class="good" id="nx">Next →</button></div>`;
-    $("#chk").onclick = ()=> $("#chk").outerHTML = `<div class="pill" style="align-self:center">${word.split("").join(" · ")}</div>`;
+    $("#chk").onclick = ()=> $("#chk").outerHTML = `<div class="center" style="flex:1">${word.split("").map(c=>`<img class="aslimg small" src="asl/${c.toLowerCase()}.svg" alt="${c}" style="margin:2px">`).join("")}</div>`;
     $("#nx").onclick = ()=> $("#expBtn").click();
   };
 }
 function aslAbc(){
-  $("#aslArea").innerHTML = APP_DATA.asl.alphabet.map(a=>
-    `<div class="listitem"><b style="width:24px;font-size:1.1rem">${a.l}</b><span class="dim" style="flex:1">${esc(a.d)}</span></div>`).join("") +
-    `<div class="dim mt">Descriptions are memory aids — verify shapes against <a href="https://www.lifeprint.com/asl101/topics/wallpaper1.htm">Lifeprint's chart</a> when online.</div>`;
+  $("#aslArea").innerHTML = `<div class="abcgrid">` + APP_DATA.asl.alphabet.map(a=>
+    `<div class="abccell"><img src="asl/${a.l.toLowerCase()}.svg" alt="ASL ${a.l}" loading="lazy"><b>${a.l}</b><span>${esc(a.d)}</span></div>`).join("") + `</div>
+    <div class="dim mt">Handshape images: public domain. J and Z include motion — draw the letter in the air.</div>`;
 }
 function aslQuiz(){
   const area = $("#aslArea");
@@ -443,7 +578,8 @@ function aslQuiz(){
     while (opts.length<4){ const o = abc[Math.floor(Math.random()*abc.length)]; if(!opts.includes(o)) opts.push(o); }
     opts.sort(()=>Math.random()-.5);
     area.innerHTML = `<div class="dim">Round ${round}/10 · score ${score}</div>
-      <div class="mt" style="font-size:1rem"><b>Which letter is:</b><br>"${esc(ans.d)}"</div>
+      <div class="center mt"><img class="aslimg" src="asl/${ans.l.toLowerCase()}.svg" alt="?"></div>
+      <div class="center dim mt">Which letter is this?</div>
       <div class="row mt">${opts.map(o=>`<button class="quizopt" style="text-align:center;font-size:1.3rem;font-weight:700" data-l="${o.l}">${o.l}</button>`).join("")}</div>`;
     document.querySelectorAll(".quizopt").forEach(b=>{
       b.onclick = ()=>{

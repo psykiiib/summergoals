@@ -637,6 +637,201 @@ grammarTips: [
 ]
 },
 
+// ============ Visual French: picture -> word -> pronunciation ============
+visual: [
+// food & drink
+{i:"🍞",f:"le pain",e:"the bread",g:"food"},
+{i:"💧",f:"l'eau",e:"the water",g:"food"},
+{i:"☕",f:"le café",e:"the coffee",g:"food"},
+{i:"🍵",f:"le thé",e:"the tea",g:"food"},
+{i:"🥛",f:"le lait",e:"the milk",g:"food"},
+{i:"🧀",f:"le fromage",e:"the cheese",g:"food"},
+{i:"🥩",f:"la viande",e:"the meat",g:"food"},
+{i:"🍗",f:"le poulet",e:"the chicken",g:"food"},
+{i:"🐟",f:"le poisson",e:"the fish",g:"food"},
+{i:"🥕",f:"les légumes",e:"the vegetables",g:"food"},
+{i:"🍎",f:"la pomme",e:"the apple",g:"food"},
+{i:"🍌",f:"la banane",e:"the banana",g:"food"},
+{i:"🍊",f:"l'orange",e:"the orange",g:"food"},
+{i:"🍚",f:"le riz",e:"the rice",g:"food"},
+{i:"🥚",f:"l'œuf",e:"the egg",g:"food"},
+{i:"🍕",f:"la pizza",e:"the pizza",g:"food"},
+{i:"🍫",f:"le chocolat",e:"the chocolate",g:"food"},
+{i:"🍰",f:"le gâteau",e:"the cake",g:"food"},
+{i:"🥗",f:"la salade",e:"the salad",g:"food"},
+{i:"🍜",f:"la soupe",e:"the soup",g:"food"},
+{i:"🧈",f:"le beurre",e:"the butter",g:"food"},
+{i:"🍬",f:"le sucre",e:"the sugar",g:"food"},
+{i:"🧂",f:"le sel",e:"the salt",g:"food"},
+{i:"🍷",f:"le vin",e:"the wine",g:"food"},
+{i:"🥤",f:"le jus",e:"the juice",g:"food"},
+// animals
+{i:"🐱",f:"le chat",e:"the cat",g:"animals"},
+{i:"🐶",f:"le chien",e:"the dog",g:"animals"},
+{i:"🐦",f:"l'oiseau",e:"the bird",g:"animals"},
+{i:"🐴",f:"le cheval",e:"the horse",g:"animals"},
+{i:"🐮",f:"la vache",e:"the cow",g:"animals"},
+{i:"🐭",f:"la souris",e:"the mouse",g:"animals"},
+{i:"🐰",f:"le lapin",e:"the rabbit",g:"animals"},
+{i:"🦁",f:"le lion",e:"the lion",g:"animals"},
+{i:"🐘",f:"l'éléphant",e:"the elephant",g:"animals"},
+{i:"🐍",f:"le serpent",e:"the snake",g:"animals"},
+// objects
+{i:"📱",f:"le téléphone",e:"the phone",g:"objects"},
+{i:"💻",f:"l'ordinateur",e:"the computer",g:"objects"},
+{i:"📖",f:"le livre",e:"the book",g:"objects"},
+{i:"🔑",f:"la clé",e:"the key",g:"objects"},
+{i:"🚪",f:"la porte",e:"the door",g:"objects"},
+{i:"🪟",f:"la fenêtre",e:"the window",g:"objects"},
+{i:"🛏️",f:"le lit",e:"the bed",g:"objects"},
+{i:"🪑",f:"la chaise",e:"the chair",g:"objects"},
+{i:"🍽️",f:"l'assiette",e:"the plate",g:"objects"},
+{i:"🥄",f:"la cuillère",e:"the spoon",g:"objects"},
+{i:"🔪",f:"le couteau",e:"the knife",g:"objects"},
+{i:"🍴",f:"la fourchette",e:"the fork",g:"objects"},
+{i:"👕",f:"la chemise",e:"the shirt",g:"objects"},
+{i:"👖",f:"le pantalon",e:"the trousers",g:"objects"},
+{i:"👟",f:"les chaussures",e:"the shoes",g:"objects"},
+{i:"🎒",f:"le sac",e:"the bag",g:"objects"},
+{i:"⌚",f:"la montre",e:"the watch",g:"objects"},
+{i:"🕶️",f:"les lunettes",e:"the glasses",g:"objects"},
+{i:"💶",f:"l'argent",e:"the money",g:"objects"},
+{i:"✏️",f:"le crayon",e:"the pencil",g:"objects"},
+{i:"📄",f:"le papier",e:"the paper",g:"objects"},
+{i:"🎮",f:"le jeu vidéo",e:"the video game",g:"objects"},
+{i:"🎵",f:"la musique",e:"the music",g:"objects"},
+{i:"📺",f:"la télévision",e:"the television",g:"objects"},
+{i:"📷",f:"l'appareil photo",e:"the camera",g:"objects"},
+// places & transport
+{i:"🏠",f:"la maison",e:"the house",g:"places"},
+{i:"🏢",f:"l'immeuble",e:"the building",g:"places"},
+{i:"🏫",f:"l'école",e:"the school",g:"places"},
+{i:"🏥",f:"l'hôpital",e:"the hospital",g:"places"},
+{i:"🏦",f:"la banque",e:"the bank",g:"places"},
+{i:"🏪",f:"le magasin",e:"the shop",g:"places"},
+{i:"🍽",f:"le restaurant",e:"the restaurant",g:"places"},
+{i:"⛪",f:"l'église",e:"the church",g:"places"},
+{i:"🌉",f:"le pont",e:"the bridge",g:"places"},
+{i:"🏖️",f:"la plage",e:"the beach",g:"places"},
+{i:"⛰️",f:"la montagne",e:"the mountain",g:"places"},
+{i:"🌊",f:"la mer",e:"the sea",g:"places"},
+{i:"🌳",f:"l'arbre",e:"the tree",g:"places"},
+{i:"🌸",f:"la fleur",e:"the flower",g:"places"},
+{i:"🚗",f:"la voiture",e:"the car",g:"transport"},
+{i:"🚌",f:"le bus",e:"the bus",g:"transport"},
+{i:"🚆",f:"le train",e:"the train",g:"transport"},
+{i:"✈️",f:"l'avion",e:"the plane",g:"transport"},
+{i:"🚲",f:"le vélo",e:"the bicycle",g:"transport"},
+{i:"🚕",f:"le taxi",e:"the taxi",g:"transport"},
+{i:"🚢",f:"le bateau",e:"the boat",g:"transport"},
+// body
+{i:"👤",f:"la tête",e:"the head",g:"body"},
+{i:"✋",f:"la main",e:"the hand",g:"body"},
+{i:"👀",f:"les yeux",e:"the eyes",g:"body"},
+{i:"👄",f:"la bouche",e:"the mouth",g:"body"},
+{i:"👃",f:"le nez",e:"the nose",g:"body"},
+{i:"👂",f:"l'oreille",e:"the ear",g:"body"},
+{i:"🦶",f:"le pied",e:"the foot",g:"body"},
+{i:"🦵",f:"la jambe",e:"the leg",g:"body"},
+{i:"💪",f:"le bras",e:"the arm",g:"body"},
+{i:"❤️",f:"le cœur",e:"the heart",g:"body"},
+// nature & weather
+{i:"☀️",f:"le soleil",e:"the sun",g:"weather"},
+{i:"🌙",f:"la lune",e:"the moon",g:"weather"},
+{i:"⭐",f:"l'étoile",e:"the star",g:"weather"},
+{i:"🌧️",f:"la pluie",e:"the rain",g:"weather"},
+{i:"❄️",f:"la neige",e:"the snow",g:"weather"},
+{i:"💨",f:"le vent",e:"the wind",g:"weather"},
+{i:"☁️",f:"le nuage",e:"the cloud",g:"weather"},
+{i:"🔥",f:"le feu",e:"the fire",g:"weather"},
+// colors
+{i:"🔴",f:"rouge",e:"red",g:"colors"},
+{i:"🔵",f:"bleu",e:"blue",g:"colors"},
+{i:"🟢",f:"vert",e:"green",g:"colors"},
+{i:"🟡",f:"jaune",e:"yellow",g:"colors"},
+{i:"⚫",f:"noir",e:"black",g:"colors"},
+{i:"⚪",f:"blanc",e:"white",g:"colors"},
+{i:"🟠",f:"orange",e:"orange",g:"colors"},
+{i:"🟣",f:"violet",e:"purple",g:"colors"},
+{i:"🟤",f:"marron",e:"brown",g:"colors"},
+{i:"🩷",f:"rose",e:"pink",g:"colors"},
+// people
+{i:"👨",f:"l'homme",e:"the man",g:"people"},
+{i:"👩",f:"la femme",e:"the woman",g:"people"},
+{i:"👦",f:"le garçon",e:"the boy",g:"people"},
+{i:"👧",f:"la fille",e:"the girl",g:"people"},
+{i:"👶",f:"le bébé",e:"the baby",g:"people"},
+{i:"👪",f:"la famille",e:"the family",g:"people"},
+{i:"👴",f:"le grand-père",e:"the grandfather",g:"people"},
+{i:"👵",f:"la grand-mère",e:"the grandmother",g:"people"},
+{i:"🧑‍⚕️",f:"le médecin",e:"the doctor",g:"people"},
+{i:"👮",f:"le policier",e:"the police officer",g:"people"}
+],
+
+// ============ Built-in French mini-lessons ============
+lessons: [
+{w:1,t:"How French sounds work",p:[
+ {x:"Final consonants are usually SILENT: 'vous' sounds like 'voo', 'petit' like 'puh-TEE'. Exception: final C, R, F, L are often pronounced (think 'CaReFuL')."},
+ {x:"Nasal vowels — air through the nose, don't pronounce the N: ", ex:[["bon","good — 'boh(n)'"],["vin","wine — 'vah(n)'"],["un","one — 'uh(n)'"]]},
+ {x:"'ou' = 'oo', 'oi' = 'wa', 'au/eau' = 'oh', 'é' = 'ay', 'è/ê' = 'eh':", ex:[["bonjour","bohn-ZHOOR"],["moi","mwa — me"],["l'eau","loh — water"],["café","ka-FAY"]]},
+ {x:"Liaison: a silent final consonant is pronounced when the next word starts with a vowel:", ex:[["vous êtes","voo-ZET — you are"],["les amis","lay-ZA-mee — the friends"]]}
+]},
+{w:1,t:"Gender & articles — every noun is m. or f.",p:[
+ {x:"There's no logic to memorize word-by-word — ALWAYS learn a noun with its article:", ex:[["le pain","the bread (m.)"],["la pomme","the apple (f.)"],["un livre","a book (m.)"],["une table","a table (f.)"]]},
+ {x:"Patterns that usually work: -tion/-té/-ette → feminine; -age/-ment/-eau → masculine:", ex:[["la nation","the nation"],["la liberté","freedom"],["le fromage","the cheese"],["le bâtiment","the building"]]},
+ {x:"Before a vowel, le/la become l'; plural is always 'les':", ex:[["l'eau","the water"],["l'ami","the friend"],["les enfants","the children"]]}
+]},
+{w:1,t:"The big four verbs (present)",p:[
+ {x:"ÊTRE (to be) and AVOIR (to have) are irregular and everywhere. Age uses AVOIR:", ex:[["je suis fatigué","I am tired"],["j'ai vingt ans","I am 20 (I HAVE 20 years)"],["tu es prêt ?","are you ready?"],["nous avons faim","we're hungry"]]},
+ {x:"ALLER (to go) also builds the future. FAIRE (to do/make) covers weather and activities:", ex:[["je vais au marché","I go to the market"],["il fait beau","the weather's nice"],["nous faisons du sport","we do sports"]]}
+]},
+{w:1,t:"Asking questions",p:[
+ {x:"Easiest way: put 'est-ce que' before a statement — no word-order change:", ex:[["Est-ce que tu parles français ?","Do you speak French?"],["Est-ce qu'il vient ?","Is he coming?"]]},
+ {x:"Question words go in front: où (where), quand (when), pourquoi (why), comment (how), combien (how much):", ex:[["Où est la gare ?","Where's the station?"],["Comment tu t'appelles ?","What's your name?"],["C'est combien ?","How much is it?"]]},
+ {x:"In speech you can just raise your voice at the end:", ex:[["Tu viens ?","You coming?"],["Ça va ?","All good?"]]}
+]},
+{w:2,t:"Regular -er verbs (90% of all verbs)",p:[
+ {x:"Drop -er, add endings: je -e, tu -es, il -e, nous -ons, vous -ez, ils -ent. The -e/-es/-ent endings are SILENT, so 4 of 6 forms sound identical:", ex:[["je parle","I speak"],["tu parles","you speak (same sound!)"],["nous parlons","we speak"],["vous parlez","you speak"]]},
+ {x:"This pattern covers hundreds of verbs:", ex:[["j'aime","I like"],["tu travailles","you work"],["elle écoute","she listens"],["ils jouent","they play"]]}
+]},
+{w:2,t:"Negation — the 'ne…pas' sandwich",p:[
+ {x:"Wrap the verb between 'ne' and 'pas'. In speech, 'ne' often disappears:", ex:[["je ne sais pas","I don't know"],["je sais pas","I dunno (spoken)"],["il ne travaille pas","he doesn't work"]]},
+ {x:"Variants: ne…jamais (never), ne…rien (nothing), ne…plus (no more):", ex:[["je ne mange jamais de viande","I never eat meat"],["je n'ai rien fait","I did nothing"]]}
+]},
+{w:2,t:"Near future: aller + infinitive",p:[
+ {x:"Exactly like English 'going to'. Conjugate ALLER, then any verb in its dictionary form:", ex:[["je vais manger","I'm going to eat"],["tu vas aimer ça","you're going to like it"],["on va voir","we'll see"],["ils vont partir demain","they're going to leave tomorrow"]]},
+ {x:"'on' = casual 'we' — French people use it constantly instead of 'nous':", ex:[["on y va ?","shall we go?"],["on parle français","we speak French"]]}
+]},
+{w:2,t:"Want, can, must — the power trio",p:[
+ {x:"vouloir (want), pouvoir (can), devoir (must) + infinitive unlocks hundreds of sentences:", ex:[["je veux apprendre","I want to learn"],["je peux venir","I can come"],["je dois partir","I have to leave"],["tu peux m'aider ?","can you help me?"]]},
+ {x:"'Je voudrais' (I would like) is the polite magic word for shops and cafés:", ex:[["je voudrais un café, s'il vous plaît","I'd like a coffee, please"]]}
+]},
+{w:3,t:"Passé composé — talking about the past",p:[
+ {x:"avoir (conjugated) + past participle. For -er verbs the participle ends in -é:", ex:[["j'ai mangé","I ate"],["tu as parlé","you spoke"],["il a travaillé","he worked"],["nous avons joué","we played"]]},
+ {x:"Common irregular participles — just memorize these:", ex:[["j'ai fait","I did"],["j'ai vu","I saw"],["j'ai pris","I took"],["j'ai eu","I had"],["j'ai été","I was"],["j'ai bu","I drank"]]}
+]},
+{w:3,t:"Être verbs & reflexives in the past",p:[
+ {x:"Movement/change verbs use ÊTRE instead: aller, venir, arriver, partir, rester, rentrer… The participle agrees with the subject (add -e if you're female):", ex:[["je suis allé au parc","I went to the park (m.)"],["elle est allée au parc","she went to the park"],["nous sommes arrivés","we arrived"]]},
+ {x:"Reflexive verbs (daily routine!) also use être:", ex:[["je me suis levé à 8h","I got up at 8"],["elle s'est couchée tard","she went to bed late"]]}
+]},
+{w:3,t:"Time words that glue stories together",p:[
+ {x:"Sequence your day like a story:", ex:[["d'abord","first"],["ensuite","then"],["après","after"],["enfin","finally"],["hier soir","last night"],["il y a deux jours","two days ago"]]},
+ {x:"Frequency: toujours (always), souvent (often), parfois (sometimes), jamais (never):", ex:[["je joue souvent le soir","I often play in the evening"],["je ne me lève jamais tôt","I never get up early"]]}
+]},
+{w:4,t:"Giving opinions like an A2 speaker",p:[
+ {x:"These starters instantly upgrade your speech:", ex:[["je pense que c'est intéressant","I think it's interesting"],["à mon avis, c'est trop cher","in my opinion it's too expensive"],["je crois qu'il a raison","I believe he's right"],["il me semble que…","it seems to me that…"]]},
+ {x:"Agreeing and disagreeing:", ex:[["je suis d'accord avec toi","I agree with you"],["je ne suis pas d'accord","I disagree"],["c'est vrai, mais…","true, but…"]]}
+]},
+{w:4,t:"Comparing things",p:[
+ {x:"plus…que (more than), moins…que (less than), aussi…que (as…as):", ex:[["le train est plus rapide que le bus","the train is faster than the bus"],["c'est moins cher ici","it's cheaper here"],["il est aussi grand que moi","he's as tall as me"]]},
+ {x:"Irregular: bon → meilleur (better), bien → mieux (better, adverb):", ex:[["ce café est meilleur","this coffee is better"],["je parle mieux qu'avant","I speak better than before"]]}
+]},
+{w:4,t:"Connectors — sound fluent, not robotic",p:[
+ {x:"Sprinkle these into every conversation:", ex:[["en fait","actually"],["bien sûr","of course"],["par exemple","for example"],["c'est-à-dire","that is to say"],["cependant","however"],["quand même","still / anyway"],["donc","so"],["alors","well / so"]]},
+ {x:"Fillers real French people use (use them while you think!):", ex:[["euh…","uh…"],["bah…","well…"],["tu vois ?","you see?"],["quoi","(end-of-sentence filler)"]]}
+]}
+],
+
 // Conversation prompts to use with Claude, per week
 convPrompts: [
 {w:1, p:"Practice French with me — week 1 level. Ask me basic questions (name, origin, age, what I do) one at a time, in simple French with English hints. Correct my answers gently and make me repeat corrected versions."},

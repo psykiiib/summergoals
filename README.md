@@ -1,11 +1,12 @@
 # Summer Goals — French + ASL companion app
 
-Offline-first PWA for the August plan: daily tracker with streaks, French spaced-repetition flashcards with audio, quizzes (including listening), and ASL practice (fingerspelling drills, alphabet, handshape quiz, grammar tips). All progress is stored on your device (localStorage).
+Offline-first PWA for the August plan: daily tracker with streaks, built-in French grammar lessons with audio examples, picture-based vocabulary learning (object → French word → pronunciation), spaced-repetition flashcards, quizzes (grammar, listening, picture), and ASL practice with real handshape images (receptive/expressive fingerspelling drills, illustrated alphabet, handshape quiz, grammar tips). All progress is stored on your device (localStorage).
 
 ## Files
 
 - `index.html` — the whole app (UI + logic)
-- `data.js` — all learning content (edit this to add/change vocab, quizzes, signs)
+- `data.js` — all learning content (edit this to add/change vocab, lessons, quizzes, signs)
+- `asl/a.svg … z.svg` — ASL fingerspelling handshapes (public domain, via Wikimedia Commons)
 - `sw.js` — service worker (makes it work offline)
 - `manifest.webmanifest` + icons — makes it installable on your phone
 
